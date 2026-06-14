@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale4U | דוגמה חיה - מסע יוזמה</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
+:root{--white:#fff;--bg:#f8fafb;--navy:#0f2744;--blue-nii:#1a4f8b;--blue-bright:#2d6db5;--blue-accent:#3b82f6;--blue-light:#e8f1fd;--blue-subtle:#f0f6ff;--text:#1a2a3a;--text-secondary:#475b6e;--text-muted:#7c8fa3;--border:#dce4ec;--success:#168a4a;--success-bg:#edf8f2;--danger:#c53030;--danger-bg:#fef2f2;--warning:#b45309;--warning-bg:#fef3c7;--purple:#6d28d9;--purple-bg:#f3e8ff;--radius:14px;--shadow-sm:0 1px 3px rgba(15,39,68,0.04);}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+.topbar{background:var(--navy);padding:0.6rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
+.topbar-right{display:flex;align-items:center;gap:0.6rem}
+.topbar-mark{width:28px;height:28px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:900;color:white}
+.topbar-label{font-size:0.82rem;color:rgba(255,255,255,0.9);font-weight:600}
+.topbar-home{color:rgba(255,255,255,0.5);font-size:0.75rem;text-decoration:none}
+.topbar-home:hover{color:rgba(255,255,255,0.8)}
+.container{max-width:720px;margin:0 auto;padding:2.5rem 1.5rem}
+h1{font-size:1.6rem;font-weight:800;color:var(--navy);margin-bottom:0.5rem;text-align:center}
+.page-sub{text-align:center;color:var(--text-secondary);font-size:0.9rem;margin-bottom:2.5rem}
+
+/* Timeline */
+.timeline{position:relative;padding-right:2rem}
+.timeline::before{content:'';position:absolute;right:0.9rem;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:2rem;padding-right:2rem}
+.tl-item::before{content:'';position:absolute;right:-0.35rem;top:0.4rem;width:12px;height:12px;border-radius:50%;background:var(--blue-accent);border:3px solid var(--bg);z-index:1}
+.tl-item.done::before{background:var(--success)}
+.tl-item.active::before{background:var(--warning);box-shadow:0 0 0 4px var(--warning-bg)}
+.tl-item.future::before{background:var(--border)}
+
+.tl-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;box-shadow:var(--shadow-sm)}
+.tl-card .day{font-size:0.7rem;font-weight:700;color:var(--blue-accent);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.3rem}
+.tl-card h3{font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem}
+.tl-card p{font-size:0.83rem;color:var(--text-secondary);line-height:1.7}
+.tl-card .result{margin-top:0.8rem;background:var(--bg);border-radius:8px;padding:0.8rem 1rem;font-size:0.8rem;color:var(--text-secondary);border-right:3px solid var(--blue-accent)}
+.tl-card .result strong{color:var(--navy)}
+.tl-card .tag{display:inline-block;padding:0.15rem 0.55rem;border-radius:5px;font-size:0.72rem;font-weight:700;margin-top:0.5rem}
+.tag-self{background:var(--success-bg);color:var(--success)}
+.tag-ent{background:var(--purple-bg);color:var(--purple)}
+
+/* Comparison */
+.compare{margin-top:3rem}
+.compare h2{font-size:1.2rem;font-weight:700;color:var(--navy);text-align:center;margin-bottom:1.5rem}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:500px){.compare-grid{grid-template-columns:1fr}}
+.compare-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow-sm);text-align:center}
+.compare-card h4{font-size:0.88rem;font-weight:700;margin-bottom:0.8rem}
+.compare-card .num{font-size:2rem;font-weight:900;margin-bottom:0.2rem}
+.compare-card .lbl{font-size:0.75rem;color:var(--text-muted)}
+.cc-before{border-color:rgba(197,48,48,0.2)} .cc-before h4{color:var(--danger)} .cc-before .num{color:var(--danger)}
+.cc-after{border-color:rgba(22,138,74,0.2)} .cc-after h4{color:var(--success)} .cc-after .num{color:var(--success)}
+
+.cta{text-align:center;margin-top:2.5rem;padding:2rem;background:var(--white);border-radius:var(--radius);border:1px solid var(--border)}
+.cta h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:0.8rem}
+.cta-btn{display:inline-block;background:var(--blue-accent);color:white;padding:0.75rem 2rem;border-radius:9px;font-weight:700;font-size:0.9rem;text-decoration:none;transition:all 0.2s}
+.cta-btn:hover{background:#2563eb;transform:translateY(-1px)}
+
+.footer{text-align:center;padding:1.5rem;font-size:0.72rem;color:var(--text-muted);border-top:1px solid var(--border);margin-top:2rem}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-right"><div class="topbar-mark">S4U</div><span class="topbar-label">דוגמה חיה</span></div>
+  <a href="index.html" class="topbar-home">← דף ראשי</a>
+</div>
+
+<div class="container">
+  <h1>מסע יוזמה - מהגשה עד ניתוב</h1>
+  <div class="page-sub">ככה נראה התהליך בפועל. דוגמה אמיתית (נתונים סינתטיים).</div>
+
+  <!-- Example: Self-Service -->
+  <h2 style="font-size:1.1rem;font-weight:700;color:var(--blue-nii);margin-bottom:1.5rem;">דוגמה: "אוטומציית איסוף סטטוס רבעוני"</h2>
+
+  <div class="timeline">
+    <div class="tl-item done">
+      <div class="tl-card">
+        <div class="day">יום 0 - הגשה</div>
+        <h3>רכז תכנון ממלא את הטופס</h3>
+        <p>"איסוף סטטוס מהיחידות מתבצע במיילים ואקסלים, גוזל שבועות, והנתונים מגיעים לא אחידים."</p>
+        <div class="result"><strong>G0:</strong> כאב מובהק, בעלים זמין, אפס חסם רגולטורי. ← ממשיכים.</div>
+      </div>
+    </div>
+
+    <div class="tl-item done">
+      <div class="tl-card">
+        <div class="day">יום 1 - כימות</div>
+        <h3>ניתוח ערך + חלופות</h3>
+        <p>נבחנו 3 חלופות: לא לעשות כלום, נוהל מחמיר, טופס מובנה + דשבורד.</p>
+        <div class="result"><strong>G1:</strong> הפתרון המוצע מנצח. Baseline: ~45 ימים להחלטה בדרך הרגילה.</div>
+      </div>
+    </div>
+
+    <div class="tl-item done">
+      <div class="tl-card">
+        <div class="day">ימים 2-3 - Red Team + אימות</div>
+        <h3>תקיפת הנחות</h3>
+        <p>הנחה חלשה: "מנהלי יחידות ימלאו בלי תזכורות". נבנה נכס ולידציה (טופס דוגמה) ונבדק מול 7 משתמשים.</p>
+        <div class="result"><strong>ממצא:</strong> 5/7 מוכנים לעבור. 2 צריכים תזכורות אוטומטיות.</div>
+      </div>
+    </div>
+
+    <div class="tl-item done">
+      <div class="tl-card">
+        <div class="day">יום 5 - ניתוב</div>
+        <h3>החלטה: Self-Service</h3>
+        <p>ציון סיכון: 1 (internal data only). Confidence: 76/100. אפס נגיעה בדאטה אישי או מערכות ליבה.</p>
+        <div class="result"><strong>ניתוב:</strong> Self-Service. סביבה מבוקרת, רישום ב-registry, ביקורת רבעונית.</div>
+        <span class="tag tag-self">Self-Service ← 5 ימים</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison -->
+  <div class="compare">
+    <h2>לפני ואחרי</h2>
+    <div class="compare-grid">
+      <div class="compare-card cc-before"><h4>בלי Scale4U</h4><div class="num">~45</div><div class="lbl">ימי עבודה להחלטה</div></div>
+      <div class="compare-card cc-after"><h4>עם Scale4U</h4><div class="num">5</div><div class="lbl">ימי עבודה להחלטה</div></div>
+    </div>
+  </div>
+
+  <!-- Second example hint -->
+  <div style="margin-top:2.5rem;background:var(--purple-bg);border:1px solid rgba(109,40,217,0.15);border-radius:var(--radius);padding:1.5rem;">
+    <h3 style="font-size:0.95rem;font-weight:700;color:var(--purple);margin-bottom:0.4rem;">ודוגמה הפוכה: "עוזר AI לזכאות" → Enterprise</h3>
+    <p style="font-size:0.83rem;color:var(--text-secondary);line-height:1.7;">כשיוזמה נוגעת בדאטה אישי, זכאות אזרח, או מערכות ליבה - היא מנותבת אוטומטית למסלול Enterprise. שער G2 משותף עם תמ"מ. אף אחד לא נעקף.</p>
+    <span class="tag tag-ent" style="margin-top:0.5rem;">Enterprise ← 5 ימים (אותו SLA)</span>
+  </div>
+
+  <div class="cta">
+    <h3>רוצים לראות את זה על היוזמה שלכם?</h3>
+    <a href="intake/lean-canvas-form.html" class="cta-btn">הגש יוזמה</a>
+  </div>
+
+  <div class="footer">Scale4U v1.1 | המוסד לביטוח לאומי | כל הנתונים סינתטיים להדגמה בלבד</div>
+</div>
+</body>
+</html>

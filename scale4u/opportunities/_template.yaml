@@ -1,0 +1,83 @@
+# Opportunity File Schema v1.1 (Pilot-Ready)
+# מקור האמת היחיד לכל יוזמה. כל שדה חסר = TBV, לא ניחוש.
+# ----------------------------------------------------------------
+
+meta:
+  id: ""               # kebab-case, למשל: status-collection-automation
+  title: ""            # שם היוזמה בעברית
+  owner: ""            # בעלים עסקי (שם + תפקיד)
+  division: ""         # אגף / מינהל
+  created: ""          # YYYY-MM-DD
+  status: ""           # draft | g0-passed | g1-passed | validated | go | kill | pivot
+  sprint_day: 0        # 0-5
+
+problem:
+  statement: ""        # הכאב במשפט אחד, בשפת המשתמש - לא בשפת פתרון
+  affected_users: ""   # מי סובל מזה ומה היקפם (TBV אם לא ידוע)
+  current_process: ""  # איך זה עובד היום, צעד-צעד
+  cost_of_status_quo: ""  # מה עולה לא לפתור: שעות/שקלים/SLA/סיכון. TBV עד אימות
+  trigger: ""          # למה עכשיו
+
+# Baseline - הבסיס למדידת ה-North Star (זמן-להחלטה). מאוכלס ב-/s4u-new.
+# הערכה לגיטימית בפיילוט - לא חייבים מדידת actuals. ראה baseline.md.
+baseline:
+  estimated_time_without_scale4u_days: ""  # כמה זמן הייתה לוקחת ההחלטה בלי Scale4U (הערכת הבעלים)
+  confidence_in_estimate: ""               # high | medium | low
+  similar_past_case: ""                    # מקרה עבר דומה שמעגן את ההערכה (או TBV)
+
+value:
+  hypothesis: ""       # "אם נפתור X, אז Y ישתפר ב-Z" - Z יכול להיות TBV
+  metrics:             # 2-3 מדדים. baseline חובה לפני G2 (או TBV+מקור)
+    - name: ""
+      baseline: "TBV"
+      target: ""
+      source: ""
+  beneficiaries: []    # מי מרוויח: עסקי / מחשוב / אזרח / עובד
+
+alternatives:          # חובה 3 לפחות, כולל השתיים הראשונות
+  - option: "לא לעשות כלום"
+    assessment: ""
+  - option: "פתרון לא-טכנולוגי (נוהל / הדרכה / ייעול תהליך)"
+    assessment: ""
+  - option: ""         # הפתרון המוצע
+    assessment: ""
+
+risks:
+  data_sensitivity: "" # none | internal | personal | special  (מידע רגיש במיוחד)
+  core_integration: "" # none | read-only | write
+  decision_impact: ""  # none | supportive | determinative  (האם משפיע על החלטה כלפי אזרח)
+  user_scale: ""       # team | division | org | public
+  regulatory: ""       # אילוצי חוק/חוזר רלוונטיים
+  organizational: ""   # התנגדויות, תלויות, פוליטיקה
+
+red_team:              # חובה לפני G1 ו-G2. תקיפת ההנחות, לא ליטוש שלהן
+  weakest_assumption: ""
+  failure_modes: []    # 3 דרכים שזה נכשל בעולם האמיתי
+  hidden_costs: ""     # תחזוקה, הדרכה, אינטגרציה, data quality
+  implementation_complexity: ""  # נמוכה | בינונית | גבוהה + נימוק
+  verdict: ""          # proceed | proceed-with-conditions | stop
+
+validation:
+  asset_type: ""       # clickable-demo | simulation | process-model | mockup
+  asset_path: ""       # assets/<id>/
+  test_plan: ""        # מי בודק (5-8 משתמשים), מה השאלה, מה קריטריון ההצלחה
+  findings: []         # ממצאי שטח - ציטוטים ותובנות, לא פרשנות
+  verdict: ""          # validated | partially | invalidated
+
+gates:
+  g0: { decision: "", by: "", date: "", note: "" }   # שווה לחקור?
+  g1: { decision: "", by: "", date: "", note: "" }   # בעיה מאומתת + ערך מכומת?
+  g2: { decision: "", by: "", date: "", note: "" }   # Go / Kill / Pivot - שער המוביל (משותף עם תמ"מ רק במסלול enterprise)
+
+classification:        # מאוכלס ב-G2 לפי gates/gates.md
+  route: ""            # stop | self-service | fast-pilot | enterprise
+  rationale: ""
+
+# ROI - נגזר ב-/s4u-decide מ-baseline ומהמסע בפועל. זה ה-North Star וה-comparator.
+roi:
+  scale4u_decision_days: ""   # ימים בפועל מקליטה ל-G2 בספרינט הזה
+  time_saved_days: ""         # baseline.estimated פחות scale4u_decision_days
+  decision_outcome: ""        # go | kill | pivot
+  value_of_early_kill: ""     # אם Kill: ההשקעה שנחסכה (איפיון/פיתוח שלא בוצע). TBV אם לא ידוע
+
+sources: []            # כל נתון מספרי - מקורו כאן: { claim: "", source: "", date: "" }

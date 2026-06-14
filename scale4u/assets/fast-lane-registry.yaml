@@ -1,0 +1,12 @@
+# Fast Lane Registry - קטלוג כלים פעילים בסביבה המבוקרת
+# כלי שלא רשום כאן אינו מורשה לרוץ. ביקורת רבעונית לפי org-config.
+tools: []
+# פורמט רשומה:
+# - id: ""
+#   name: ""
+#   archetype: ""        # calculator | dashboard | assistant | knowledge-base
+#   owner: ""            # בעלים מתמשך - חובה
+#   deployed: ""         # YYYY-MM-DD
+#   opportunity: ""      # opportunities/<id>.yaml
+#   data_sources: []
+#   next_review: ""      # YYYY-MM-DD

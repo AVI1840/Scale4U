@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale4U | איך זה עובד</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
+:root{--white:#fff;--bg:#f8fafb;--navy:#0f2744;--blue-nii:#1a4f8b;--blue-bright:#2d6db5;--blue-accent:#3b82f6;--blue-light:#e8f1fd;--blue-subtle:#f0f6ff;--text:#1a2a3a;--text-secondary:#475b6e;--text-muted:#7c8fa3;--border:#dce4ec;--success:#168a4a;--success-bg:#edf8f2;--danger:#c53030;--danger-bg:#fef2f2;--warning:#b45309;--warning-bg:#fef3c7;--purple:#6d28d9;--purple-bg:#f3e8ff;--radius:14px;--shadow-sm:0 1px 3px rgba(15,39,68,0.04);}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+.topbar{background:var(--navy);padding:0.6rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
+.topbar-right{display:flex;align-items:center;gap:0.6rem}
+.topbar-mark{width:28px;height:28px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:900;color:white}
+.topbar-label{font-size:0.82rem;color:rgba(255,255,255,0.9);font-weight:600}
+.topbar-home{color:rgba(255,255,255,0.5);font-size:0.75rem;text-decoration:none}
+.topbar-home:hover{color:rgba(255,255,255,0.8)}
+
+.container{max-width:720px;margin:0 auto;padding:2.5rem 1.5rem}
+h1{font-size:1.8rem;font-weight:800;color:var(--navy);margin-bottom:0.5rem;text-align:center}
+.page-sub{text-align:center;color:var(--text-secondary);font-size:0.95rem;margin-bottom:3rem;line-height:1.7}
+
+/* Steps */
+.step{display:flex;gap:1.2rem;margin-bottom:2rem;align-items:flex-start}
+.step-marker{flex-shrink:0;width:44px;height:44px;background:var(--blue-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;color:var(--blue-nii)}
+.step-content h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:0.3rem}
+.step-content p{font-size:0.88rem;color:var(--text-secondary);line-height:1.7}
+.step-content .time{display:inline-block;background:var(--blue-subtle);color:var(--blue-nii);padding:0.15rem 0.6rem;border-radius:4px;font-size:0.72rem;font-weight:600;margin-top:0.4rem}
+
+.divider{height:1px;background:var(--border);margin:2.5rem 0}
+
+/* Routes */
+.routes-section h2{font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:1.5rem;text-align:center}
+.route-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:500px){.route-cards{grid-template-columns:1fr}}
+.route-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow-sm)}
+.route-card h4{font-size:0.9rem;font-weight:700;margin-bottom:0.3rem}
+.route-card p{font-size:0.8rem;color:var(--text-muted);line-height:1.6}
+.route-card .pct{font-size:1.5rem;font-weight:900;margin-bottom:0.2rem}
+.rc-stop h4,.rc-stop .pct{color:var(--danger)}
+.rc-self h4,.rc-self .pct{color:var(--success)}
+.rc-pilot h4,.rc-pilot .pct{color:var(--warning)}
+.rc-ent h4,.rc-ent .pct{color:var(--purple)}
+
+/* FAQ */
+.faq-section h2{font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:1.5rem;text-align:center}
+.faq-item{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:0.8rem;box-shadow:var(--shadow-sm)}
+.faq-item h4{font-size:0.9rem;font-weight:700;color:var(--navy);margin-bottom:0.4rem}
+.faq-item p{font-size:0.84rem;color:var(--text-secondary);line-height:1.7}
+
+.cta{text-align:center;margin-top:3rem;padding:2rem;background:var(--white);border-radius:var(--radius);border:1px solid var(--border)}
+.cta h3{font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem}
+.cta p{font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem}
+.cta-btn{display:inline-block;background:var(--blue-accent);color:white;padding:0.75rem 2rem;border-radius:9px;font-weight:700;font-size:0.9rem;text-decoration:none;transition:all 0.2s}
+.cta-btn:hover{background:#2563eb;transform:translateY(-1px)}
+
+.footer{text-align:center;padding:1.5rem;font-size:0.72rem;color:var(--text-muted);border-top:1px solid var(--border);margin-top:2rem}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-right"><div class="topbar-mark">S4U</div><span class="topbar-label">איך זה עובד</span></div>
+  <a href="index.html" class="topbar-home">← דף ראשי</a>
+</div>
+
+<div class="container">
+  <h1>איך Scale4U עובדת</h1>
+  <div class="page-sub">מגישים יוזמה → מקבלים ניתוח מקצועי ותשובה מנותבת.<br>7 ימי עבודה. בלי תורים. בלי אי-ודאות.</div>
+
+  <!-- Steps -->
+  <div class="step">
+    <div class="step-marker">1</div>
+    <div class="step-content">
+      <h3>ממלאים טופס קצר</h3>
+      <p>מתארים את הכאב, מי נפגע, ולמה עכשיו. לא צריך לדעת את הפתרון - רק את הבעיה.</p>
+      <span class="time">5 דקות</span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-marker">2</div>
+    <div class="step-content">
+      <h3>מוביל Scale4U מנתח את היוזמה</h3>
+      <p>בדיקת ערך (מה זה שווה?), חלופות (האם יש דרך יותר פשוטה?), סיכונים (מה יכול להישבר?), ותקיפת הנחות (Red Team).</p>
+      <span class="time">ימים 1-4</span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-marker">3</div>
+    <div class="step-content">
+      <h3>מקבלים תשובה מנותבת</h3>
+      <p>כל יוזמה מקבלת ציון, ניתוב ל-1 מ-4 מסלולים, והמלצה ברורה: Go / Kill / Pilot. עם נימוק.</p>
+      <span class="time">יום 5-7</span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-marker">4</div>
+    <div class="step-content">
+      <h3>ממשיכים לפי המסלול</h3>
+      <p>Self-Service → רצים לבד. Fast Pilot → 3 שבועות אימות. Enterprise → תהליך משותף עם מחשוב. Stop → חסכנו חודשי עבודה.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Routes -->
+  <div class="routes-section">
+    <h2>4 מסלולי ניתוב</h2>
+    <div class="route-cards">
+      <div class="route-card rc-stop"><div class="pct">54%</div><h4>Stop</h4><p>עצירה מכובדת. הערך נמוך או שיש חלופה יותר טובה. Kill מוקדם = חיסכון, לא כישלון.</p></div>
+      <div class="route-card rc-self"><div class="pct">24%</div><h4>Self-Service</h4><p>סיכון נמוך, אפשר להריץ לבד. דשבורד, מחשבון, עוזר פנימי. סביבה מבוקרת + רישום.</p></div>
+      <div class="route-card rc-pilot"><div class="pct">12%</div><h4>Fast Pilot</h4><p>מבטיח אבל צריך עוד אימות. פיילוט של 2-4 שבועות על קבוצה מצומצמת.</p></div>
+      <div class="route-card rc-ent"><div class="pct">10%</div><h4>Enterprise</h4><p>מורכב או רגיש. דאטה אישי, זכאות, מערכות ליבה. תהליך משותף עם תמ"מ.</p></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <h2>שאלות נפוצות</h2>
+    <div class="faq-item"><h4>זה מחליף את תמ"מ?</h4><p>לא. Scale4U מנתבת - לא מפתחת. יוזמות enterprise עוברות תהליך משותף עם מחשוב. Self-Service רצות בסביבה מבוקרת שתמ"מ אישר.</p></div>
+    <div class="faq-item"><h4>מה אם היוזמה שלי "נהרגה"?</h4><p>Kill מוקדם = הצלחה. חסכנו חודשי איפיון ופיתוח. תמיד עם נימוק ברור - ואפשר לבוא עם גרסה משופרת.</p></div>
+    <div class="faq-item"><h4>מה עם מידע רגיש?</h4><p>הטופס שומר נתונים בדפדפן שלכם בלבד. נכסי ולידציה נבנים על דאטה סינתטי. מידע אמיתי לא נכנס למערכת.</p></div>
+    <div class="faq-item"><h4>כמה זמן לוקח?</h4><p>SLA: עד 72 שעות לתחילת טיפול. עד 7 ימי עבודה לתשובה מנותבת מלאה.</p></div>
+    <div class="faq-item"><h4>מי מחליט?</h4><p>AI ממליץ, אדם מחליט. מוביל Scale4U מנתב. במסלול Enterprise - שער משותף עם נציג תמ"מ.</p></div>
+    <div class="faq-item"><h4>אפשר להגיש כמה יוזמות?</h4><p>כן. אפשר למלא את הטופס כמה פעמים שרוצים. כל יוזמה מנותחת בנפרד.</p></div>
+    <div class="faq-item"><h4>מה קורה אם לא ברור לי מה לכתוב?</h4><p>תתארו את הכאב בשפה שלכם. לא צריך לדעת את הפתרון. אנחנו נשאל שאלות ממוקדות אם צריך.</p></div>
+  </div>
+
+  <div class="cta">
+    <h3>מוכנים להגיש?</h3>
+    <p>ממלאים טופס קצר. תשובה תוך 7 ימים.</p>
+    <a href="intake/lean-canvas-form.html" class="cta-btn">הגש יוזמה</a>
+  </div>
+
+  <div class="footer">Scale4U v1.1 | המוסד לביטוח לאומי | מינהל גמלאות</div>
+</div>
+</body>
+</html>

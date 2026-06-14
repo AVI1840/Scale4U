@@ -1,0 +1,100 @@
+# Opportunity File - Scale4U v1.1
+# בסיס ידע תקדימים מובנה
+# ----------------------------------------------------------------
+
+meta:
+  id: gavya-precedent-knowledge-base
+  title: "בסיס ידע תקדימים מובנה - אינדקס פסקי דין לחיפוש מיידי"
+  owner: "TBV - מנהל אגף גבייה וביטוח"
+  division: "מינהל ביטוח וגבייה"
+  created: "2026-06-14"
+  status: draft
+  sprint_day: 0
+
+problem:
+  statement: "27+ פסקי דין מ-5 מחוזות קיימים כקבצי Word לא-מובנים - אין דרך לחפש 'באיזה מקרה נקבע X' או 'מה התקדים להעסקת בן זוג שנדחתה'"
+  affected_users: "פקידי ביטוח וגבייה, יועצים משפטיים, ועדות סינון"
+  current_process: |
+    1. פקיד צריך תקדים → שואל עמית ותיק או מחפש בתיקיות
+    2. לא יודע אילו פסקי דין רלוונטיים לסוג המקרה שלו
+    3. וועדת סינון צריכה לדון → מביאים מהזיכרון
+    4. כתב הגנה בבית דין → מחפשים ידנית
+  cost_of_status_quo: "TBV - שעות חיפוש, אי-שימוש בתקדימים רלוונטיים, חוסר עקביות"
+  trigger: "65 מסמכים כולל 27 פסקי דין שנשלחו לסריקת ייעול"
+
+baseline:
+  estimated_time_without_scale4u_days: "14"
+  confidence_in_estimate: medium
+  similar_past_case: "TBV"
+
+value:
+  hypothesis: "אם פסקי הדין יהיו מובנים וניתנים לחיפוש, פקידים ימצאו תקדים ב-30 שניות במקום שעות, ויצטטו אותו בהחלטות"
+  metrics:
+    - name: "זמן מציאת תקדים רלוונטי"
+      baseline: "TBV - שעות (או כלל לא מוצאים)"
+      target: "30 שניות"
+      source: "ימדד בפיילוט"
+    - name: "אחוז החלטות שמצטטות תקדים"
+      baseline: "TBV"
+      target: "80%+"
+      source: "ימדד בסקר"
+  beneficiaries:
+    - עסקי
+    - עובד
+
+alternatives:
+  - option: "לא לעשות כלום"
+    assessment: "ידע נשאר בראשים, פורשים = אובד"
+  - option: "פתרון לא-טכנולוגי - קובץ אקסל עם סיכומים"
+    assessment: "חלקי - אין חיפוש מובנה, לא מקושר למבחנים משפטיים"
+  - option: "YAML מובנה לכל פסק דין עם חיפוש CLI"
+    assessment: "ישים. דורש אכלוס ידני (~15 דק לפסק = 7 שעות סה\"כ). חיפוש לפי סוג מקרה, מבחן, תוצאה, מחוז."
+
+risks:
+  data_sensitivity: none  # פסקי דין פומביים
+  core_integration: none
+  decision_impact: supportive
+  user_scale: division
+  citizen_rights_impact: none
+  regulatory: "פסקי דין פומביים - אין בעיה"
+  organizational: "דורש השקעת זמן של נציגה מקצועית לאכלוס"
+
+red_team:
+  weakest_assumption: "שמישהו ישקיע 7 שעות באכלוס 27 פסקי דין"
+  failure_modes:
+    - "אכלוס חלקי - 5 פסקים ואז נעצרים"
+    - "אכלוס שגוי - מי שממלא לא מבין מספיק"
+    - "לא מתעדכן כשיוצאים פסקי דין חדשים"
+  hidden_costs: "אכלוס ראשוני (7 שעות), עדכון שוטף (בכל פסק דין חדש)"
+  implementation_complexity: "נמוכה טכנית, בינונית מבחינת אכלוס"
+  verdict: proceed-with-conditions  # תנאי: מינוי אחראי אכלוס
+
+validation:
+  asset_type: "process-model"
+  asset_path: "assets/gavya-precedent-knowledge-base/"
+  test_plan: "אכלוס 5 פסקי דין, חיפוש ע\"י 3 פקידים: 'מצא תקדים להעסקת בן זוג שנדחתה'. קריטריון: מוצאים תוך 30 שניות."
+  findings: []
+  verdict: ""
+
+gates:
+  g0: { decision: "", by: "", date: "", note: "" }
+  g1: { decision: "", by: "", date: "", note: "" }
+  g2: { decision: "", by: "", date: "", note: "" }
+
+classification:
+  route: ""
+  rationale: ""
+
+roi:
+  scale4u_decision_days: ""
+  time_saved_days: ""
+  decision_outcome: ""
+  value_of_early_kill: ""
+
+sources:
+  - claim: "27 פסקי דין מ-5 מחוזות בתיקיית החומרים"
+    source: "ספירת קבצי ב.ל. בתיקיית גביה"
+    date: "2026-06-14"
+  - claim: "2 פסקי דין ארציים (עב.ל)"
+    source: "ספירת קבצי עב.ל / עבל בתיקיית גביה"
+    date: "2026-06-14"

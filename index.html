@@ -2,31 +2,480 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Scale4U - מערכת הפעלה ארגונית</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale4U | המוסד לביטוח לאומי - מערכת ניהול יוזמות</title>
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800&display=swap");
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Heebo",sans-serif;background:#06090f;color:#f0f4f8;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center}
-.logo{width:60px;height:60px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;color:#fff;margin:0 auto 1.5rem}
-h1{font-size:2.2rem;font-weight:800;margin-bottom:0.5rem;background:linear-gradient(90deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-p{color:#6b7f96;font-size:1rem;margin-bottom:2.5rem;max-width:400px}
-.links{display:flex;flex-direction:column;gap:1rem;width:100%;max-width:360px}
-a{display:block;padding:1rem 1.5rem;background:#0d1420;border:1px solid #243044;border-radius:12px;color:#f0f4f8;text-decoration:none;font-weight:600;font-size:1rem;transition:all .2s}
-a:hover{border-color:#3b82f6;background:#15202e;transform:translateY(-2px)}
-a .sub{display:block;font-size:0.8rem;color:#6b7f96;font-weight:400;margin-top:0.3rem}
-.footer{margin-top:3rem;font-size:0.75rem;color:#6b7f96}
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap');
+:root {
+  --navy: #0a1628;
+  --navy-mid: #132040;
+  --navy-light: #1a2d52;
+  --blue-nii: #1a4f8b;
+  --blue-bright: #2d7dd2;
+  --blue-accent: #4ba3f5;
+  --blue-glow: rgba(75, 163, 245, 0.08);
+  --gold: #c9a227;
+  --gold-light: #e8c84c;
+  --text: #f4f7fb;
+  --text-secondary: #b8c9dc;
+  --text-muted: #7a93ad;
+  --border: #1e3a5f;
+  --surface: #0f1f38;
+  --surface2: #142848;
+  --success: #22c55e;
+  --radius: 16px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--navy);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Background decoration */
+body::before {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: -10%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(26,79,139,0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -30%;
+  right: -20%;
+  width: 70vw;
+  height: 70vw;
+  background: radial-gradient(circle, rgba(201,162,39,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Top bar */
+.topbar {
+  background: rgba(10, 22, 40, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.8rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.nii-logo {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, var(--blue-nii), var(--blue-bright));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.nii-logo::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 6px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+}
+.nii-logo svg {
+  width: 22px;
+  height: 22px;
+  fill: white;
+}
+.topbar-text {
+  display: flex;
+  flex-direction: column;
+}
+.topbar-text .org { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.3px; }
+.topbar-text .system { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+.topbar-badge {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: var(--success);
+  padding: 0.25rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.topbar-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  animation: blink 2s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* Hero */
+.hero {
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.hero-overline {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 1.2rem;
+}
+.hero h1 .highlight {
+  background: linear-gradient(90deg, var(--blue-accent), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+.hero-stat .num {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--blue-accent);
+}
+.hero-stat .lbl {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+/* Cards */
+.cards-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+.cards-title {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+}
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue-nii), var(--blue-accent));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.card:hover {
+  border-color: var(--blue-accent);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(45, 125, 210, 0.1);
+}
+.card:hover::before { opacity: 1; }
+.card-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--blue-glow);
+  border: 1px solid rgba(75, 163, 245, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+  font-size: 1.3rem;
+}
+.card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.card p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.card .arrow {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  font-size: 1.2rem;
+  color: var(--blue-accent);
+  opacity: 0;
+  transform: translateX(5px);
+  transition: all 0.3s;
+}
+.card:hover .arrow { opacity: 1; transform: translateX(0); }
+
+/* Methodology */
+.method-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--border);
+}
+.method-section h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.method-sub {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 2.5rem;
+}
+.method-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+.method-step {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  min-width: 80px;
+}
+.method-step.active {
+  border-color: var(--blue-accent);
+  background: rgba(75, 163, 245, 0.06);
+  color: var(--blue-accent);
+}
+.method-arrow { color: var(--text-muted); font-size: 1.2rem; }
+
+.routes-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+}
+@media (max-width: 600px) { .routes-row { grid-template-columns: repeat(2, 1fr); } }
+.route-badge {
+  text-align: center;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.route-badge .name { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem; }
+.route-badge .pct { font-size: 1.5rem; font-weight: 800; }
+.rb-stop .pct { color: #ef4444; }
+.rb-self .pct { color: var(--success); }
+.rb-pilot .pct { color: #f59e0b; }
+.rb-ent .pct { color: var(--blue-accent); }
+
+/* Trust */
+.trust-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--border);
+}
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  text-align: center;
+}
+.trust-item .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.trust-item h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.3rem; }
+.trust-item p { font-size: 0.8rem; color: var(--text-muted); }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.footer-logo .mark {
+  width: 24px; height: 24px;
+  background: linear-gradient(135deg, var(--blue-nii), var(--blue-bright));
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; font-weight: 900; color: white;
+}
 </style>
 </head>
 <body>
-<div class="logo">S4U</div>
-<h1>Scale4U</h1>
-<p>מערכת הפעלה ארגונית לניהול יוזמות AI וחדשנות</p>
-<div class="links">
-<a href="intake/lean-canvas-form.html">הגשת יוזמה<span class="sub">טופס הגשה לאגפים - מלאו ושלחו</span></a>
-<a href="dashboard.html">Dashboard פורטפוליו<span class="sub">תמונת מצב כלל היוזמות</span></a>
-<a href="presentation.html">מצגת הנהלה<span class="sub">10 שקפים - חצים לניווט</span></a>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="nii-logo">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.2L19.5 7.5 12 11 4.5 7.5 12 4.2zM4 9l7.5 3.8v7.7L4 16.7V9zm9.5 11.5v-7.7L21 9v7.7l-7.5 3.8z"/></svg>
+    </div>
+    <div class="topbar-text">
+      <span class="org">המוסד לביטוח לאומי | מינהל גמלאות</span>
+      <span class="system">Scale4U</span>
+    </div>
+  </div>
+  <div class="topbar-badge">מערכת פעילה</div>
 </div>
-<div class="footer">Scale4U v1.1 | ביטוח לאומי | מינהל גמלאות</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-overline">שיטת יזום ארגונית חדשה</div>
+  <h1>כל יוזמה מקבלת <span class="highlight">תשובה מנותבת</span><br>תוך 7 ימי עבודה</h1>
+  <div class="hero-sub">
+    Scale4U מנתבת כל יוזמת AI וחדשנות למסלול הנכון - Stop, Self-Service, Fast Pilot או Enterprise.
+    לא עוד תורים סמויים. לא עוד החלטות שנמשכות חודשים.
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">59</div><div class="lbl">יוזמות נותחו</div></div>
+    <div class="hero-stat"><div class="num">7x</div><div class="lbl">שיפור בזמן-להחלטה</div></div>
+    <div class="hero-stat"><div class="num">54%</div><div class="lbl">Kill Rate (חיסכון)</div></div>
+  </div>
+</div>
+
+<!-- Action Cards -->
+<div class="cards-section">
+  <div class="cards-title">כניסה למערכת</div>
+  <div class="cards-grid">
+    <a href="intake/lean-canvas-form.html" class="card">
+      <div class="card-icon">📋</div>
+      <h3>הגשת יוזמה חדשה</h3>
+      <p>יש לך רעיון, כאב, או צורך? מלא את הטופס ותקבל תשובה מנותבת תוך 7 ימי עבודה.</p>
+      <span class="arrow">←</span>
+    </a>
+    <a href="dashboard.html" class="card">
+      <div class="card-icon">📊</div>
+      <h3>Dashboard פורטפוליו</h3>
+      <p>תמונת מצב חיה של כל היוזמות: סטטוס, ניתוב, ציוני ביטחון, KPIs ומדדי מערכת.</p>
+      <span class="arrow">←</span>
+    </a>
+    <a href="presentation.html" class="card">
+      <div class="card-icon">🎯</div>
+      <h3>מצגת הנהלה</h3>
+      <p>10 שקפים - תוצאות, שיטה, מפת דרכים. מוכנה להקרנה.</p>
+      <span class="arrow">←</span>
+    </a>
+  </div>
+</div>
+
+<!-- Methodology -->
+<div class="method-section">
+  <h2>איך זה עובד</h2>
+  <div class="method-sub">3 שערים, 4 מסלולים, 7 ימים</div>
+  <div class="method-flow">
+    <div class="method-step">יוזמה</div>
+    <div class="method-arrow">←</div>
+    <div class="method-step active">G0<br><small>שווה?</small></div>
+    <div class="method-arrow">←</div>
+    <div class="method-step active">G1<br><small>מאומת?</small></div>
+    <div class="method-arrow">←</div>
+    <div class="method-step active">G2<br><small>Go/Kill</small></div>
+    <div class="method-arrow">←</div>
+    <div class="method-step">ניתוב</div>
+  </div>
+  <div class="routes-row">
+    <div class="route-badge rb-stop"><div class="name">Stop</div><div class="pct">54%</div></div>
+    <div class="route-badge rb-self"><div class="name">Self-Service</div><div class="pct">24%</div></div>
+    <div class="route-badge rb-pilot"><div class="name">Fast Pilot</div><div class="pct">12%</div></div>
+    <div class="route-badge rb-ent"><div class="name">Enterprise</div><div class="pct">10%</div></div>
+  </div>
+</div>
+
+<!-- Trust -->
+<div class="trust-section">
+  <div class="trust-grid">
+    <div class="trust-item">
+      <div class="icon">🔒</div>
+      <h4>אין דאטה אישי</h4>
+      <p>נכסי ולידציה על דאטה סינתטי בלבד</p>
+    </div>
+    <div class="trust-item">
+      <div class="icon">🤝</div>
+      <h4>תמ"מ שותף</h4>
+      <p>לא עוקפים - מנתבים. Enterprise = שער משותף</p>
+    </div>
+    <div class="trust-item">
+      <div class="icon">⏱️</div>
+      <h4>SLA 72 שעות</h4>
+      <p>אף יוזמה לא ממתינה. הטריאז' משחרר.</p>
+    </div>
+    <div class="trust-item">
+      <div class="icon">👤</div>
+      <h4>אדם מחליט</h4>
+      <p>AI ממליץ. המוביל מחליט. שקוף ועקיב.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-logo">
+    <div class="mark">S4U</div>
+    <span>Scale4U v1.1</span>
+  </div>
+  המוסד לביטוח לאומי | מינהל גמלאות - פיתוח, שותפויות ו-AI
+</div>
+
 </body>
 </html>

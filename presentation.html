@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale4U | מצגת הנהלה</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap');
+:root {
+  --bg: #06090f;
+  --surface: #0d1420;
+  --surface2: #15202e;
+  --surface3: #1c2b3d;
+  --border: #243044;
+  --text: #f0f4f8;
+  --text-secondary: #a3b4c8;
+  --text-muted: #6b7f96;
+  --accent: #3b82f6;
+  --accent2: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Slides */
+.slide {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5vh 8vw;
+  text-align: center;
+}
+.slide.active { display: flex; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Slide chrome */
+.slide-badge {
+  position: absolute;
+  top: 2.5rem;
+  right: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.slide-badge .logo-sm {
+  width: 24px; height: 24px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; font-weight: 800; color: white;
+}
+.slide-num {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 3rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Typography */
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.2; margin-bottom: 1rem; }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 700; line-height: 1.3; margin-bottom: 1.5rem; }
+.gradient { background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { font-size: 1.15rem; color: var(--text-secondary); max-width: 600px; line-height: 1.7; }
+
+/* Big Numbers */
+.big-num { font-size: clamp(5rem, 12vw, 9rem); font-weight: 900; line-height: 1; }
+.big-num.blue { color: var(--accent); }
+.big-num.green { color: var(--success); }
+.big-num.red { color: var(--danger); }
+.big-num.yellow { color: var(--warning); }
+.big-num.purple { color: var(--accent2); }
+
+/* Stats Row */
+.stats {
+  display: flex;
+  gap: 4rem;
+  margin-top: 2.5rem;
+}
+.stat { text-align: center; }
+.stat .val { font-size: 2.5rem; font-weight: 800; line-height: 1.2; }
+.stat .lbl { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+/* Content Blocks */
+.content { max-width: 780px; width: 100%; text-align: right; }
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+.item-icon {
+  width: 38px; height: 38px; flex-shrink: 0;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; font-weight: 700;
+}
+.ic-red { background: rgba(239,68,68,0.12); color: var(--danger); }
+.ic-green { background: rgba(16,185,129,0.12); color: var(--success); }
+.ic-blue { background: rgba(59,130,246,0.12); color: var(--accent); }
+.ic-purple { background: rgba(139,92,246,0.12); color: var(--accent2); }
+.ic-yellow { background: rgba(245,158,11,0.12); color: var(--warning); }
+
+/* Route Cards */
+.routes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+  max-width: 850px;
+  width: 100%;
+}
+.route-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.8rem 1rem;
+  text-align: center;
+  transition: all 0.2s;
+}
+.route-card:hover { transform: translateY(-2px); }
+.route-card h3 { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; }
+.route-card .num { font-size: 2.8rem; font-weight: 800; line-height: 1.2; }
+.route-card .pct { font-size: 0.85rem; color: var(--text-muted); }
+.rc-stop { border-color: rgba(239,68,68,0.3); } .rc-stop .num { color: var(--danger); }
+.rc-self { border-color: rgba(16,185,129,0.3); } .rc-self .num { color: var(--success); }
+.rc-pilot { border-color: rgba(245,158,11,0.3); } .rc-pilot .num { color: var(--warning); }
+.rc-ent { border-color: rgba(139,92,246,0.3); } .rc-ent .num { color: var(--accent2); }
+
+/* Flow */
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+.flow-step {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0.9rem 1.4rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.flow-step.hl { border-color: var(--accent); background: rgba(59,130,246,0.06); color: var(--accent); }
+.flow-arrow { color: var(--text-muted); font-size: 1.3rem; }
+
+/* Timeline */
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+  width: 100%;
+}
+.phase {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.8rem 1.5rem;
+  text-align: right;
+  border-top: 3px solid var(--border);
+}
+.phase.p1 { border-top-color: var(--success); }
+.phase.p2 { border-top-color: var(--accent); }
+.phase.p3 { border-top-color: var(--accent2); }
+.phase h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
+.phase .when { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.8rem; }
+.phase ul { list-style: none; font-size: 0.88rem; color: var(--text-secondary); }
+.phase li { padding: 0.25rem 0; padding-right: 1rem; position: relative; }
+.phase li::before { content: ''; position: absolute; right: 0; top: 0.7rem; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+
+/* Ask Box */
+.ask {
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  border-radius: 20px;
+  padding: 3rem;
+  max-width: 650px;
+  width: 100%;
+  box-shadow: 0 0 60px rgba(59,130,246,0.08);
+}
+.ask h2 { color: var(--accent); font-size: 1.6rem; }
+.ask-items {
+  text-align: right;
+  font-size: 1.2rem;
+  line-height: 2.2;
+  margin-top: 1rem;
+  color: var(--text-secondary);
+}
+.ask-items strong { color: var(--text); }
+.ask-footer {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Nav */
+.nav {
+  position: fixed; bottom: 2rem; right: 50%; transform: translateX(50%);
+  display: flex; gap: 6px; z-index: 100;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--border); cursor: pointer; transition: all 0.2s;
+}
+.dot.on { background: var(--accent); width: 24px; border-radius: 4px; }
+.nav-hint {
+  position: fixed; bottom: 0.8rem; left: 50%; transform: translateX(-50%);
+  font-size: 0.7rem; color: var(--text-muted); opacity: 0.5;
+}
+</style>
+</head>
+<body>
+
+<!-- S1: Title -->
+<div class="slide active">
+  <div class="slide-badge"><div class="logo-sm">S4U</div>Scale4U</div>
+  <h1><span class="gradient">Scale4U</span></h1>
+  <p class="subtitle">מערכת הפעלה ארגונית לניהול יוזמות AI וחדשנות</p>
+  <div style="margin-top:2rem;color:var(--text-muted);font-size:0.95rem;">ביטוח לאומי | מינהל גמלאות - פיתוח, שותפויות ו-AI</div>
+  <div class="slide-num">1 / 10</div>
+</div>
+
+<!-- S2: Problem -->
+<div class="slide">
+  <div class="slide-badge"><div class="logo-sm">S4U</div>הבעיה</div>
+  <h2>כמה זמן לוקח מרעיון להחלטה?</h2>
+  <div class="big-num yellow">~50</div>
+  <p class="subtitle">ימי עבודה. Baseline מוכח.</p>
+  <div class="stats">
+    <div class="stat"><div class="val" style="color:var(--danger)">0%</div><div class="lbl">Kill Rate מוקדם</div></div>
+    <div class="stat"><div class="val" style="color:var(--text-muted)">0</div><div class="lbl">מקור אמת אחיד</div></div>
+    <div class="stat"><div class="val" style="color:var(--danger)">?</div><div class="lbl">יוזמות בתור סמוי</div></div>
+  </div>
+  <div class="slide-num">2 / 10</div>
+</div>
+
+<!-- S3: Before -->
+<div class="slide">
+  <div class="slide-badge"><div class="logo-sm">S4U</div>לפני</div>
+  <h2>מה לא עבד</h2>
+  <div class="content">
+    <div class="item"><div class="item-icon ic-red">1</div><div>אין מנגנון Kill מוקדם - יוזמות חלשות לא נעצרות, הן מתות יקר</div></div>
+    <div class="item"><div class="item-icon ic-red">2</div><div>אין הבחנה בין פשוט למורכב - הכל באותו תור ובאותו תהליך</div></div>
+    <div class="item"><div class="item-icon ic-red">3</div><div>אין מדידה - אף אחד לא יודע כמה זמן, כמה עולה, כמה ירד</div></div>
+    <div class="item"><div class="item-icon ic-red">4</div><div>תמ"מ לא שותף בנקודה הנכונה - או עוקפים אותו או נחסמים</div></div>
+  </div>
+  <div class="slide-num">3 / 10</div>
+</div>
+
+<!-- S4: Solution -->
+<div class="slide">
+  <div class="slide-badge"><div class="logo-sm">S4U</div>הפתרון</div>
+  <h2>כל יוזמה מנותבת למסלול הנכון<br>תוך <span class="gradient">7 ימי עבודה</span></h2>
+  <div class="routes">
+    <div class="route-card rc-stop"><h3>Stop</h3><div class="num">32</div><div class="pct">54%</div></div>
+    <div class="route-card rc-self"><h3>Self-Service</h3><div class="num">14</div><div class="pct">24%</div></div>
+    <div class="route-card rc-pilot"><h3>Fast Pilot</h3><div class="num">7</div><div class="pct">12%</div></div>
+    <div class="route-card rc-ent"><h3>Enterprise</h3><div class="num">6</div><div class="pct">10%</div></div>
+  </div>
+  <div class="slide-num">4 / 10</div>
+</div>
+
+<!-- S5: Results -->
+<div class="slide">
+  <div class="slide-badge"><div class="logo-sm">S4U</div>תוצאות</div>
+  <h2>59 יוזמות. תוצאות אמיתיות.</h2>
+  <div class="stats">
+    <div class="stat"><div class="val" style="color:var(--success);font-size:3.5rem;">7x</div><div class="lbl">שיפור זמן-להחלטה</div></div>
+    <div class="stat"><div class="val" style="color:var(--danger);font-size:3.5rem;">54%</div><div class="lbl">Kill Rate</div></div>
+    <div class="stat"><div class="val" style="color:var(--accent);font-size:3.5rem;">59</div><div class="lbl">יוזמות נותחו</div></div>
+  </div>
+  <p class="subtitle" style="margin-top:2rem;">Kill = ROI. כל יוזמה שנעצרה מוקדם = חודשי איפיון ופיתוח שנחסכו.</p>
+  <div class="slide-num">5 / 10</div>
+</div>
+
+<!-- S6: How -->
+<div class="slide">
+  <div class="slide-badge"><div class="logo-sm">S4U</div>איך זה עובד</div>
+  <h2>3 שערים. קובץ אחד. 7 ימים.</h2>
+  <div class="flow">
+    <div class="flow-step">יוזמה</div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-step hl">G0</div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-step hl">G1</div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-step hl">G2</div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-step">מסלול</div>
+  </div>
+  <p class="subtitle">AI ממליץ. אדם מחליט. הכל בקובץ אחד - שקוף ועקיב.</p>
+  <div class="slide-num">6 / 10</div>
+</div>
+
+<!-- S7: Partnership -->
+<div class="slide">
+  <div class="slide-badge"><div class="logo-sm">S4U</div>שותפות</div>
+  <h2>לא עוקפים - מנתבים</h2>
+  <div class="content">
+    <div class="item"><div class="item-icon ic-green">&#10003;</div><div><strong>Self-Service:</strong> סביבה מבוקרת + רישום + ביקורת רבעונית</div></div>
+    <div class="item"><div class="item-icon ic-purple">&#10003;</div><div><strong>Enterprise:</strong> שער G2 משותף עם תמ"מ + חבילת Specs מסודרת</div></div>
+    <div class="item"><div class="item-icon ic-blue">&#10003;</div><div><strong>Portfolio Gate:</strong> ישיבה רבעונית על כל ה-Enterprise ביחד</div></div>
+    <div class="item"><div class="item-icon ic-yellow">&#10003;</div><div><strong>Fast Pilot:</strong> 2-4 שבועות מתוחמים לפני כל התחייבות</div></div>
+  </div>
+  <div class="slide-num">7 / 10</div>
+</div>
+
+<!-- S8: Portfolio Intelligence -->
+<div class="slide">
+  <div class="slide-badge"><div class="logo-sm">S4U</div>Portfolio Intelligence</div>
+  <h2>פקודה אחת - תמונה מלאה</h2>
+  <div class="content">
+    <div class="item"><div class="item-icon ic-blue">1</div><div>אגפים שולחים טופס / אקסל עם יוזמות</div></div>
+    <div class="item"><div class="item-icon ic-blue">2</div><div><strong>/s4u-collect</strong> - קליטה, ניתוח, יצירת קבצים</div></div>
+    <div class="item"><div class="item-icon ic-blue">3</div><div><strong>/s4u-scan</strong> - דירוג + דוח + Dashboard + מצגת</div></div>
+    <div class="item"><div class="item-icon ic-green">4</div><div>דוח סטטוס למייל כל שבועיים - אוטומטי</div></div>
+  </div>
+  <div class="slide-num">8 / 10</div>
+</div>
+
+<!-- S9: Roadmap -->
+<div class="slide">
+  <div class="slide-badge"><div class="logo-sm">S4U</div>מפת דרכים</div>
+  <h2>שלוש פאזות</h2>
+  <div class="timeline">
+    <div class="phase p1">
+      <h3 style="color:var(--success)">Operational</h3>
+      <div class="when">עכשיו</div>
+      <ul><li>מפעיל אחד, אגף אחד</li><li>59 יוזמות מוכחות</li><li>Pipeline מקצה לקצה</li></ul>
+    </div>
+    <div class="phase p2">
+      <h3 style="color:var(--accent)">Repeatable</h3>
+      <div class="when">Q3 2026</div>
+      <ul><li>מפעיל שני + אגף שני</li><li>Portfolio Gate רבעוני</li><li>Dashboard + דוח אוטומטי</li></ul>
+    </div>
+    <div class="phase p3">
+      <h3 style="color:var(--accent2)">Scalable</h3>
+      <div class="when">Q4 2026</div>
+      <ul><li>פורטל intake ארגוני</li><li>Multi-operator</li><li>Template למשרדים נוספים</li></ul>
+    </div>
+  </div>
+  <div class="slide-num">9 / 10</div>
+</div>
+
+<!-- S10: The Ask -->
+<div class="slide">
+  <div class="slide-badge"><div class="logo-sm">S4U</div>Next Steps</div>
+  <div class="ask">
+    <h2>30 יום. 3 יוזמות שלכם. תוצאות מדידות.</h2>
+    <div class="ask-items">
+      <div><strong>1.</strong> אישור הרחבה לאגף תכנון</div>
+      <div><strong>2.</strong> הסכמה לפורמט Portfolio Gate רבעוני</div>
+      <div><strong>3.</strong> מפעיל שני שילמד תוך שבוע</div>
+    </div>
+    <div class="ask-footer">אין תקציב חומרה. אין פיתוח. רישיונות קיימים. מתחילים מחר.</div>
+  </div>
+  <div class="slide-num">10 / 10</div>
+</div>
+
+<!-- Navigation -->
+<div class="nav" id="nav"></div>
+<div class="nav-hint">חצים ← → | לחיצה | רווח</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let cur = 0;
+
+function go(n) {
+  slides[cur].classList.remove('active');
+  cur = (n + slides.length) % slides.length;
+  slides[cur].classList.add('active');
+  nav();
+}
+function nav() {
+  document.getElementById('nav').innerHTML = [...slides].map((_, i) =>
+    `<div class="dot${i===cur?' on':''}" onclick="go(${i})"></div>`
+  ).join('');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft' || e.key === ' ' || e.key === 'ArrowDown') { go(cur+1); e.preventDefault(); }
+  if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { go(cur-1); e.preventDefault(); }
+  if (e.key === 'Home') go(0);
+  if (e.key === 'End') go(slides.length-1);
+});
+document.addEventListener('click', e => {
+  if (e.target.closest('.nav')) return;
+  e.clientX < innerWidth/3 ? go(cur-1) : go(cur+1);
+});
+nav();
+</script>
+</body>
+</html>

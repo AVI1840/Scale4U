@@ -7,434 +7,355 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
 :root {
-  --bg: #06090f;
-  --surface: #0d1420;
-  --surface2: #15202e;
-  --surface3: #1c2b3d;
-  --border: #243044;
+  --white: #ffffff;
+  --bg: #f8fafb;
+  --navy: #0f2744;
+  --navy-mid: #1a3a5c;
+  --blue-nii: #1a4f8b;
+  --blue-bright: #2d6db5;
+  --blue-accent: #3b82f6;
+  --blue-light: #e8f1fd;
+  --blue-subtle: #f0f6ff;
+  --text: #1a2a3a;
+  --text-secondary: #475b6e;
+  --text-muted: #7c8fa3;
+  --border: #dce4ec;
   --border-focus: #3b82f6;
-  --text: #f0f4f8;
-  --text-secondary: #a3b4c8;
-  --text-muted: #6b7f96;
-  --accent: #3b82f6;
-  --accent-glow: rgba(59, 130, 246, 0.15);
-  --accent2: #8b5cf6;
-  --success: #10b981;
-  --success-glow: rgba(16, 185, 129, 0.15);
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --shadow: 0 4px 24px rgba(0,0,0,0.3);
-  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --surface: #ffffff;
+  --success: #168a4a;
+  --success-bg: #edf8f2;
+  --danger: #c53030;
+  --danger-bg: #fef2f2;
+  --warning-bg: #fef3c7;
+  --radius: 14px;
+  --shadow-sm: 0 1px 3px rgba(15,39,68,0.04);
+  --shadow-md: 0 4px 16px rgba(15,39,68,0.06);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: 'Heebo', 'Segoe UI', sans-serif;
+  font-family: 'Heebo', sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  line-height: 1.7;
-  overflow-x: hidden;
-}
-body::before {
-  content: '';
-  position: fixed;
-  top: -50%;
-  right: -30%;
-  width: 80vw;
-  height: 80vw;
-  background: radial-gradient(circle, rgba(59,130,246,0.04) 0%, transparent 70%);
-  pointer-events: none;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Layout */
+/* Top bar */
+.topbar {
+  background: var(--navy);
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.topbar-right { display: flex; align-items: center; gap: 0.6rem; }
+.topbar-mark {
+  width: 28px; height: 28px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; font-weight: 900; color: white;
+}
+.topbar-label { font-size: 0.82rem; color: rgba(255,255,255,0.9); font-weight: 600; }
+.topbar-home {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+.topbar-home:hover { color: rgba(255,255,255,0.8); }
+
+/* Container */
 .container {
-  max-width: 680px;
+  max-width: 640px;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: 2.5rem 1.5rem 3rem;
 }
 
 /* Header */
-.brand {
+.page-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
-.logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-.logo-mark {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 1.1rem;
-  color: white;
-}
-.logo-text {
-  font-size: 1.4rem;
+.page-header h1 {
+  font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text);
-  letter-spacing: -0.5px;
-}
-.brand h1 {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: var(--text);
+  color: var(--navy);
   margin-bottom: 0.5rem;
 }
-.brand p {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  max-width: 440px;
-  margin: 0 auto;
+.page-header p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
 }
 
 /* Progress */
-.progress-bar {
+.progress {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 2.5rem;
+  gap: 0.4rem;
+  margin-bottom: 2rem;
 }
-.progress-step {
-  width: 48px;
-  height: 4px;
+.progress-dot {
+  width: 40px; height: 4px;
   border-radius: 2px;
   background: var(--border);
-  transition: var(--transition);
+  transition: all 0.3s;
 }
-.progress-step.active { background: var(--accent); }
-.progress-step.done { background: var(--success); }
+.progress-dot.active { background: var(--blue-accent); }
+.progress-dot.done { background: var(--success); }
 
 /* Sections */
 .section {
-  background: var(--surface);
+  background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 2rem;
-  margin-bottom: 1.5rem;
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
+  padding: 1.8rem;
+  margin-bottom: 1.2rem;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s;
 }
-.section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 3px;
-  height: 100%;
-  background: var(--border);
-  transition: var(--transition);
-}
-.section:focus-within::before { background: var(--accent); }
-.section:focus-within { border-color: rgba(59, 130, 246, 0.3); }
-
-.section-header {
+.section:focus-within { border-color: var(--blue-accent); }
+.section-head {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  gap: 0.6rem;
+  margin-bottom: 1.3rem;
 }
-.step-badge {
-  width: 32px;
-  height: 32px;
-  background: var(--accent-glow);
-  border: 1px solid rgba(59,130,246,0.3);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--accent);
+.step-num {
+  width: 28px; height: 28px;
+  background: var(--blue-light);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 700; color: var(--blue-nii);
   flex-shrink: 0;
 }
-.section-header h2 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--text);
-}
-.section-header .optional {
-  font-size: 0.75rem;
+.section-head h2 { font-size: 0.95rem; font-weight: 700; color: var(--navy); }
+.section-head .opt {
+  margin-right: auto;
+  font-size: 0.7rem;
   color: var(--text-muted);
-  background: var(--surface2);
+  background: var(--bg);
   padding: 0.15rem 0.5rem;
   border-radius: 4px;
-  margin-right: auto;
 }
 
 /* Fields */
-.field {
-  margin-bottom: 1.3rem;
-}
+.field { margin-bottom: 1.1rem; }
 .field:last-child { margin-bottom: 0; }
 .field-label {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.85rem;
-  font-weight: 500;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  font-weight: 600;
   color: var(--text-secondary);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
-.field-label .req {
-  width: 5px;
-  height: 5px;
+.field-label .dot {
+  width: 5px; height: 5px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--blue-accent);
 }
 .field-hint {
-  font-size: 0.78rem;
+  font-size: 0.73rem;
   color: var(--text-muted);
-  margin-top: 0.3rem;
+  margin-top: 0.25rem;
 }
-
 input, textarea, select {
   width: 100%;
-  padding: 0.85rem 1.1rem;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  padding: 0.8rem 1rem;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
   color: var(--text);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-family: inherit;
-  transition: var(--transition);
-  -webkit-appearance: none;
+  transition: all 0.2s;
 }
 input::placeholder, textarea::placeholder { color: var(--text-muted); }
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: var(--accent);
-  background: var(--surface3);
-  box-shadow: 0 0 0 4px var(--accent-glow);
+  border-color: var(--blue-accent);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.08);
 }
-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
-select { cursor: pointer; }
+textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+select { cursor: pointer; -webkit-appearance: none; }
 
-.row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-@media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+@media (max-width: 500px) { .row { grid-template-columns: 1fr; } }
 
-/* Risk Selector */
-.risk-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-}
+/* Risk chips */
+.risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
 @media (max-width: 500px) { .risk-grid { grid-template-columns: 1fr; } }
 .risk-chip {
-  background: var(--surface2);
+  background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0.9rem;
-  transition: var(--transition);
+  border-radius: 9px;
+  padding: 0.7rem;
 }
-.risk-chip:focus-within { border-color: var(--accent); }
 .risk-chip label {
   display: block;
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 600;
   color: var(--text-secondary);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.35rem;
 }
-.risk-chip select {
-  padding: 0.6rem 0.8rem;
-  font-size: 0.85rem;
-  background: var(--surface);
-}
+.risk-chip select { padding: 0.6rem 0.8rem; font-size: 0.82rem; }
 
 /* Actions */
 .actions {
   display: flex;
-  gap: 0.75rem;
-  margin-top: 2.5rem;
+  gap: 0.7rem;
+  margin-top: 2rem;
 }
 button {
-  padding: 0.9rem 1.8rem;
+  padding: 0.85rem 2rem;
   border: none;
-  border-radius: var(--radius-sm);
-  font-size: 0.95rem;
-  font-weight: 600;
+  border-radius: 9px;
+  font-size: 0.92rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: var(--transition);
   font-family: inherit;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  transition: all 0.2s;
 }
 .btn-primary {
   flex: 1;
-  justify-content: center;
-  background: var(--accent);
+  background: var(--blue-accent);
   color: white;
-  box-shadow: 0 2px 12px rgba(59,130,246,0.25);
+  box-shadow: 0 2px 8px rgba(59,130,246,0.2);
 }
-.btn-primary:hover {
-  background: #2563eb;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(59,130,246,0.35);
-}
-.btn-primary:active { transform: translateY(0); }
+.btn-primary:hover { background: #2563eb; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(59,130,246,0.25); }
 .btn-ghost {
-  background: transparent;
+  background: var(--white);
   color: var(--text-secondary);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
 }
-.btn-ghost:hover { border-color: var(--text-secondary); color: var(--text); }
+.btn-ghost:hover { border-color: var(--text-muted); }
 
 /* List */
-.list-section {
-  margin-top: 2rem;
-}
-.list-header {
+.list-section { margin-top: 2rem; }
+.list-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
-.list-header h3 {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text-secondary);
+.list-head h3 { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); }
+.badge {
+  background: var(--blue-light);
+  color: var(--blue-nii);
+  padding: 0.2rem 0.6rem;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
-.count-badge {
-  background: var(--accent-glow);
-  border: 1px solid rgba(59,130,246,0.2);
-  color: var(--accent);
-  padding: 0.2rem 0.7rem;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-.initiative-card {
-  background: var(--surface);
+.item-card {
+  background: var(--white);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 1rem 1.2rem;
-  margin-bottom: 0.6rem;
+  border-radius: 9px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
 }
-.initiative-card:hover { border-color: var(--border-focus); }
-.initiative-card .info h4 { font-size: 0.9rem; font-weight: 600; }
-.initiative-card .info span { font-size: 0.8rem; color: var(--text-muted); }
-.btn-remove {
-  width: 28px;
-  height: 28px;
+.item-card h4 { font-size: 0.88rem; font-weight: 600; color: var(--navy); }
+.item-card span { font-size: 0.75rem; color: var(--text-muted); }
+.btn-x {
+  width: 26px; height: 26px;
   border-radius: 6px;
   background: transparent;
   border: 1px solid transparent;
   color: var(--text-muted);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  transition: var(--transition);
+  font-size: 0.9rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
   padding: 0;
 }
-.btn-remove:hover { border-color: var(--danger); color: var(--danger); background: rgba(239,68,68,0.1); }
+.btn-x:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-bg); }
 
 /* Toast */
 .toast {
   position: fixed;
-  bottom: 2rem;
+  bottom: 1.5rem;
   left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: var(--surface2);
-  border: 1px solid var(--success);
-  color: var(--success);
-  padding: 0.8rem 1.5rem;
-  border-radius: var(--radius-sm);
+  transform: translateX(-50%) translateY(60px);
+  background: var(--navy);
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border-radius: 9px;
+  font-size: 0.85rem;
   font-weight: 500;
-  font-size: 0.9rem;
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
   z-index: 1000;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 24px rgba(15,39,68,0.2);
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
-.toast.error { border-color: var(--danger); color: var(--danger); }
+.toast.err { background: var(--danger); }
 
 /* Footer */
-footer {
+.page-footer {
   text-align: center;
+  padding: 1.5rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
-  font-size: 0.75rem;
-  margin-top: 3rem;
-  padding-top: 1.5rem;
   border-top: 1px solid var(--border);
+  margin-top: 2rem;
 }
-footer a { color: var(--accent); text-decoration: none; }
 </style>
 </head>
 <body>
-<div class="container">
 
-  <!-- Brand -->
-  <div class="brand">
-    <div class="logo">
-      <div class="logo-mark">S4U</div>
-      <span class="logo-text">Scale4U</span>
-    </div>
+<div class="topbar">
+  <div class="topbar-right">
+    <div class="topbar-mark">S4U</div>
+    <span class="topbar-label">הגשת יוזמה</span>
+  </div>
+  <a href="index.html" class="topbar-home">← חזרה לדף הראשי</a>
+</div>
+
+<div class="container">
+  <div class="page-header">
     <h1>הגשת יוזמה לניתוח</h1>
-    <p>מלאו את הפרטים. המערכת תנתח, תדרג ותחזיר המלצת ניתוב תוך 7 ימי עבודה.</p>
+    <p>מלאו את הפרטים. המערכת תנתח, תדרג, ותחזיר המלצת ניתוב תוך 7 ימי עבודה.</p>
   </div>
 
-  <!-- Progress -->
-  <div class="progress-bar">
-    <div class="progress-step active" id="p1"></div>
-    <div class="progress-step" id="p2"></div>
-    <div class="progress-step" id="p3"></div>
+  <div class="progress">
+    <div class="progress-dot active" id="p1"></div>
+    <div class="progress-dot" id="p2"></div>
+    <div class="progress-dot" id="p3"></div>
   </div>
 
   <form id="form" novalidate>
-
-    <!-- Step 1: Who & What -->
     <div class="section">
-      <div class="section-header">
-        <div class="step-badge">1</div>
-        <h2>מה היוזמה ומי מגיש</h2>
-      </div>
+      <div class="section-head"><div class="step-num">1</div><h2>מה היוזמה ומי מגיש</h2></div>
       <div class="field">
-        <div class="field-label"><span class="req"></span> שם היוזמה</div>
+        <div class="field-label"><span class="dot"></span>שם היוזמה</div>
         <input type="text" id="title" required placeholder="שם קצר וברור">
       </div>
       <div class="row">
         <div class="field">
-          <div class="field-label"><span class="req"></span> אגף מגיש</div>
+          <div class="field-label"><span class="dot"></span>אגף מגיש</div>
           <input type="text" id="division" required placeholder="למשל: אגף תכנון">
         </div>
         <div class="field">
-          <div class="field-label"><span class="req"></span> בעלים עסקי</div>
+          <div class="field-label"><span class="dot"></span>בעלים עסקי</div>
           <input type="text" id="owner" required placeholder="שם, תפקיד">
         </div>
       </div>
     </div>
 
-    <!-- Step 2: The Pain -->
     <div class="section">
-      <div class="section-header">
-        <div class="step-badge">2</div>
-        <h2>הבעיה</h2>
-      </div>
+      <div class="section-head"><div class="step-num">2</div><h2>הבעיה</h2></div>
       <div class="field">
-        <div class="field-label"><span class="req"></span> מה הכאב?</div>
+        <div class="field-label"><span class="dot"></span>מה הכאב?</div>
         <textarea id="problem" required placeholder="תארו את הבעיה בשפת מי שסובל ממנה. לא בשפת הפתרון."></textarea>
-        <div class="field-hint">מי נפגע, מה קורה, כמה זה עולה (זמן/כסף/סיכון)</div>
+        <div class="field-hint">מי נפגע, מה קורה, כמה זה עולה (זמן / כסף / סיכון)</div>
       </div>
       <div class="field">
         <div class="field-label">כמה משתמשים מושפעים?</div>
@@ -442,82 +363,48 @@ footer a { color: var(--accent); text-decoration: none; }
       </div>
       <div class="field">
         <div class="field-label">למה עכשיו?</div>
-        <input type="text" id="trigger" placeholder="טריגר: דוח מבקר, עומסים, שינוי חוק...">
+        <input type="text" id="trigger" placeholder="דוח מבקר, עומסים, שינוי חוק...">
       </div>
     </div>
 
-    <!-- Step 3: Classification -->
     <div class="section">
-      <div class="section-header">
-        <div class="step-badge">3</div>
-        <h2>סיווג ראשוני</h2>
-        <span class="optional">לא חובה</span>
-      </div>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1.2rem;">
-        עוזר לנו לנתב מהר יותר. אם לא בטוחים - דלגו.
-      </p>
+      <div class="section-head"><div class="step-num">3</div><h2>סיווג ראשוני</h2><span class="opt">לא חובה</span></div>
+      <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1rem;">עוזר לנתב מהר יותר. אם לא בטוחים - דלגו.</p>
       <div class="risk-grid">
         <div class="risk-chip">
-          <label>מידע אישי מעורב?</label>
-          <select id="risk_data">
-            <option value="">לא ידוע</option>
-            <option value="none">לא</option>
-            <option value="internal">ארגוני בלבד</option>
-            <option value="personal">מידע אישי</option>
-          </select>
+          <label>מידע אישי?</label>
+          <select id="risk_data"><option value="">לא ידוע</option><option value="none">לא</option><option value="internal">ארגוני בלבד</option><option value="personal">מידע אישי</option></select>
         </div>
         <div class="risk-chip">
           <label>מערכות ליבה?</label>
-          <select id="risk_integration">
-            <option value="">לא ידוע</option>
-            <option value="none">לא</option>
-            <option value="read">קריאה בלבד</option>
-            <option value="write">כתיבה</option>
-          </select>
+          <select id="risk_integration"><option value="">לא ידוע</option><option value="none">לא</option><option value="read">קריאה בלבד</option><option value="write">כתיבה</option></select>
         </div>
         <div class="risk-chip">
           <label>השפעה על אזרח?</label>
-          <select id="risk_citizen">
-            <option value="">לא ידוע</option>
-            <option value="none">אין</option>
-            <option value="info">מידע בלבד</option>
-            <option value="decision">משפיע על החלטה</option>
-          </select>
+          <select id="risk_citizen"><option value="">לא ידוע</option><option value="none">אין</option><option value="info">מידע בלבד</option><option value="decision">משפיע על החלטה</option></select>
         </div>
         <div class="risk-chip">
           <label>היקף?</label>
-          <select id="risk_scale">
-            <option value="">לא ידוע</option>
-            <option value="team">צוות</option>
-            <option value="division">אגף</option>
-            <option value="org">כלל-ארגוני</option>
-          </select>
+          <select id="risk_scale"><option value="">לא ידוע</option><option value="team">צוות</option><option value="division">אגף</option><option value="org">כלל-ארגוני</option></select>
         </div>
       </div>
     </div>
 
-    <!-- Actions -->
     <div class="actions">
       <button type="button" class="btn-primary" onclick="submit()">שלח יוזמה</button>
       <button type="button" class="btn-ghost" onclick="exportCSV()">ייצוא CSV</button>
     </div>
-
   </form>
 
-  <!-- Submitted List -->
   <div class="list-section" id="list-section" style="display:none;">
-    <div class="list-header">
-      <h3>יוזמות שנשלחו</h3>
-      <span class="count-badge" id="count">0</span>
-    </div>
+    <div class="list-head"><h3>יוזמות שנשלחו</h3><span class="badge" id="count">0</span></div>
     <div id="list"></div>
   </div>
 
-  <footer>
-    Scale4U v1.1 | ביטוח לאומי | מינהל גמלאות - פיתוח, שותפויות ו-AI<br>
-    הנתונים נשמרים בדפדפן בלבד. <a href="#">מדיניות פרטיות</a>
-  </footer>
-
+  <div class="page-footer">
+    Scale4U v1.1 | המוסד לביטוח לאומי | מינהל גמלאות<br>
+    הנתונים נשמרים בדפדפן בלבד. שום מידע לא נשלח לשרת חיצוני.
+  </div>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -526,79 +413,33 @@ let data = JSON.parse(localStorage.getItem('s4u_intake') || '[]');
 render();
 
 function submit() {
-  const t = val('title'), d = val('division'), o = val('owner'), p = val('problem');
-  if (!t || !d || !o || !p) { toast('נא למלא את השדות המסומנים', true); return; }
-
-  data.push({
-    id: makeId(t),
-    title: t, division: d, owner: o, problem: p,
-    affected_users: val('affected_users'),
-    trigger: val('trigger'),
-    risk_data: val('risk_data'),
-    risk_integration: val('risk_integration'),
-    risk_citizen: val('risk_citizen'),
-    risk_scale: val('risk_scale'),
-    date: new Date().toISOString().split('T')[0]
-  });
-  localStorage.setItem('s4u_intake', JSON.stringify(data));
+  const t=val('title'),d=val('division'),o=val('owner'),p=val('problem');
+  if(!t||!d||!o||!p){toast('נא למלא את השדות המסומנים',true);return;}
+  data.push({id:makeId(t),title:t,division:d,owner:o,problem:p,affected_users:val('affected_users'),trigger:val('trigger'),risk_data:val('risk_data'),risk_integration:val('risk_integration'),risk_citizen:val('risk_citizen'),risk_scale:val('risk_scale'),date:new Date().toISOString().split('T')[0]});
+  localStorage.setItem('s4u_intake',JSON.stringify(data));
   document.getElementById('form').reset();
-  render();
-  toast(`"${t}" נקלטה בהצלחה`);
-  updateProgress();
+  render(); toast('"'+t+'" נקלטה בהצלחה'); updateProgress();
 }
-
-function remove(i) {
-  data.splice(i, 1);
-  localStorage.setItem('s4u_intake', JSON.stringify(data));
-  render();
+function remove(i){data.splice(i,1);localStorage.setItem('s4u_intake',JSON.stringify(data));render();}
+function render(){
+  const s=document.getElementById('list-section'),l=document.getElementById('list');
+  if(!data.length){s.style.display='none';return;}
+  s.style.display='block';document.getElementById('count').textContent=data.length;
+  l.innerHTML=data.map((r,i)=>'<div class="item-card"><div><h4>'+r.title+'</h4><span>'+r.division+' | '+r.date+'</span></div><button class="btn-x" onclick="remove('+i+')">&#x2715;</button></div>').join('');
 }
-
-function render() {
-  const sec = document.getElementById('list-section');
-  const list = document.getElementById('list');
-  if (data.length === 0) { sec.style.display = 'none'; return; }
-  sec.style.display = 'block';
-  document.getElementById('count').textContent = data.length;
-  list.innerHTML = data.map((item, i) => `
-    <div class="initiative-card">
-      <div class="info"><h4>${item.title}</h4><span>${item.division} | ${item.date}</span></div>
-      <button class="btn-remove" onclick="remove(${i})">&#x2715;</button>
-    </div>
-  `).join('');
+function exportCSV(){
+  if(!data.length){toast('אין יוזמות',true);return;}
+  const cols=['id','title','division','owner','problem','affected_users','trigger','risk_data','risk_integration','risk_citizen','risk_scale','date'];
+  const heb=['מזהה','שם','אגף','בעלים','בעיה','משתמשים','טריגר','מידע אישי','מערכות ליבה','השפעה אזרח','היקף','תאריך'];
+  let csv='﻿'+heb.join(',')+'\n';
+  data.forEach(r=>{csv+=cols.map(c=>'"'+(r[c]||'').replace(/"/g,'""')+'"').join(',')+'\n';});
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  a.download='scale4u-intake-'+data[0].date+'.csv';a.click();toast(data.length+' יוזמות יוצאו');
 }
-
-function exportCSV() {
-  if (!data.length) { toast('אין יוזמות', true); return; }
-  const cols = ['id','title','division','owner','problem','affected_users','trigger','risk_data','risk_integration','risk_citizen','risk_scale','date'];
-  const heb = ['מזהה','שם','אגף','בעלים','בעיה','משתמשים','טריגר','מידע אישי','מערכות ליבה','השפעה אזרח','היקף','תאריך'];
-  let csv = '﻿' + heb.join(',') + '\n';
-  data.forEach(r => { csv += cols.map(c => `"${(r[c]||'').replace(/"/g,'""')}"`).join(',') + '\n'; });
-  dl(csv, `scale4u-intake-${data[0].date}.csv`, 'text/csv;charset=utf-8');
-  toast(`${data.length} יוזמות יוצאו`);
-}
-
-function val(id) { return document.getElementById(id).value.trim(); }
-function dl(content, name, type) {
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([content], {type}));
-  a.download = name; a.click(); URL.revokeObjectURL(a.href);
-}
-function makeId(t) {
-  const m = {'מחשבון':'calc','דשבורד':'dash','אוטומציה':'auto','ניהול':'mgmt','מעקב':'track','שירות':'svc','זכאות':'elig','דוח':'report','טופס':'form','חיזוי':'predict','סיווג':'classify','ניטור':'monitor','בקרה':'control'};
-  let id = t; Object.entries(m).forEach(([h,e]) => { id = id.replace(new RegExp(h,'g'), e); });
-  return id.replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').substring(0,40) || 'init-'+Date.now();
-}
-function toast(msg, err) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show' + (err ? ' error' : '');
-  setTimeout(() => el.className = 'toast', 3000);
-}
-function updateProgress() {
-  const steps = document.querySelectorAll('.progress-step');
-  const filled = Math.min(data.length, 3);
-  steps.forEach((s, i) => { s.className = 'progress-step' + (i < filled ? ' done' : i === filled ? ' active' : ''); });
-}
+function val(id){return document.getElementById(id).value.trim();}
+function makeId(t){const m={'מחשבון':'calc','דשבורד':'dash','אוטומציה':'auto','ניהול':'mgmt','מעקב':'track','שירות':'svc','זכאות':'elig','דוח':'report','טופס':'form','חיזוי':'predict','סיווג':'classify','ניטור':'monitor','בקרה':'control'};let id=t;Object.entries(m).forEach(([h,e])=>{id=id.replace(new RegExp(h,'g'),e);});return id.replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').substring(0,40)||'init-'+Date.now();}
+function toast(msg,err){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show'+(err?' err':'');setTimeout(()=>el.className='toast',3000);}
+function updateProgress(){const dots=document.querySelectorAll('.progress-dot');const n=Math.min(data.length,3);dots.forEach((d,i)=>{d.className='progress-dot'+(i<n?' done':i===n?' active':'');});}
 updateProgress();
 </script>
 </body>

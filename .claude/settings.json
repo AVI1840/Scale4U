@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(python *)",
+      "Bash(python3 *)",
+      "Bash(py *)",
+      "Bash(curl *)",
+      "Bash(powershell *)"
+    ]
+  },
+  "env": {
+    "NO_PROXY": "snifim.blroot,localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,13.0.0.0/8",
+    "no_proxy": "snifim.blroot,localhost,127.0.0.1,192.168.0.0/16,10.0.0.0/8,13.0.0.0/8"
+  },
+  "skills": {
+    "s4u-collect": {
+      "path": "scale4u/.claude/commands/s4u-collect.md",
+      "triggers": [
+        "collect", "ingest", "import", "batch", "Excel", "CSV",
+        "אסוף", "קלוט", "ייבא", "ייבוא", "טבלה", "קליטת יוזמות", "קליטת פורטפוליו", "העלה קובץ"
+      ]
+    },
+    "s4u-scan": {
+      "path": "scale4u/.claude/commands/s4u-scan.md",
+      "triggers": [
+        "scan", "analyze portfolio", "executive report", "portfolio analysis",
+        "סרוק", "סריקה", "נתח תיק", "נתח פורטפוליו", "דוח הנהלה", "דוח בכירים", "מצגת פורטפוליו", "ניתוח כולל", "תמונת מצב"
+      ]
+    }
+  }
+}

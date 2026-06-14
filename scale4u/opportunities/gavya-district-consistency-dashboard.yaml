@@ -1,0 +1,89 @@
+# Opportunity File - Scale4U v1.1
+# דשבורד עקביות בין-מחוזית
+# ----------------------------------------------------------------
+
+meta:
+  id: gavya-district-consistency-dashboard
+  title: "דשבורד עקביות בין-מחוזית - מדידת אחידות החלטות שינוי מעמד"
+  owner: "TBV - מנהל אגף גבייה וביטוח"
+  division: "מינהל ביטוח וגבייה"
+  created: "2026-06-14"
+  status: draft
+  sprint_day: 0
+
+problem:
+  statement: "אין למנהל האגף דרך לדעת אם מחוז חיפה מכיר יחסי עובד-מעביד ב-80% ומחוז באר שבע ב-40% באותם סוגי מקרים - חוסר עקביות שחושף לביקורת"
+  affected_users: "מנהל אגף, מנהלי מחוזות, מבקר פנימי"
+  current_process: "אין תהליך. אין מדידה. אין data."
+  cost_of_status_quo: "סיכון ביקורת, חוסר אמון ציבורי, פגיעה בשוויון"
+  trigger: "חלק מסריקת ייעול חומרי אגף הגבייה"
+
+baseline:
+  estimated_time_without_scale4u_days: "60"
+  confidence_in_estimate: low
+  similar_past_case: "TBV - האם בוצעה בדיקת עקביות בעבר?"
+
+value:
+  hypothesis: "אם המנהל יראה פערים בין מחוזות, יוכל לנקוט פעולות ממוקדות (הדרכה, נהלים, ביקורת)"
+  metrics:
+    - name: "פער מקסימלי בין מחוזות באחוז הכרה לפי סוג מקרה"
+      baseline: "TBV - לא נמדד"
+      target: "פער של עד 15%"
+      source: "נתוני מערכת עסק/גל\"ש"
+  beneficiaries:
+    - עסקי
+    - אזרח  # שוויון בטיפול
+
+alternatives:
+  - option: "לא לעשות כלום"
+    assessment: "ממשיכים לא לדעת. הביקורת תמצא."
+  - option: "בדיקה ידנית חד-פעמית"
+    assessment: "אפשרי אך לא מתמשך. ובלי נתונים ממוחשבים - עבודת נמלים."
+  - option: "דשבורד BI על נתוני מערכת עסק"
+    assessment: "הפתרון האידיאלי. דורש גישה לנתונים ממערכות מחשוב."
+
+risks:
+  data_sensitivity: personal-aggregated  # נתונים אגרגטיביים, לא פרטניים
+  core_integration: read-only
+  decision_impact: supportive
+  user_scale: org-internal
+  citizen_rights_impact: none  # מודד את הארגון, לא את האזרח
+  regulatory: "חוק הגנת הפרטיות - נדרש אגרגציה בלבד"
+  organizational: "דורש שיתוף פעולה מלא עם מחשוב, אבטחת מידע, BI"
+
+red_team:
+  weakest_assumption: "שמחשוב יאפשר גישה לנתוני החלטות שינוי מעמד"
+  failure_modes:
+    - "מחשוב לא משחרר data"
+    - "הנתונים לא מובנים מספיק (חסרים שדות סוג מקרה)"
+    - "המנהל מקבל את הדשבורד אבל לא פועל על פערים"
+  hidden_costs: "שאילתות BI, תחזוקת חיבורים, הגדרת הרשאות, פיתוח/רישוי כלי BI"
+  implementation_complexity: "גבוהה - דורש אינטגרציה עם מערכות ליבה"
+  verdict: proceed-with-conditions  # תנאי: אישור מחשוב, הגדרת שאילתה
+
+validation:
+  asset_type: "mockup"
+  asset_path: "assets/gavya-district-consistency-dashboard/"
+  test_plan: "הצגת mockup למנהל האגף. שאלה: האם זה מה שהיית רוצה לראות? מה חסר?"
+  findings: []
+  verdict: ""
+
+gates:
+  g0: { decision: "", by: "", date: "", note: "" }
+  g1: { decision: "", by: "", date: "", note: "" }
+  g2: { decision: "", by: "", date: "", note: "" }
+
+classification:
+  route: "enterprise"
+  rationale: "דורש גישה למערכות ליבה, שיתוף מחשוב, BI"
+
+roi:
+  scale4u_decision_days: ""
+  time_saved_days: ""
+  decision_outcome: ""
+  value_of_early_kill: ""
+
+sources:
+  - claim: "5 מחוזות (חיפה, ת\"א, באר שבע, נצרת, ירושלים)"
+    source: "רשימת מחוזות בפסקי הדין"
+    date: "2026-06-14"

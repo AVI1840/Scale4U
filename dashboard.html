@@ -6,127 +6,78 @@
 <title>Scale4U | Portfolio Dashboard</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap');
-:root {
-  --white: #ffffff;
-  --bg: #f8fafb;
-  --navy: #0f2744;
-  --navy-mid: #1a3a5c;
-  --blue-nii: #1a4f8b;
-  --blue-bright: #2d6db5;
-  --blue-accent: #3b82f6;
-  --blue-light: #e8f1fd;
-  --text: #1a2a3a;
-  --text-secondary: #475b6e;
-  --text-muted: #7c8fa3;
-  --border: #dce4ec;
-  --surface: #ffffff;
-  --success: #168a4a;
-  --success-bg: #edf8f2;
-  --danger: #c53030;
-  --danger-bg: #fef2f2;
-  --warning: #b45309;
-  --warning-bg: #fef3c7;
-  --purple: #6d28d9;
-  --purple-bg: #f3e8ff;
-  --radius: 14px;
-  --shadow-sm: 0 1px 3px rgba(15,39,68,0.04);
-  --shadow-md: 0 4px 16px rgba(15,39,68,0.06);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Heebo', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  padding: 0;
-  -webkit-font-smoothing: antialiased;
-}
+:root{--white:#fff;--bg:#f8fafb;--navy:#0f2744;--blue-nii:#1a4f8b;--blue-bright:#2d6db5;--blue-accent:#3b82f6;--blue-light:#e8f1fd;--text:#1a2a3a;--text-secondary:#475b6e;--text-muted:#7c8fa3;--border:#dce4ec;--surface:#fff;--success:#168a4a;--success-bg:#edf8f2;--danger:#c53030;--danger-bg:#fef2f2;--warning:#b45309;--warning-bg:#fef3c7;--purple:#6d28d9;--purple-bg:#f3e8ff;--radius:14px;--shadow-sm:0 1px 3px rgba(15,39,68,0.04);--shadow-md:0 4px 16px rgba(15,39,68,0.06)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+.topbar{background:var(--navy);padding:0.6rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.topbar-right{display:flex;align-items:center;gap:0.6rem}
+.topbar-mark{width:28px;height:28px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:900;color:white}
+.topbar-label{font-size:0.82rem;color:rgba(255,255,255,0.9);font-weight:600}
+.topbar-left{display:flex;align-items:center;gap:1rem}
+.topbar-home{color:rgba(255,255,255,0.5);font-size:0.75rem;text-decoration:none}
+.topbar-home:hover{color:rgba(255,255,255,0.8)}
+.live{display:flex;align-items:center;gap:0.35rem;font-size:0.7rem;color:rgba(255,255,255,0.6)}
+.live::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 
-.topbar {
-  background: var(--navy);
-  padding: 0.6rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.topbar-right { display: flex; align-items: center; gap: 0.6rem; }
-.topbar-mark { width: 28px; height: 28px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 900; color: white; }
-.topbar-label { font-size: 0.82rem; color: rgba(255,255,255,0.9); font-weight: 600; }
-.topbar-left { display: flex; align-items: center; gap: 1rem; }
-.topbar-home { color: rgba(255,255,255,0.5); font-size: 0.75rem; text-decoration: none; }
-.topbar-home:hover { color: rgba(255,255,255,0.8); }
-.live { display: flex; align-items: center; gap: 0.35rem; font-size: 0.7rem; color: rgba(255,255,255,0.6); }
-.live::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-.main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+.main{max-width:960px;margin:0 auto;padding:2rem 1.5rem}
+.page-title{font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:0.2rem}
+.page-date{font-size:0.8rem;color:var(--text-muted);margin-bottom:1.5rem}
 
 /* KPIs */
-.kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
-@media (max-width: 800px) { .kpi-row { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 500px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
-.kpi { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.3rem; text-align: center; box-shadow: var(--shadow-sm); }
-.kpi .val { font-size: 2.4rem; font-weight: 900; line-height: 1; }
-.kpi .lbl { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem; font-weight: 500; }
-.kpi.blue .val { color: var(--blue-nii); }
-.kpi.green .val { color: var(--success); }
-.kpi.yellow .val { color: var(--warning); }
-.kpi.red .val { color: var(--danger); }
-.kpi.purple .val { color: var(--purple); }
-
-/* Alerts */
-.alerts { background: var(--white); border: 1px solid var(--danger); border-radius: var(--radius); padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm); }
-.alerts-title { font-size: 0.82rem; font-weight: 700; color: var(--danger); margin-bottom: 0.6rem; }
-.alert-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0; font-size: 0.83rem; color: var(--text-secondary); }
-.alert-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--danger); flex-shrink: 0; }
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-bottom:1.5rem}
+@media(max-width:700px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.2rem;text-align:center;box-shadow:var(--shadow-sm)}
+.kpi .val{font-size:2rem;font-weight:900;line-height:1}
+.kpi .lbl{font-size:0.72rem;color:var(--text-muted);margin-top:0.25rem;font-weight:500}
+.kpi.blue .val{color:var(--blue-nii)}
+.kpi.green .val{color:var(--success)}
+.kpi.red .val{color:var(--danger)}
+.kpi.purple .val{color:var(--purple)}
 
 /* Grid */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.5rem; }
-@media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
-
-.panel { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow-sm); }
-.panel-title { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem; }
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem}
+@media(max-width:700px){.grid-2{grid-template-columns:1fr}}
+.panel{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem;box-shadow:var(--shadow-sm)}
+.panel-title{font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.8rem}
 
 /* Route bars */
-.route-bar { margin-bottom: 0.9rem; }
-.route-bar:last-child { margin-bottom: 0; }
-.route-meta { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.3rem; }
-.route-meta .name { font-weight: 600; color: var(--text); }
-.route-meta .nums { color: var(--text-muted); }
-.bar-track { height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 3px; }
-.fill-red { background: var(--danger); }
-.fill-green { background: var(--success); }
-.fill-yellow { background: var(--warning); }
-.fill-purple { background: var(--purple); }
+.route-bar{margin-bottom:0.7rem}
+.route-bar:last-child{margin-bottom:0}
+.route-meta{display:flex;justify-content:space-between;font-size:0.8rem;margin-bottom:0.25rem}
+.route-meta .name{font-weight:600;color:var(--text)}
+.route-meta .nums{color:var(--text-muted);font-size:0.75rem}
+.bar-track{height:5px;background:var(--bg);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px}
+.fill-red{background:var(--danger)}
+.fill-green{background:var(--success)}
+.fill-yellow{background:var(--warning)}
+.fill-purple{background:var(--purple)}
 
 /* Insights */
-.insight-item { padding: 0.55rem 0; border-bottom: 1px solid var(--bg); display: flex; justify-content: space-between; align-items: center; }
-.insight-item:last-child { border-bottom: none; }
-.insight-item .name { font-size: 0.85rem; font-weight: 500; }
-.insight-item .score { font-size: 0.78rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 5px; }
+.insight-item{padding:0.45rem 0;border-bottom:1px solid var(--bg);display:flex;justify-content:space-between;align-items:center}
+.insight-item:last-child{border-bottom:none}
+.insight-item .name{font-size:0.82rem;font-weight:500}
+.insight-item .score{font-size:0.72rem;font-weight:700;padding:0.12rem 0.45rem;border-radius:4px}
 
 /* Table */
-.table-panel { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem; overflow-x: auto; box-shadow: var(--shadow-sm); }
-table { width: 100%; border-collapse: collapse; }
-th { text-align: right; padding: 0.6rem 0.5rem; font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid var(--border); }
-td { padding: 0.7rem 0.5rem; font-size: 0.85rem; border-bottom: 1px solid var(--bg); }
-tr:hover td { background: var(--blue-subtle, #f8fbff); }
-.tag { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 5px; font-size: 0.72rem; font-weight: 700; }
-.tag-stop { background: var(--danger-bg); color: var(--danger); }
-.tag-self { background: var(--success-bg); color: var(--success); }
-.tag-pilot { background: var(--warning-bg); color: var(--warning); }
-.tag-enterprise { background: var(--purple-bg); color: var(--purple); }
+.table-panel{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem;margin-bottom:1.2rem;overflow-x:auto;box-shadow:var(--shadow-sm)}
+table{width:100%;border-collapse:collapse}
+th{text-align:right;padding:0.5rem 0.4rem;font-size:0.68rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;border-bottom:2px solid var(--border)}
+td{padding:0.6rem 0.4rem;font-size:0.82rem;border-bottom:1px solid var(--bg)}
+tr:hover td{background:#f8fbff}
+.tag{display:inline-block;padding:0.1rem 0.5rem;border-radius:4px;font-size:0.68rem;font-weight:700}
+.tag-stop{background:var(--danger-bg);color:var(--danger)}
+.tag-self{background:var(--success-bg);color:var(--success)}
+.tag-pilot{background:var(--warning-bg);color:var(--warning)}
+.tag-ent{background:var(--purple-bg);color:var(--purple)}
+.tag-draft{background:var(--bg);color:var(--text-muted)}
+.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:0.4rem;vertical-align:middle}
+.sd-active{background:var(--blue-accent)}
+.sd-done{background:var(--success)}
+.sd-new{background:var(--warning)}
 
-.conf-bar { display: inline-flex; align-items: center; gap: 0.35rem; }
-.conf-track { width: 45px; height: 4px; background: var(--bg); border-radius: 2px; overflow: hidden; }
-.conf-fill { height: 100%; border-radius: 2px; }
-.conf-high .conf-fill { background: var(--success); }
-.conf-mid .conf-fill { background: var(--warning); }
-.conf-low .conf-fill { background: var(--danger); }
-.conf-num { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
-
-.footer { text-align: center; padding: 1.5rem; font-size: 0.72rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 1rem; }
+.footer{text-align:center;padding:1.2rem;font-size:0.7rem;color:var(--text-muted);border-top:1px solid var(--border);margin-top:1rem}
 </style>
 </head>
 <body>
@@ -137,88 +88,100 @@ tr:hover td { background: var(--blue-subtle, #f8fbff); }
 </div>
 
 <div class="main">
+  <div class="page-title">סטטוס פורטפוליו - יוני 2026</div>
+  <div class="page-date">עדכון אחרון: 14/06/2026 | 6 יוזמות פעילות</div>
 
-<div class="kpi-row">
-  <div class="kpi blue"><div class="val">59</div><div class="lbl">סה"כ יוזמות</div></div>
-  <div class="kpi green"><div class="val">41</div><div class="lbl">נותבו</div></div>
-  <div class="kpi yellow"><div class="val">12</div><div class="lbl">בתהליך</div></div>
-  <div class="kpi red"><div class="val">54%</div><div class="lbl">Kill Rate</div></div>
-  <div class="kpi purple"><div class="val">7</div><div class="lbl">ימי החלטה (ממוצע)</div></div>
-</div>
-
-<div class="alerts">
-  <div class="alerts-title">התראות</div>
-  <div class="alert-item"><span class="alert-dot"></span>3 יוזמות חורגות מ-SLA (72 שעות+)</div>
-  <div class="alert-item"><span class="alert-dot"></span>2 enterprise ממתינות ל-Portfolio Gate רבעוני</div>
-  <div class="alert-item"><span class="alert-dot"></span>5 יוזמות עם שדות risks ריקים</div>
-</div>
-
-<div class="grid-2">
-  <div class="panel">
-    <div class="panel-title">פיצול מסלולים</div>
-    <div class="route-bar"><div class="route-meta"><span class="name">Stop</span><span class="nums">32 (54%)</span></div><div class="bar-track"><div class="bar-fill fill-red" style="width:54%"></div></div></div>
-    <div class="route-bar"><div class="route-meta"><span class="name">Self-Service</span><span class="nums">14 (24%)</span></div><div class="bar-track"><div class="bar-fill fill-green" style="width:24%"></div></div></div>
-    <div class="route-bar"><div class="route-meta"><span class="name">Fast Pilot</span><span class="nums">7 (12%)</span></div><div class="bar-track"><div class="bar-fill fill-yellow" style="width:12%"></div></div></div>
-    <div class="route-bar"><div class="route-meta"><span class="name">Enterprise</span><span class="nums">6 (10%)</span></div><div class="bar-track"><div class="bar-fill fill-purple" style="width:10%"></div></div></div>
+  <div class="kpi-row">
+    <div class="kpi blue"><div class="val">6</div><div class="lbl">יוזמות החודש</div></div>
+    <div class="kpi green"><div class="val">1</div><div class="lbl">נותבו</div></div>
+    <div class="kpi purple"><div class="val">5</div><div class="lbl">ימי החלטה (ממוצע)</div></div>
+    <div class="kpi red"><div class="val">72h</div><div class="lbl">SLA מקסימלי</div></div>
   </div>
-  <div class="panel">
-    <div class="panel-title">Quick Wins - מוכן להפעלה</div>
-    <div class="insight-item"><span class="name">ניטור SLA מקוון</span><span class="score" style="background:var(--success-bg);color:var(--success);">88</span></div>
-    <div class="insight-item"><span class="name">דשבורד תפוקות אגף</span><span class="score" style="background:var(--success-bg);color:var(--success);">85</span></div>
-    <div class="insight-item"><span class="name">עוזר ניסוח מכתבים</span><span class="score" style="background:var(--success-bg);color:var(--success);">82</span></div>
-    <div class="insight-item"><span class="name">ניתוח דפוסי פנייה</span><span class="score" style="background:var(--success-bg);color:var(--success);">81</span></div>
-    <div class="insight-item"><span class="name">עוזר חוזרים פנימי</span><span class="score" style="background:var(--success-bg);color:var(--success);">79</span></div>
+
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-title">מסלולים (עד כה)</div>
+      <div class="route-bar"><div class="route-meta"><span class="name">Enterprise</span><span class="nums">1 (17%)</span></div><div class="bar-track"><div class="bar-fill fill-purple" style="width:17%"></div></div></div>
+      <div class="route-bar"><div class="route-meta"><span class="name">Self-Service (צפי)</span><span class="nums">3 (50%)</span></div><div class="bar-track"><div class="bar-fill fill-green" style="width:50%"></div></div></div>
+      <div class="route-bar"><div class="route-meta"><span class="name">בהערכה</span><span class="nums">2 (33%)</span></div><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--text-muted)"></div></div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">מדדי מערכת</div>
+      <div class="insight-item"><span class="name">ממוצע ימי החלטה</span><span class="score" style="background:var(--success-bg);color:var(--success)">5</span></div>
+      <div class="insight-item"><span class="name">SLA Compliance</span><span class="score" style="background:var(--success-bg);color:var(--success)">100%</span></div>
+      <div class="insight-item"><span class="name">יוזמות עם Red Team</span><span class="score" style="background:var(--blue-light);color:var(--blue-nii)">2/6</span></div>
+      <div class="insight-item"><span class="name">Baseline נרשם</span><span class="score" style="background:var(--blue-light);color:var(--blue-nii)">2/6</span></div>
+    </div>
   </div>
-</div>
 
-<div class="table-panel">
-  <div class="panel-title">כל היוזמות</div>
-  <table>
-    <thead><tr><th>#</th><th>שם</th><th>אגף</th><th>מסלול</th><th>Confidence</th><th>שלב</th><th>ימים</th><th>המלצה</th></tr></thead>
-    <tbody id="tbody"></tbody>
-  </table>
-</div>
-
-<div class="grid-2">
-  <div class="panel">
-    <div class="panel-title">Strategic Bets (Enterprise)</div>
-    <div class="insight-item"><span class="name">מחשבון זכאות חכם</span><span class="score" style="background:var(--purple-bg);color:var(--purple);">78</span></div>
-    <div class="insight-item"><span class="name">סיווג פניות אוטומטי</span><span class="score" style="background:var(--purple-bg);color:var(--purple);">71</span></div>
-    <div class="insight-item"><span class="name">צ'אטבוט לאזרח</span><span class="score" style="background:var(--danger-bg);color:var(--danger);">45</span></div>
+  <!-- Initiatives Table -->
+  <div class="table-panel">
+    <div class="panel-title">יוזמות החודש - יוני 2026</div>
+    <table>
+      <thead><tr><th>יוזמה</th><th>אגף</th><th>יום</th><th>מסלול</th><th>סטטוס</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>עוזר AI להבהרת זכאות</strong><span class="status-dot sd-done"></span></td>
+          <td>גמלאות</td>
+          <td>5</td>
+          <td><span class="tag tag-ent">Enterprise</span></td>
+          <td>Go - נותב</td>
+        </tr>
+        <tr>
+          <td><strong>אוטומציית איסוף סטטוס</strong><span class="status-dot sd-active"></span></td>
+          <td>תכנון</td>
+          <td>3</td>
+          <td><span class="tag tag-self">Self-Service (צפי)</span></td>
+          <td>G1 עבר</td>
+        </tr>
+        <tr>
+          <td><strong>מנתב תהליכי גבייה</strong><span class="status-dot sd-new"></span></td>
+          <td>ביטוח וגבייה</td>
+          <td>0</td>
+          <td><span class="tag tag-draft">טרם הוערך</span></td>
+          <td>Draft</td>
+        </tr>
+        <tr>
+          <td><strong>מחשבון תקופות והודעות</strong><span class="status-dot sd-new"></span></td>
+          <td>ביטוח וגבייה</td>
+          <td>0</td>
+          <td><span class="tag tag-draft">טרם הוערך</span></td>
+          <td>Draft</td>
+        </tr>
+        <tr>
+          <td><strong>בסיס ידע תקדימים</strong><span class="status-dot sd-new"></span></td>
+          <td>ביטוח וגבייה</td>
+          <td>0</td>
+          <td><span class="tag tag-draft">טרם הוערך</span></td>
+          <td>Draft</td>
+        </tr>
+        <tr>
+          <td><strong>דשבורד עקביות מחוזית</strong><span class="status-dot sd-new"></span></td>
+          <td>ביטוח וגבייה</td>
+          <td>0</td>
+          <td><span class="tag tag-draft">טרם הוערך</span></td>
+          <td>Draft</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <div class="panel">
-    <div class="panel-title">מדדי מערכת</div>
-    <div class="insight-item"><span class="name">ממוצע ימי החלטה</span><span class="score" style="background:var(--blue-light);color:var(--blue-nii);">7</span></div>
-    <div class="insight-item"><span class="name">Kill Rate (G0+G1)</span><span class="score" style="background:var(--danger-bg);color:var(--danger);">54%</span></div>
-    <div class="insight-item"><span class="name">SLA Compliance</span><span class="score" style="background:var(--success-bg);color:var(--success);">95%</span></div>
-    <div class="insight-item"><span class="name">נבדקו מול משתמשים</span><span class="score" style="background:var(--warning-bg);color:var(--warning);">8</span></div>
+
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-title">ממתינים להחלטה</div>
+      <div class="insight-item"><span class="name">אוטומציית איסוף סטטוס</span><span class="score" style="background:var(--warning-bg);color:var(--warning)">G2 →</span></div>
+      <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.5rem;">ממתין לתוצאות ולידציה (יום 4) → ניתוב ביום 5</p>
+    </div>
+    <div class="panel">
+      <div class="panel-title">חדשות - דורשות G0</div>
+      <div class="insight-item"><span class="name">מנתב תהליכי גבייה</span><span class="score" style="background:var(--bg);color:var(--text-muted)">new</span></div>
+      <div class="insight-item"><span class="name">מחשבון תקופות</span><span class="score" style="background:var(--bg);color:var(--text-muted)">new</span></div>
+      <div class="insight-item"><span class="name">בסיס ידע תקדימים</span><span class="score" style="background:var(--bg);color:var(--text-muted)">new</span></div>
+      <div class="insight-item"><span class="name">דשבורד עקביות</span><span class="score" style="background:var(--bg);color:var(--text-muted)">new</span></div>
+    </div>
   </div>
-</div>
 
-<div class="footer">Scale4U v1.1 | Portfolio Dashboard | המוסד לביטוח לאומי | מינהל גמלאות</div>
+  <div class="footer">Scale4U v1.1 | Portfolio Dashboard | מופק מ-/s4u-scan | המוסד לביטוח לאומי</div>
 </div>
-
-<script>
-const data = [
-  {title:'מחשבון זכאות חכם',div:'שירות',route:'enterprise',conf:78,stage:'g2',days:6,rec:'handoff'},
-  {title:'דשבורד תפוקות אגף',div:'תפעול',route:'self-service',conf:85,stage:'go',days:4,rec:'פרוס'},
-  {title:'עוזר ניסוח מכתבים',div:'שירות',route:'self-service',conf:82,stage:'go',days:3,rec:'פרוס'},
-  {title:'חיזוי עומסים שבועי',div:'תכנון',route:'fast-pilot',conf:62,stage:'validated',days:8,rec:'פיילוט'},
-  {title:'סיווג פניות אוטומטי',div:'שירות',route:'enterprise',conf:71,stage:'g1',days:9,rec:'validate'},
-  {title:'מערכת ניהול ידע',div:'הדרכה',route:'fast-pilot',conf:58,stage:'g1',days:7,rec:'asset'},
-  {title:'ניטור SLA מקוון',div:'בקרה',route:'self-service',conf:88,stage:'go',days:3,rec:'פרוס'},
-  {title:'עוזר חוזרים פנימי',div:'משפטית',route:'self-service',conf:79,stage:'go',days:5,rec:'פרוס'},
-  {title:'דוח חריגים חודשי',div:'בקרה',route:'stop',conf:35,stage:'kill',days:2,rec:'עצור'},
-  {title:"צ'אטבוט לאזרח",div:'דיגיטל',route:'enterprise',conf:45,stage:'g0',days:11,rec:'redteam'},
-  {title:'אוטומציית קלט טפסים',div:'תפעול',route:'fast-pilot',conf:67,stage:'validated',days:6,rec:'פיילוט'},
-  {title:'ניתוח דפוסי פנייה',div:'אנליטיקה',route:'self-service',conf:81,stage:'go',days:4,rec:'פרוס'},
-];
-const tagCls={stop:'tag-stop','self-service':'tag-self','fast-pilot':'tag-pilot',enterprise:'tag-enterprise'};
-const routeHeb={stop:'Stop','self-service':'Self-Service','fast-pilot':'Fast Pilot',enterprise:'Enterprise'};
-document.getElementById('tbody').innerHTML=data.map((r,i)=>{
-  const cc=r.conf>=70?'conf-high':r.conf>=50?'conf-mid':'conf-low';
-  return `<tr><td>${i+1}</td><td><strong>${r.title}</strong></td><td>${r.div}</td><td><span class="tag ${tagCls[r.route]}">${routeHeb[r.route]}</span></td><td><span class="conf-bar ${cc}"><span class="conf-track"><span class="conf-fill" style="width:${r.conf}%"></span></span><span class="conf-num">${r.conf}</span></span></td><td>${r.stage}</td><td>${r.days}</td><td>${r.rec}</td></tr>`;
-}).join('');
-</script>
 </body>
 </html>

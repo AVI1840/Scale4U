@@ -1,0 +1,56 @@
+# Scale4U Org Config - ביטוח לאומי (ברירת מחדל, ניתן להתאמה לכל ארגון)
+
+org:
+  name: "המוסד לביטוח לאומי"
+  unit: "מינהל גמלאות - פיתוח, שותפויות ו-AI"
+
+# בעלות תפעולית: המוביל הוא מי שמפעיל את המערכת. לא ה-CIO.
+ownership:
+  operator_role: "מוביל AI / חדשנות / טרנספורמציה דיגיטלית (בין עסקי למחשוב)"
+  business_sponsor_role: "סמנכ\"ל / מנהל אגף עסקי שמספק יוזמות ובעלים"
+  it_partner_role: "תמ\"מ - שותף ובעל-ברית, חותם על כללי המשחק, לא מפעיל"
+
+gates:
+  g0_approver_role: "מוביל Scale4U + בעלים עסקי"
+  g1_approver_role: "מנהל האגף העסקי"
+  g2_approver_role: "מוביל Scale4U. במסלול enterprise בלבד - שער משותף עם נציג תמ\"מ"
+  sla_validation_asset_hours: 72
+
+# אנטי-Gatekeeping: הטריאז' משחרר, לא חוסם.
+sla:
+  max_hours_to_routing: 72
+  rule: "אף יוזמה לא ממתינה לניתוב מעל 72 שעות. אם אין קיבולת - הצהר זאת והצע מסלול intake מאוחר, אל תיצור תור סמוי."
+
+intake:
+  channels:
+    - "טופס מובנה (ללא רישיון)"
+    - "ראיון s4u-new מול מוביל Scale4U (מודל Hub)"
+  hub_owner: "מוביל Scale4U באגף"
+
+build_tools:
+  default: "Claude Code (React/HTML artifact)"
+  high_fidelity: "Lovable - רק לדמו בכירים, באישור מוביל"
+  forbidden_in_assets:
+    - "דאטה אישי אמיתי"
+    - "חיבור למערכות ליבה"
+    - "פריסה פומבית ללא אישור"
+
+grounding:
+  sources:
+    - "חוק הביטוח הלאומי וחוזרים רלוונטיים"
+    - "נהלי אבטחת מידע ארגוניים"
+    - "ארכיטקטורת Nimbus מאושרת"
+  note: "בעת ניתוח רגולטורי - אל תסתמך על זיכרון. בקש מהמשתמש מסמך מקור או סמן TBV."
+
+# סביבת self-service (מסלול 2) - מה שהיה Fast Lane
+self_service:
+  environment: "סביבת כלים מבוקרת באישור תמ\"מ (Sandbox ארגוני)"
+  hard_rules:
+    - "ללא דאטה אישי"
+    - "ללא כתיבה למערכות ליבה"
+    - "ללא השפעה על החלטות זכאות"
+  review_cycle: "ביקורת רבעונית על קטלוג הכלים הפעילים"
+
+handoff:
+  target: "Kiro Specs (requirements.md / design.md / tasks.md) > תהליך הפיתוח הארגוני הקיים"
+  recipient: "תמ\"מ - לפי תהליך הפיתוח הארגוני"

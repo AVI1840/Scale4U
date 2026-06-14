@@ -1,0 +1,96 @@
+# Opportunity File - Scale4U v1.1
+# מחשבון תקופות והודעות
+# ----------------------------------------------------------------
+
+meta:
+  id: gavya-period-calculator
+  title: "מחשבון תקופות והודעות קבמע - חישוב מספר הודעות נדרשות"
+  owner: "TBV - מנהל אגף גבייה וביטוח"
+  division: "מינהל ביטוח וגבייה"
+  created: "2026-06-14"
+  status: draft
+  sprint_day: 0
+
+problem:
+  statement: "פקיד שצריך להפיק הודעות קביעת מעמד לא יודע כמה הודעות נפרדות להפיק כשתקופות העבודה אינן רציפות - וטעות בזה דורשת תיקון ידני"
+  affected_users: "פקידי ביטוח וגבייה בכל 5 המחוזות"
+  current_process: |
+    1. פקיד מקבל החלטת ביטול עם טווח תקופות
+    2. בודק ידנית אם התקופות רציפות
+    3. בודק למה הרצף נקטע (הכרה vs. אי-דיווח)
+    4. מחשב כמה הודעות - אחת או נפרדות
+    5. חשוב: ביטול מקור 126 מוחק כל שנת המס - צריך לדעת שאם יש הכרה אחרי הביטול צריך לעדכן 134
+  cost_of_status_quo: "TBV - שגיאות בהפקת הודעות, פניות למשרד ראשי, עיכובים"
+  trigger: "חלק מסריקת ייעול חומרי אגף הגבייה"
+
+baseline:
+  estimated_time_without_scale4u_days: "7"
+  confidence_in_estimate: high
+  similar_past_case: "רכיב פשוט - חישובי תאריכים"
+
+value:
+  hypothesis: "אם ניתן לפקיד מחשבון שמפלט מספר הודעות ותוכן כל אחת, טעויות בקליטה יתאפסו"
+  metrics:
+    - name: "אחוז הודעות קבמע שגויות (מספר שגוי)"
+      baseline: "TBV"
+      target: "0%"
+      source: "ימדד בפיילוט"
+  beneficiaries:
+    - עסקי
+    - עובד
+
+alternatives:
+  - option: "לא לעשות כלום"
+    assessment: "פקידים ממשיכים לטעות ולתקן ידנית"
+  - option: "פתרון לא-טכנולוגי - דף הנחיות עם דוגמאות"
+    assessment: "קיים בחוזר 1406 (עמוד 4) אבל לא מספיק - דוגמאות לא מכסות כל מקרה"
+  - option: "מחשבון Python שמקבל תקופות ומפלט הודעות"
+    assessment: "ישים ביום. קלט: תקופת ביטול, תקופות הכרה אם יש. פלט: כמה הודעות, מה בכל אחת."
+
+risks:
+  data_sensitivity: none
+  core_integration: none
+  decision_impact: none  # חישוב טכני
+  user_scale: division
+  citizen_rights_impact: none
+  regulatory: "חוזר 1406 - כללי רציפות תקופות"
+  organizational: "אפסי - כלי עזר פשוט"
+
+red_team:
+  weakest_assumption: "שהלוגיקה בחוזר מספיק חד-משמעית לקידוד"
+  failure_modes:
+    - "edge cases לא מתועדים בחוזר"
+    - "פקידים לא ירגישו צורך ('אני כבר יודע לחשב')"
+  hidden_costs: "אפסיים - לוגיקה פשוטה שלא משתנה"
+  implementation_complexity: "נמוכה מאוד - חישוב תאריכים"
+  verdict: proceed
+
+validation:
+  asset_type: "clickable-demo"
+  asset_path: "assets/gavya-period-calculator/"
+  test_plan: "3 פקידים יבדקו 5 תרחישי תקופות. קריטריון: התוצאה תואמת מה שהיו עושים ידנית."
+  findings: []
+  verdict: ""
+
+gates:
+  g0: { decision: "", by: "", date: "", note: "" }
+  g1: { decision: "", by: "", date: "", note: "" }
+  g2: { decision: "", by: "", date: "", note: "" }
+
+classification:
+  route: "self-service"
+  rationale: "אין סיכון, אין מידע אישי, חישוב פשוט, ניתן לבנות ולפרוס ביום"
+
+roi:
+  scale4u_decision_days: ""
+  time_saved_days: ""
+  decision_outcome: ""
+  value_of_early_kill: ""
+
+sources:
+  - claim: "תקופה רציפה = הודעה אחת, נקטעה בהכרה = הודעות נפרדות"
+    source: "חוזר 1406 עמוד 4"
+    date: "2015-04-13"
+  - claim: "ביטול מקור 126 מוחק כל שנת המס גם אם הוזמנה תקופה קטנה משנה"
+    source: "חוזר 1406 עמוד 6-7"
+    date: "2015-04-13"

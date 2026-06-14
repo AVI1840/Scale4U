@@ -1,0 +1,528 @@
+import { useState, useEffect } from "react";
+
+// ─── Palette & tokens (blue-slate government, deliberate RTL-first) ────────
+const C = {
+  navy:    "#1B2E4B",
+  blue:    "#2E5496",
+  mid:     "#4A7BC4",
+  light:   "#EAF0FA",
+  border:  "#C5D5EC",
+  green:   "#2D6A4F",
+  greenBg: "#EAF5EE",
+  amber:   "#B45309",
+  amberBg: "#FEF3C7",
+  red:     "#991B1B",
+  redBg:   "#FEF2F2",
+  grey:    "#6B7280",
+  greyBg:  "#F6F8FB",
+  white:   "#FFFFFF",
+  text:    "#111827",
+};
+
+const ROUTES = {
+  stop:         { label: "עצירה",        color: C.red,    bg: C.redBg   },
+  "self-service":{ label: "שירות-עצמי",  color: C.green,  bg: C.greenBg },
+  "fast-pilot": { label: "פיילוט מהיר", color: C.amber,  bg: C.amberBg },
+  enterprise:   { label: "ארגוני",       color: C.blue,   bg: C.light   },
+};
+const STATUS_LABELS = {
+  draft:       "טיוטה",
+  "g0-passed": "G0 עבר",
+  "g1-passed": "G1 עבר",
+  validated:   "אומת",
+  go:          "Go",
+  kill:        "Kill",
+  pivot:       "Pivot",
+};
+const DAYS = ["יום 0","יום 1","יום 2","יום 3","יום 4","יום 5"];
+
+// ─── Storage helpers ──────────────────────────────────────────────────────
+async function load(key) {
+  try { const r = await window.storage.get(key); return r ? JSON.parse(r.value) : null; }
+  catch { return null; }
+}
+async function save(key, val) {
+  try { await window.storage.set(key, JSON.stringify(val)); } catch {}
+}
+
+// ─── Tiny UI atoms ────────────────────────────────────────────────────────
+function Tag({ label, color, bg }) {
+  return (
+    <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 99,
+      color, background: bg, border: `1px solid ${color}22`, whiteSpace: "nowrap" }}>
+      {label}
+    </span>
+  );
+}
+function Btn({ children, onClick, variant = "primary", small, disabled }) {
+  const styles = {
+    primary: { background: C.blue, color: "#fff", border: "none" },
+    ghost:   { background: "transparent", color: C.blue, border: `1.5px solid ${C.blue}` },
+    danger:  { background: C.red,  color: "#fff", border: "none" },
+    success: { background: C.green,color: "#fff", border: "none" },
+  };
+  return (
+    <button disabled={disabled} onClick={onClick}
+      style={{ ...styles[variant], borderRadius: 6, padding: small ? "5px 12px" : "9px 18px",
+        fontSize: small ? 12 : 14, fontWeight: 600, cursor: disabled ? "default" : "pointer",
+        opacity: disabled ? 0.5 : 1, transition: "opacity .15s" }}>
+      {children}
+    </button>
+  );
+}
+function Field({ label, name, value, onChange, type = "text", rows, required, placeholder, hint }) {
+  const base = { width: "100%", borderRadius: 6, border: `1.5px solid ${C.border}`,
+    padding: "8px 12px", fontSize: 14, fontFamily: "inherit", direction: "rtl",
+    outline: "none", boxSizing: "border-box", background: C.white };
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 4, color: C.navy }}>
+        {label}{required && <span style={{ color: C.red }}> *</span>}
+      </label>
+      {hint && <div style={{ fontSize: 11, color: C.grey, marginBottom: 4 }}>{hint}</div>}
+      {rows
+        ? <textarea name={name} value={value} onChange={onChange} rows={rows} placeholder={placeholder}
+            style={{ ...base, resize: "vertical" }} />
+        : <input type={type} name={name} value={value} onChange={onChange} placeholder={placeholder}
+            style={base} required={required} />
+      }
+    </div>
+  );
+}
+function Select({ label, name, value, onChange, options, required }) {
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 4, color: C.navy }}>
+        {label}{required && <span style={{ color: C.red }}> *</span>}
+      </label>
+      <select name={name} value={value} onChange={onChange}
+        style={{ width: "100%", borderRadius: 6, border: `1.5px solid ${C.border}`,
+          padding: "8px 12px", fontSize: 14, fontFamily: "inherit", direction: "rtl",
+          background: C.white, cursor: "pointer" }}>
+        {options.map(o => <option key={o.v} value={o.v}>{o.l}</option>)}
+      </select>
+    </div>
+  );
+}
+function Section({ title, children, accent }) {
+  return (
+    <div style={{ marginBottom: 24 }}>
+      <div style={{ borderRight: `3px solid ${accent || C.blue}`, paddingRight: 10, marginBottom: 12 }}>
+        <span style={{ fontWeight: 700, fontSize: 14, color: accent || C.blue }}>{title}</span>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ─── INTAKE FORM ──────────────────────────────────────────────────────────
+const EMPTY = {
+  title: "", owner: "", division: "", pain: "", affected: "",
+  process: "", trigger: "", sensitivity: "no", baseline_days: "", baseline_conf: "medium", baseline_case: "",
+};
+function IntakeForm({ onSubmit }) {
+  const [f, setF] = useState(EMPTY);
+  const [done, setDone] = useState(null);
+  const [copied, setCopied] = useState(false);
+  const set = e => setF(p => ({ ...p, [e.target.name]: e.target.value }));
+
+  function submit(e) {
+    e.preventDefault();
+    const id = f.title.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "").slice(0, 40) + "-" + Date.now().toString(36);
+    const rec = { ...f, id, submitted: new Date().toISOString(), status: "draft", sprint_day: 0 };
+    setDone(rec);
+    onSubmit(rec);
+  }
+
+  function yamlOut(r) {
+    return `# Scale4U Intake - ${r.title}\n# submitted: ${r.submitted}\n\nmeta:\n  id: "${r.id}"\n  title: "${r.title}"\n  owner: "${r.owner}"\n  division: "${r.division}"\n  created: "${r.submitted.slice(0,10)}"\n  status: draft\n  sprint_day: 0\n\nproblem:\n  statement: "${r.pain}"\n  affected_users: "${r.affected}"\n  current_process: "${r.process}"\n  trigger: "${r.trigger}"\n\nbaseline:\n  estimated_time_without_scale4u_days: "${r.baseline_days}"\n  confidence_in_estimate: "${r.baseline_conf}"\n  similar_past_case: "${r.baseline_case || 'TBV'}"\n\nrisks:\n  data_sensitivity: "${r.sensitivity === 'yes' ? 'TBV - לאימות' : 'none'}"\n  core_integration: "TBV"\n  decision_impact: "TBV"\n  user_scale: "TBV"\n  regulatory: "TBV"\n  organizational: "TBV"`;
+  }
+
+  if (done) {
+    const yaml = yamlOut(done);
+    return (
+      <div style={{ background: C.greenBg, border: `1.5px solid ${C.green}`, borderRadius: 10, padding: 24 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+          <span style={{ fontSize: 22 }}>✅</span>
+          <div>
+            <div style={{ fontWeight: 700, color: C.green, fontSize: 15 }}>היוזמה נקלטה</div>
+            <div style={{ fontSize: 12, color: C.grey }}>מוביל Scale4U יחזור תוך עד 72 שעות</div>
+          </div>
+        </div>
+        <div style={{ background: C.navy, borderRadius: 8, padding: 16, marginBottom: 14, direction: "ltr" }}>
+          <div style={{ fontSize: 11, color: "#7CA3CC", marginBottom: 8, fontFamily: "monospace" }}>
+            📋 YAML - להדבקה ל-Claude Code עם /s4u-new
+          </div>
+          <pre style={{ fontSize: 11, color: "#C5D9F5", fontFamily: "monospace", whiteSpace: "pre-wrap",
+            margin: 0, lineHeight: 1.6 }}>{yaml}</pre>
+        </div>
+        <div style={{ display: "flex", gap: 10 }}>
+          <Btn onClick={() => { navigator.clipboard?.writeText(yaml); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
+            variant={copied ? "success" : "primary"}>
+            {copied ? "✓ הועתק" : "העתק ל-Claude Code"}
+          </Btn>
+          <Btn variant="ghost" onClick={() => { setF(EMPTY); setDone(null); }}>יוזמה נוספת</Btn>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={submit} style={{ direction: "rtl" }}>
+      <div style={{ background: C.light, border: `1px solid ${C.border}`, borderRadius: 8, padding: "10px 14px", marginBottom: 20, fontSize: 12, color: C.navy }}>
+        ⚡ ממלאים את הכאב - לא הפתרון. אין צורך ברישיון Claude. מוביל Scale4U מקבל ומנתב תוך 72 שעות.
+      </div>
+
+      <Section title="פרטי היוזמה" accent={C.blue}>
+        <Field label="שם היוזמה (קצר)" name="title" value={f.title} onChange={set} required
+          placeholder="למשל: אוטומציית איסוף סטטוס רבעוני" />
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <Field label="בעלים (שם + תפקיד)" name="owner" value={f.owner} onChange={set} required placeholder="שם, תפקיד" />
+          <Field label="אגף / מינהל" name="division" value={f.division} onChange={set} required placeholder="שם האגף" />
+        </div>
+      </Section>
+
+      <Section title="הכאב" accent={C.navy}>
+        <Field label="מה הבעיה? (בשפה שלך, 2-3 משפטים)" name="pain" value={f.pain} onChange={set} rows={3} required
+          placeholder="מה כואב ביום-יום? מה קורה בגלל זה?" />
+        <Field label="מי סובל מזה?" name="affected" value={f.affected} onChange={set} required
+          placeholder="תפקידים + כמות משוערת + תדירות" />
+        <Field label="איך זה מטופל היום?" name="process" value={f.process} onChange={set} rows={2} required
+          placeholder="התהליך הקיים, צעד-צעד" />
+        <Field label="למה עכשיו?" name="trigger" value={f.trigger} onChange={set} required
+          placeholder="מה השתנה / מה ידחוף את זה / דד-ליין" />
+      </Section>
+
+      <Section title="מדידת Baseline (עוזר לאמוד את הערך)" accent={C.green}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <Field label="כמה זמן לקחה בעבר החלטה דומה?" name="baseline_days" value={f.baseline_days} onChange={set}
+            placeholder="למשל: 45 יום, 3 חודשים"
+            hint="הערכה גסה מספיקה - לא צריך מדידה מדויקת" />
+          <Select label="רמת הביטחון בהערכה" name="baseline_conf" value={f.baseline_conf} onChange={set}
+            options={[{ v: "high", l: "גבוהה - יש דוגמה קונקרטית" }, { v: "medium", l: "בינונית - הערכה כללית" }, { v: "low", l: "נמוכה - ניחוש" }]} />
+        </div>
+        <Field label="מקרה עבר דומה (אם יש)" name="baseline_case" value={f.baseline_case} onChange={set}
+          placeholder="שם של פרויקט / יוזמה שהתנהלה ככה - מעגן את ההערכה" />
+      </Section>
+
+      <Section title="בדיקת רגישות ראשונית" accent={C.amber}>
+        <Select label="האם מעורב מידע אישי / מערכות ליבה / החלטות זכאות?" name="sensitivity" value={f.sensitivity} onChange={set}
+          options={[{ v: "no", l: "לא - כלי פנימי, ללא דאטה אישי" }, { v: "maybe", l: "לא בטוח" }, { v: "yes", l: "כן - נוגע במידע רגיש / זכאות / ליבה" }]} />
+        {f.sensitivity !== "no" && (
+          <div style={{ background: C.amberBg, border: `1px solid ${C.amber}44`, borderRadius: 6, padding: 10, fontSize: 12, color: C.amber }}>
+            ⚠️ יוזמות עם מידע אישי, זכאות, או מערכות ליבה מנותבות למסלול <b>Enterprise</b> - תהליך משותף עם תמ"מ.
+          </div>
+        )}
+      </Section>
+
+      <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16, display: "flex", gap: 10 }}>
+        <Btn disabled={!f.title || !f.owner || !f.division || !f.pain || !f.affected || !f.process || !f.trigger}>
+          שלח לטריאז'
+        </Btn>
+        <span style={{ fontSize: 12, color: C.grey, alignSelf: "center" }}>מוביל יחזור תוך 72 שעות</span>
+      </div>
+    </form>
+  );
+}
+
+// ─── SPRINT TRACKER ───────────────────────────────────────────────────────
+function SprintCard({ opp, onUpdate }) {
+  const route = ROUTES[opp.route] || {};
+  const status = STATUS_LABELS[opp.status] || opp.status;
+  const age = Math.floor((Date.now() - new Date(opp.submitted).getTime()) / 86400000);
+  const stale = opp.sprint_day === opp.last_sprint_day && age > 3;
+
+  return (
+    <div style={{ background: C.white, border: `1.5px solid ${stale ? C.amber : C.border}`,
+      borderRadius: 10, padding: 16, marginBottom: 12, direction: "rtl" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, flexWrap: "wrap" }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontWeight: 700, fontSize: 14, color: C.navy, marginBottom: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {opp.title}
+          </div>
+          <div style={{ fontSize: 12, color: C.grey }}>{opp.owner} · {opp.division}</div>
+        </div>
+        <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+          <Tag label={status} color={C.blue} bg={C.light} />
+          {opp.route && <Tag label={route.label || opp.route} color={route.color} bg={route.bg} />}
+          {stale && <Tag label="תקוע" color={C.amber} bg={C.amberBg} />}
+        </div>
+      </div>
+
+      {/* Sprint day progress */}
+      <div style={{ marginTop: 12 }}>
+        <div style={{ fontSize: 11, color: C.grey, marginBottom: 6 }}>התקדמות ספרינט</div>
+        <div style={{ display: "flex", gap: 3 }}>
+          {DAYS.map((d, i) => (
+            <div key={i} style={{ flex: 1, textAlign: "center" }}>
+              <div style={{ height: 6, borderRadius: 3, marginBottom: 3,
+                background: i <= opp.sprint_day ? C.blue : C.border }} />
+              <div style={{ fontSize: 9, color: i === opp.sprint_day ? C.blue : C.grey, fontWeight: i === opp.sprint_day ? 700 : 400 }}>
+                {i}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ display: "flex", gap: 8, marginTop: 12, alignItems: "center", flexWrap: "wrap" }}>
+        <Btn small variant="ghost"
+          onClick={() => onUpdate(opp.id, { sprint_day: Math.min(5, opp.sprint_day + 1), last_sprint_day: opp.sprint_day })}>
+          קדם יום ›
+        </Btn>
+        <Select label="" name="status" value={opp.status} onChange={e => onUpdate(opp.id, { status: e.target.value })}
+          options={Object.entries(STATUS_LABELS).map(([v, l]) => ({ v, l }))} />
+        <Select label="" name="route" value={opp.route || ""} onChange={e => onUpdate(opp.id, { route: e.target.value })}
+          options={[{ v: "", l: "מסלול..." }, ...Object.entries(ROUTES).map(([v, r]) => ({ v, l: r.label }))]} />
+        <div style={{ fontSize: 11, color: C.grey, marginRight: "auto" }}>קלוט לפני {age} ימים</div>
+      </div>
+    </div>
+  );
+}
+
+// ─── PORTFOLIO VIEW ───────────────────────────────────────────────────────
+function Portfolio({ opps }) {
+  const active = opps.filter(o => !["go","kill","pivot"].includes(o.status));
+  const decided = opps.filter(o => ["go","kill","pivot"].includes(o.status));
+  const killRate = opps.length ? Math.round((opps.filter(o => o.status === "kill").length / opps.length) * 100) : 0;
+  const avgDays = decided.length
+    ? Math.round(decided.reduce((a, o) => a + Math.floor((Date.now() - new Date(o.submitted).getTime()) / 86400000), 0) / decided.length)
+    : null;
+  const routeDist = Object.fromEntries(Object.keys(ROUTES).map(k => [k, opps.filter(o => o.route === k).length]));
+
+  return (
+    <div style={{ direction: "rtl" }}>
+      {/* KPI row */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, marginBottom: 20 }}>
+        {[
+          { label: "יוזמות בספרינט", val: active.length, color: C.blue },
+          { label: "הוחלטו", val: decided.length, color: C.green },
+          { label: "Kill Rate", val: killRate + "%", color: killRate >= 50 ? C.green : C.amber, hint: "יעד ≥50%" },
+          { label: "ממוצע ימים להחלטה", val: avgDays !== null ? avgDays : "–", color: avgDays !== null && avgDays <= 10 ? C.green : C.navy },
+        ].map((k, i) => (
+          <div key={i} style={{ background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 10, padding: "12px 16px", textAlign: "center" }}>
+            <div style={{ fontSize: 26, fontWeight: 800, color: k.color }}>{k.val}</div>
+            <div style={{ fontSize: 11, color: C.grey, marginTop: 2 }}>{k.label}</div>
+            {k.hint && <div style={{ fontSize: 10, color: k.color, fontWeight: 600 }}>{k.hint}</div>}
+          </div>
+        ))}
+      </div>
+
+      {/* Route distribution */}
+      {opps.length > 0 && (
+        <div style={{ background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 10, padding: 16, marginBottom: 16 }}>
+          <div style={{ fontWeight: 700, fontSize: 13, color: C.navy, marginBottom: 12 }}>פיצול מסלולים</div>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {Object.entries(ROUTES).map(([k, r]) => (
+              <div key={k} style={{ display: "flex", alignItems: "center", gap: 6, background: r.bg, borderRadius: 20, padding: "4px 14px" }}>
+                <span style={{ fontSize: 20, fontWeight: 800, color: r.color }}>{routeDist[k] || 0}</span>
+                <span style={{ fontSize: 12, color: r.color, fontWeight: 600 }}>{r.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Active table */}
+      {active.length > 0 ? (
+        <div style={{ background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 10, overflow: "hidden", marginBottom: 16 }}>
+          <div style={{ background: C.navy, padding: "10px 16px", display: "flex", gap: 12 }}>
+            {["יוזמה", "בעלים", "יום", "סטטוס", "מסלול"].map((h, i) => (
+              <div key={i} style={{ flex: i === 0 ? 2 : 1, fontSize: 12, fontWeight: 700, color: "#7CA3CC", textAlign: "right" }}>{h}</div>
+            ))}
+          </div>
+          {active.map((o, i) => {
+            const r = ROUTES[o.route] || {};
+            return (
+              <div key={o.id} style={{ display: "flex", gap: 12, padding: "10px 16px", alignItems: "center",
+                background: i % 2 ? C.greyBg : C.white, borderTop: `1px solid ${C.border}` }}>
+                <div style={{ flex: 2, fontSize: 13, fontWeight: 600, color: C.navy, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{o.title}</div>
+                <div style={{ flex: 1, fontSize: 12, color: C.grey, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{o.owner}</div>
+                <div style={{ flex: 1, fontSize: 13, fontWeight: 700, color: C.blue, textAlign: "center" }}>{o.sprint_day}</div>
+                <div style={{ flex: 1 }}><Tag label={STATUS_LABELS[o.status] || o.status} color={C.blue} bg={C.light} /></div>
+                <div style={{ flex: 1 }}>{o.route ? <Tag label={r.label} color={r.color} bg={r.bg} /> : <span style={{ fontSize: 11, color: C.grey }}>–</span>}</div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div style={{ textAlign: "center", color: C.grey, padding: 32, fontSize: 13 }}>אין יוזמות פעילות כרגע</div>
+      )}
+
+      {/* Decided */}
+      {decided.length > 0 && (
+        <div style={{ background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 10, overflow: "hidden" }}>
+          <div style={{ padding: "10px 16px", borderBottom: `1px solid ${C.border}`, fontWeight: 700, fontSize: 13, color: C.navy, direction: "rtl" }}>
+            הוחלטו ({decided.length})
+          </div>
+          {decided.map((o, i) => {
+            const days = Math.floor((Date.now() - new Date(o.submitted).getTime()) / 86400000);
+            const decColor = o.status === "go" ? C.green : o.status === "kill" ? C.red : C.amber;
+            return (
+              <div key={o.id} style={{ display: "flex", gap: 12, padding: "8px 16px", alignItems: "center",
+                background: i % 2 ? C.greyBg : C.white, borderTop: `1px solid ${C.border}` }}>
+                <div style={{ flex: 2, fontSize: 13, color: C.navy }}>{o.title}</div>
+                <div style={{ flex: 1, fontSize: 12, color: C.grey }}>{o.owner}</div>
+                <Tag label={STATUS_LABELS[o.status]} color={decColor} bg={decColor + "15"} />
+                <div style={{ flex: 1, fontSize: 11, color: C.grey, textAlign: "left" }}>{days} ימים</div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── WEEKLY DIGEST ────────────────────────────────────────────────────────
+function WeeklyDigest({ opps }) {
+  const [copied, setCopied] = useState(false);
+  const today = new Date().toLocaleDateString("he-IL", { day: "numeric", month: "long", year: "numeric" });
+  const active = opps.filter(o => !["go","kill","pivot"].includes(o.status));
+  const decided = opps.filter(o => ["go","kill","pivot"].includes(o.status));
+  const stale = active.filter(o => o.sprint_day === o.last_sprint_day);
+  const killCount = opps.filter(o => o.status === "kill").length;
+  const killRate = opps.length ? Math.round((killCount / opps.length) * 100) : 0;
+
+  const text = `
+עדכון שבועי - Scale4U | ${today}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 סטטוס פורטפוליו
+יוזמות פעילות: ${active.length}
+הוחלטו השבוע/סה"כ: ${decided.length}
+Kill Rate: ${killRate}% ${killRate >= 50 ? "✅" : "⚠️"}
+
+🟢 במסלול Enterprise (דורשים שותפות תמ"מ): ${opps.filter(o => o.route === "enterprise").length}
+🔵 Self-Service (רצים לבד): ${opps.filter(o => o.route === "self-service").length}
+🟡 Fast Pilot (אימות נוסף): ${opps.filter(o => o.route === "fast-pilot").length}
+🔴 עצירות: ${opps.filter(o => o.status === "kill").length}
+${active.length > 0 ? `
+📋 יוזמות פעילות:
+${active.map(o => `  • ${o.title} | יום ${o.sprint_day} | ${STATUS_LABELS[o.status] || o.status}`).join("\n")}` : ""}
+${stale.length > 0 ? `
+⚠️ תקועות (דורשות תשומת לב):
+${stale.map(o => `  • ${o.title} | ${o.owner}`).join("\n")}` : ""}
+${decided.length > 0 ? `
+✅ החלטות:
+${decided.map(o => `  • ${o.title} → ${STATUS_LABELS[o.status]}`).join("\n")}` : ""}
+
+הפעלה: Claude Code, cd scale4u, claude
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━`.trim();
+
+  return (
+    <div style={{ direction: "rtl" }}>
+      <div style={{ background: C.light, border: `1px solid ${C.border}`, borderRadius: 8, padding: 12, marginBottom: 16, fontSize: 12, color: C.navy }}>
+        📅 שלח עדכון שבועי זה לסמנכ"ל ולנציג תמ"מ בכל יום ראשון
+      </div>
+      <div style={{ background: C.navy, borderRadius: 10, padding: 20, marginBottom: 16, direction: "ltr" }}>
+        <pre style={{ color: "#C5D9F5", fontSize: 12, fontFamily: "monospace", whiteSpace: "pre-wrap", margin: 0, lineHeight: 1.7 }}>
+          {text}
+        </pre>
+      </div>
+      <Btn onClick={() => { navigator.clipboard?.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2200); }}
+        variant={copied ? "success" : "primary"}>
+        {copied ? "✓ הועתק" : "העתק לוואטסאפ / מייל"}
+      </Btn>
+
+      {/* Weekly cadence */}
+      <div style={{ marginTop: 24, background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 10, overflow: "hidden" }}>
+        <div style={{ background: C.blue, padding: "10px 16px", color: C.white, fontWeight: 700, fontSize: 13 }}>
+          מחזור עבודה שבועי מומלץ
+        </div>
+        {[
+          { day: "ראשון", icon: "📥", task: "סקירת טפסים חדשים, G0 על כניסות חדשות, עדכון פורטפוליו ושליחת דיג'סט" },
+          { day: "שני-שלישי", icon: "⚙️", task: "ריצת ספרינטים פעילים: /s4u-value, /s4u-redteam, /s4u-asset" },
+          { day: "רביעי", icon: "🧪", task: "בדיקות ולידציה מול משתמשים (יום 4 בספרינטים)" },
+          { day: "חמישי", icon: "🎯", task: "G2: חבילות החלטה, ניתוב מסלולים, /s4u-decide. ניתוחי /s4u-portfolio" },
+          { day: "שישי", icon: "📊", task: "עדכון סטטוס, תיעוד ממצאים, הכנת עדכון לסמנכ\"ל" },
+        ].map((r, i) => (
+          <div key={i} style={{ display: "flex", gap: 14, padding: "12px 16px", alignItems: "flex-start",
+            background: i % 2 ? C.greyBg : C.white, borderTop: i ? `1px solid ${C.border}` : "none" }}>
+            <div style={{ fontSize: 20 }}>{r.icon}</div>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 13, color: C.navy }}>{r.day}</div>
+              <div style={{ fontSize: 12, color: C.grey, marginTop: 2 }}>{r.task}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── ROOT ─────────────────────────────────────────────────────────────────
+const TABS = [
+  { id: "intake",   label: "📥 הגשת יוזמה" },
+  { id: "sprints",  label: "⚙️ ניהול ספרינטים" },
+  { id: "portfolio",label: "📊 פורטפוליו" },
+  { id: "digest",   label: "📅 עדכון שבועי" },
+];
+
+export default function App() {
+  const [tab, setTab] = useState("intake");
+  const [opps, setOpps] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    load("s4u-opps-v1").then(d => { if (d) setOpps(d); setLoading(false); });
+  }, []);
+
+  function saveOpps(next) { setOpps(next); save("s4u-opps-v1", next); }
+
+  function addOpp(rec) {
+    const next = [rec, ...opps];
+    saveOpps(next);
+    setTimeout(() => setTab("sprints"), 800);
+  }
+
+  function updateOpp(id, patch) {
+    saveOpps(opps.map(o => o.id === id ? { ...o, ...patch } : o));
+  }
+
+  const active = opps.filter(o => !["go","kill","pivot"].includes(o.status));
+  const badge = n => n > 0 ? <span style={{ background: C.mid, color: "#fff", borderRadius: 99, fontSize: 10, padding: "1px 6px", marginRight: 4 }}>{n}</span> : null;
+
+  return (
+    <div style={{ fontFamily: "'Segoe UI', Arial, sans-serif", background: C.greyBg, minHeight: "100vh", direction: "rtl" }}>
+      {/* Header */}
+      <div style={{ background: C.navy, padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div>
+          <div style={{ color: C.white, fontWeight: 800, fontSize: 18, letterSpacing: "-0.3px" }}>Scale4U</div>
+          <div style={{ color: "#7CA3CC", fontSize: 11 }}>מערכת הטריאז׳ הארגונית</div>
+        </div>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "flex-end" }}>
+          {TABS.map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ background: tab === t.id ? C.blue : "transparent",
+                color: tab === t.id ? "#fff" : "#7CA3CC", border: "none",
+                borderRadius: 6, padding: "6px 12px", fontSize: 12, fontWeight: 600,
+                cursor: "pointer", display: "flex", alignItems: "center", gap: 2 }}>
+              {t.id === "sprints" && badge(active.length)}
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Body */}
+      <div style={{ maxWidth: 760, margin: "0 auto", padding: "24px 16px" }}>
+        {loading ? (
+          <div style={{ textAlign: "center", color: C.grey, padding: 48 }}>טוען...</div>
+        ) : (
+          <>
+            {tab === "intake" && <IntakeForm onSubmit={addOpp} />}
+            {tab === "sprints" && (
+              active.length === 0
+                ? <div style={{ textAlign: "center", color: C.grey, padding: 48, fontSize: 13 }}>
+                    אין ספרינטים פעילים. הגש יוזמה ← וה-G0 יפתח ספרינט.
+                  </div>
+                : active.map(o => <SprintCard key={o.id} opp={o} onUpdate={updateOpp} />)
+            )}
+            {tab === "portfolio" && <Portfolio opps={opps} />}
+            {tab === "digest" && <WeeklyDigest opps={opps} />}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}

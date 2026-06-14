@@ -3,517 +3,325 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scale4U | המוסד לביטוח לאומי - מערכת ניהול יוזמות</title>
+<title>Scale4U | המוסד לביטוח לאומי</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap');
-:root {
-  --white: #ffffff;
-  --bg: #f8fafb;
-  --bg-warm: #f3f6f9;
-  --navy: #0f2744;
-  --navy-mid: #1a3a5c;
-  --blue-nii: #1a4f8b;
-  --blue-bright: #2d6db5;
-  --blue-accent: #3b82f6;
-  --blue-light: #e8f1fd;
-  --blue-subtle: #f0f6ff;
-  --gold: #b8941f;
-  --gold-bg: #fdf8e8;
-  --text: #1a2a3a;
-  --text-secondary: #475b6e;
-  --text-muted: #7c8fa3;
-  --border: #dce4ec;
-  --border-hover: #b8cad9;
-  --surface: #ffffff;
-  --success: #168a4a;
-  --success-bg: #edf8f2;
-  --danger: #c53030;
-  --warning: #b45309;
-  --radius: 14px;
-  --shadow-sm: 0 1px 3px rgba(15,39,68,0.04);
-  --shadow-md: 0 4px 16px rgba(15,39,68,0.06);
-  --shadow-lg: 0 8px 32px rgba(15,39,68,0.08);
-  --shadow-hover: 0 12px 40px rgba(15,39,68,0.1);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Heebo', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+:root{--white:#fff;--bg:#f8fafb;--navy:#0f2744;--navy-mid:#1a3a5c;--blue-nii:#1a4f8b;--blue-bright:#2d6db5;--blue-accent:#3b82f6;--blue-light:#e8f1fd;--blue-subtle:#f0f6ff;--gold:#b8941f;--gold-bg:#fdf8e8;--text:#1a2a3a;--text-secondary:#475b6e;--text-muted:#7c8fa3;--border:#dce4ec;--surface:#fff;--success:#168a4a;--success-bg:#edf8f2;--danger:#c53030;--danger-bg:#fef2f2;--warning:#b45309;--warning-bg:#fef3c7;--purple:#6d28d9;--purple-bg:#f3e8ff;--radius:14px;--shadow-sm:0 1px 3px rgba(15,39,68,0.04);--shadow-md:0 4px 16px rgba(15,39,68,0.06);--shadow-hover:0 12px 40px rgba(15,39,68,0.1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
 
-/* Top Bar */
-.topbar {
-  background: var(--navy);
-  padding: 0.7rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.topbar-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-}
-.nii-emblem {
-  width: 34px;
-  height: 34px;
-  background: rgba(255,255,255,0.1);
-  border: 1.5px solid rgba(255,255,255,0.2);
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.nii-emblem svg { width: 20px; height: 20px; fill: rgba(255,255,255,0.9); }
-.topbar-text .org { font-size: 0.68rem; color: rgba(255,255,255,0.5); font-weight: 400; }
-.topbar-text .name { font-size: 0.88rem; color: #fff; font-weight: 700; }
-.topbar-live {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.7rem;
-  color: rgba(255,255,255,0.6);
-}
-.topbar-live::before {
-  content: '';
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #4ade80;
-  animation: pulse 2s infinite;
-}
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+/* ===== NAV BAR - GLOBAL ===== */
+.navbar{background:var(--navy);padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+.nav-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:52px}
+.nav-brand{display:flex;align-items:center;gap:0.5rem;cursor:pointer}
+.nav-mark{width:30px;height:30px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:900;color:white}
+.nav-brand span{font-size:0.9rem;font-weight:700;color:#fff}
+.nav-links{display:flex;gap:0.3rem;flex-wrap:wrap}
+.nav-link{padding:0.4rem 0.8rem;border-radius:6px;font-size:0.78rem;font-weight:600;color:rgba(255,255,255,0.55);cursor:pointer;border:none;background:none;font-family:inherit;transition:all 0.15s}
+.nav-link:hover{color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.06)}
+.nav-link.active{color:#fff;background:var(--blue-accent)}
+.nav-live{display:flex;align-items:center;gap:0.3rem;font-size:0.65rem;color:rgba(255,255,255,0.45)}
+.nav-live::before{content:'';width:5px;height:5px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+@media(max-width:700px){.nav-links{gap:0.1rem}.nav-link{padding:0.3rem 0.5rem;font-size:0.72rem}}
 
-/* Hero */
-.hero {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  padding: 4.5rem 2rem 4rem;
-  text-align: center;
-}
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: var(--gold-bg);
-  border: 1px solid rgba(184,148,31,0.2);
-  color: var(--gold);
-  padding: 0.3rem 1rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-}
-.hero h1 {
-  font-size: clamp(1.8rem, 4.5vw, 2.8rem);
-  font-weight: 800;
-  color: var(--navy);
-  line-height: 1.3;
-  margin-bottom: 1rem;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.hero h1 .accent {
-  color: var(--blue-bright);
-}
-.hero-sub {
-  font-size: 1.05rem;
-  color: var(--text-secondary);
-  line-height: 1.8;
-  max-width: 560px;
-  margin: 0 auto 2.5rem;
-}
+/* ===== PAGES ===== */
+.page{display:none;animation:fadeIn 0.2s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.page-inner{max-width:780px;margin:0 auto;padding:2.5rem 1.5rem}
 
-/* Stats */
-.stats-row {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-.stat-card {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.2rem 2rem;
-  text-align: center;
-  min-width: 130px;
-}
-.stat-card .num {
-  font-size: 2.2rem;
-  font-weight: 900;
-  color: var(--blue-nii);
-  line-height: 1;
-}
-.stat-card .lbl {
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  margin-top: 0.3rem;
-  font-weight: 500;
-}
+/* ===== SHARED COMPONENTS ===== */
+h1{font-size:1.7rem;font-weight:800;color:var(--navy);margin-bottom:0.5rem}
+h2{font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:1rem}
+.subtitle{color:var(--text-secondary);font-size:0.95rem;line-height:1.7;margin-bottom:2rem}
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow-sm);margin-bottom:1rem;transition:all 0.2s}
+.card:hover{box-shadow:var(--shadow-md)}
+.btn{display:inline-block;padding:0.75rem 1.8rem;border-radius:9px;font-size:0.9rem;font-weight:700;text-decoration:none;cursor:pointer;border:none;font-family:inherit;transition:all 0.2s}
+.btn-primary{background:var(--blue-accent);color:white;box-shadow:0 2px 8px rgba(59,130,246,0.2)}
+.btn-primary:hover{background:#2563eb;transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--blue-bright);border:1.5px solid var(--border)}
+.btn-ghost:hover{border-color:var(--blue-accent)}
+.tag{display:inline-block;padding:0.12rem 0.5rem;border-radius:4px;font-size:0.7rem;font-weight:700}
+.tag-self{background:var(--success-bg);color:var(--success)}
+.tag-ent{background:var(--purple-bg);color:var(--purple)}
+.tag-pilot{background:var(--warning-bg);color:var(--warning)}
+.tag-stop{background:var(--danger-bg);color:var(--danger)}
+.tag-draft{background:var(--bg);color:var(--text-muted)}
 
-/* Cards Section */
-.cards-section {
-  max-width: 940px;
-  margin: 0 auto;
-  padding: 3.5rem 2rem;
-}
-.section-label {
-  text-align: center;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 0.5rem;
-}
-.section-title {
-  text-align: center;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--navy);
-  margin-bottom: 2rem;
-}
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-  gap: 1.2rem;
-}
-.card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 2rem;
-  text-decoration: none;
-  color: var(--text);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-.card:hover {
-  border-color: var(--blue-accent);
-  box-shadow: var(--shadow-hover);
-  transform: translateY(-3px);
-}
-.card-badge {
-  position: absolute;
-  top: 1.2rem;
-  left: 1.2rem;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--blue-accent);
-  opacity: 0;
-  transition: opacity 0.25s;
-}
-.card:hover .card-badge { opacity: 1; }
-.card-icon {
-  width: 50px;
-  height: 50px;
-  background: var(--blue-light);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.2rem;
-  font-size: 1.4rem;
-}
-.card h3 {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--navy);
-  margin-bottom: 0.5rem;
-}
-.card p {
-  font-size: 0.87rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  flex: 1;
-}
-.card-cta {
-  margin-top: 1.2rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--blue-bright);
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
+.section-label{font-size:0.7rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:0.4rem}
+.stat-row{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.stat-box{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1rem 1.5rem;text-align:center;min-width:120px;box-shadow:var(--shadow-sm)}
+.stat-box .val{font-size:2rem;font-weight:900;color:var(--blue-nii);line-height:1}
+.stat-box .lbl{font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem}
 
-/* Method */
-.method-section {
-  background: var(--white);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 3.5rem 2rem;
-}
-.method-inner {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-}
-.method-flow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-  margin: 2rem 0;
-}
-.flow-node {
-  background: var(--bg);
-  border: 1.5px solid var(--border);
-  padding: 0.7rem 1.1rem;
-  border-radius: 9px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-.flow-node.active {
-  background: var(--blue-light);
-  border-color: var(--blue-accent);
-  color: var(--blue-nii);
-}
-.flow-arrow { color: var(--border-hover); font-size: 1.1rem; }
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+@media(max-width:600px){.grid-2{grid-template-columns:1fr}}
 
-.routes-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.8rem;
-  margin-top: 2rem;
-}
-@media (max-width: 600px) { .routes-grid { grid-template-columns: repeat(2, 1fr); } }
-.route-item {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1.2rem 0.8rem;
-  text-align: center;
-}
-.route-item .r-num { font-size: 1.8rem; font-weight: 900; line-height: 1; }
-.route-item .r-name { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem; font-weight: 500; }
-.r-stop .r-num { color: var(--danger); }
-.r-self .r-num { color: var(--success); }
-.r-pilot .r-num { color: var(--warning); }
-.r-ent .r-num { color: var(--blue-bright); }
+/* Form */
+.field{margin-bottom:1rem}
+.field-label{font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.35rem;display:flex;align-items:center;gap:0.3rem}
+.field-label .req{width:5px;height:5px;border-radius:50%;background:var(--blue-accent)}
+input,textarea,select{width:100%;padding:0.75rem 1rem;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:0.9rem;font-family:inherit;transition:all 0.2s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue-accent);background:var(--white);box-shadow:0 0 0 3px rgba(59,130,246,0.08)}
+textarea{resize:vertical;min-height:80px;line-height:1.6}
+input::placeholder,textarea::placeholder{color:var(--text-muted)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem}
+@media(max-width:500px){.row{grid-template-columns:1fr}}
 
-/* Trust */
-.trust-section {
-  max-width: 940px;
-  margin: 0 auto;
-  padding: 3.5rem 2rem;
-}
-.trust-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-}
-.trust-card {
-  text-align: center;
-  padding: 1.5rem 1rem;
-  border-radius: 12px;
-  background: var(--white);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
-}
-.trust-card .t-icon {
-  width: 44px;
-  height: 44px;
-  background: var(--blue-subtle);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 0.8rem;
-  font-size: 1.2rem;
-}
-.trust-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
-.trust-card p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
+@media(max-width:500px){.risk-grid{grid-template-columns:1fr}}
+.risk-chip{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0.6rem}
+.risk-chip label{display:block;font-size:0.72rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.3rem}
+.risk-chip select{padding:0.55rem;font-size:0.8rem}
 
-/* CTA */
-.cta-section {
-  background: var(--navy);
-  padding: 3rem 2rem;
-  text-align: center;
-}
-.cta-section h2 { color: #fff; font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
-.cta-section p { color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-bottom: 1.5rem; }
-.cta-btn {
-  display: inline-block;
-  background: var(--blue-accent);
-  color: #fff;
-  padding: 0.85rem 2.5rem;
-  border-radius: 9px;
-  font-size: 1rem;
-  font-weight: 700;
-  text-decoration: none;
-  transition: all 0.2s;
-  box-shadow: 0 4px 16px rgba(59,130,246,0.3);
-}
-.cta-btn:hover { background: #2563eb; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(59,130,246,0.4); }
+/* Toast */
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(60px);background:var(--navy);color:white;padding:0.7rem 1.5rem;border-radius:9px;font-size:0.85rem;font-weight:500;transition:transform 0.3s;z-index:1000;box-shadow:var(--shadow-md)}
+.toast.show{transform:translateX(-50%) translateY(0)}
 
-/* Footer */
-.footer {
-  background: var(--white);
-  border-top: 1px solid var(--border);
-  padding: 1.5rem 2rem;
-  text-align: center;
-}
-.footer-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  color: var(--text-muted);
-  font-size: 0.78rem;
-}
-.footer-mark {
-  width: 22px; height: 22px;
-  background: var(--navy);
-  border-radius: 5px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.55rem; font-weight: 900; color: white;
-}
+/* FAQ */
+.faq{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.3rem;margin-bottom:0.7rem;box-shadow:var(--shadow-sm)}
+.faq h4{font-size:0.88rem;font-weight:700;color:var(--navy);margin-bottom:0.3rem}
+.faq p{font-size:0.82rem;color:var(--text-secondary);line-height:1.7}
+
+/* Timeline */
+.tl-item{display:flex;gap:1rem;margin-bottom:1.5rem;align-items:flex-start}
+.tl-dot{width:12px;height:12px;border-radius:50%;background:var(--blue-accent);flex-shrink:0;margin-top:0.4rem;border:3px solid var(--blue-light)}
+.tl-dot.done{background:var(--success);border-color:var(--success-bg)}
+.tl-content{flex:1}
+.tl-content .day{font-size:0.7rem;font-weight:700;color:var(--blue-accent);text-transform:uppercase;letter-spacing:0.5px}
+.tl-content h4{font-size:0.9rem;font-weight:700;color:var(--navy);margin:0.2rem 0}
+.tl-content p{font-size:0.82rem;color:var(--text-secondary);line-height:1.6}
+
+/* Table */
+table{width:100%;border-collapse:collapse}
+th{text-align:right;padding:0.5rem 0.4rem;font-size:0.68rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;border-bottom:2px solid var(--border)}
+td{padding:0.6rem 0.4rem;font-size:0.82rem;border-bottom:1px solid var(--bg)}
+tr:hover td{background:#f8fbff}
+
+.footer{text-align:center;padding:1.5rem;font-size:0.7rem;color:var(--text-muted);border-top:1px solid var(--border);margin-top:2rem}
 </style>
 </head>
 <body>
 
-<!-- Top Bar -->
-<div class="topbar">
-  <div class="topbar-brand">
-    <div class="nii-emblem">
-      <svg viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.2L19.5 7.5 12 11 4.5 7.5 12 4.2zM4 9l7.5 3.8v7.7L4 16.7V9zm9.5 11.5v-7.7L21 9v7.7l-7.5 3.8z"/></svg>
+<!-- ===== NAVIGATION ===== -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="nav-brand" onclick="go('home')">
+      <div class="nav-mark">S4U</div>
+      <span>Scale4U</span>
     </div>
-    <div class="topbar-text">
-      <div class="org">המוסד לביטוח לאומי | מינהל גמלאות</div>
-      <div class="name">Scale4U</div>
+    <div class="nav-links">
+      <button class="nav-link active" onclick="go('home')">ראשי</button>
+      <button class="nav-link" onclick="go('form')">הגש יוזמה</button>
+      <button class="nav-link" onclick="go('how')">איך זה עובד</button>
+      <button class="nav-link" onclick="go('example')">דוגמה</button>
+      <button class="nav-link" onclick="go('dashboard')">Dashboard</button>
     </div>
+    <div class="nav-live">פעיל</div>
   </div>
-  <div class="topbar-live">מערכת פעילה</div>
-</div>
+</nav>
 
-<!-- Hero -->
-<div class="hero">
-  <div class="hero-badge">✦ שיטת יזום ארגונית חדשה</div>
-  <h1>כל יוזמה מקבלת<br><span class="accent">תשובה מנותבת תוך 7 ימים</span></h1>
-  <div class="hero-sub">
-    Scale4U מנתבת כל יוזמת AI וחדשנות למסלול הנכון.<br>
-    לא עוד תורים סמויים. לא עוד החלטות שנמשכות חודשים.
-  </div>
-  <div class="stats-row">
-    <div class="stat-card"><div class="num">59</div><div class="lbl">יוזמות נותחו</div></div>
-    <div class="stat-card"><div class="num">7x</div><div class="lbl">שיפור זמן-להחלטה</div></div>
-    <div class="stat-card"><div class="num">54%</div><div class="lbl">נעצרו מוקדם (חיסכון)</div></div>
-  </div>
-</div>
-
-<!-- Cards -->
-<div class="cards-section">
-  <div class="section-label">כניסה למערכת</div>
-  <div class="section-title">מה תרצה לעשות?</div>
-  <div class="cards-grid">
-    <a href="intake/lean-canvas-form.html" class="card">
-      <div class="card-badge"></div>
-      <div class="card-icon">📋</div>
-      <h3>הגשת יוזמה חדשה</h3>
-      <p>יש לך רעיון, כאב, או צורך? מלא טופס קצר ותקבל ניתוח, דירוג, והמלצת ניתוב תוך 7 ימי עבודה.</p>
-      <div class="card-cta">מלא טופס ←</div>
-    </a>
-    <a href="dashboard.html" class="card">
-      <div class="card-badge"></div>
-      <div class="card-icon">📊</div>
-      <h3>Dashboard פורטפוליו</h3>
-      <p>תמונת מצב חיה: סטטוס כל היוזמות, מסלולי ניתוב, ציוני ביטחון, KPIs ומדדי מערכת.</p>
-      <div class="card-cta">צפה בדשבורד ←</div>
-    </a>
-    <a href="presentation.html" class="card">
-      <div class="card-badge"></div>
-      <div class="card-icon">🎯</div>
-      <h3>מצגת הנהלה</h3>
-      <p>10 שקפים: תוצאות מוכחות, שיטת העבודה, מפת דרכים. מוכנה להקרנה.</p>
-      <div class="card-cta">צפה במצגת ←</div>
-    </a>
-  </div>
-  <div style="display:flex;justify-content:center;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;">
-    <a href="how-it-works.html" style="font-size:0.85rem;color:var(--blue-bright);text-decoration:none;font-weight:600;">איך זה עובד + FAQ →</a>
-    <a href="example.html" style="font-size:0.85rem;color:var(--blue-bright);text-decoration:none;font-weight:600;">דוגמה חיה →</a>
-  </div>
-</div>
-
-<!-- Method -->
-<div class="method-section">
-  <div class="method-inner">
-    <div class="section-label">איך זה עובד</div>
-    <div class="section-title">3 שערים → 4 מסלולים → 7 ימים</div>
-    <div class="method-flow">
-      <div class="flow-node">יוזמה</div>
-      <div class="flow-arrow">←</div>
-      <div class="flow-node active">G0</div>
-      <div class="flow-arrow">←</div>
-      <div class="flow-node active">G1</div>
-      <div class="flow-arrow">←</div>
-      <div class="flow-node active">G2</div>
-      <div class="flow-arrow">←</div>
-      <div class="flow-node">ניתוב</div>
+<!-- ===== PAGE: HOME ===== -->
+<div class="page active" id="page-home">
+  <div class="page-inner" style="text-align:center;padding-top:4rem;">
+    <div class="section-label">שיטת יזום ארגונית חדשה</div>
+    <h1 style="font-size:2rem;">כל יוזמה מקבלת <span style="color:var(--blue-bright)">תשובה מנותבת</span><br>תוך 7 ימי עבודה</h1>
+    <p class="subtitle" style="max-width:520px;margin:1rem auto 2rem;">Scale4U מנתחת כל יוזמת AI וחדשנות ומנתבת למסלול הנכון. לא עוד תורים סמויים.</p>
+    <div class="stat-row" style="justify-content:center;">
+      <div class="stat-box"><div class="val">59</div><div class="lbl">יוזמות נותחו</div></div>
+      <div class="stat-box"><div class="val">7x</div><div class="lbl">שיפור זמן-להחלטה</div></div>
+      <div class="stat-box"><div class="val">54%</div><div class="lbl">נעצרו מוקדם (חיסכון)</div></div>
     </div>
-    <div class="routes-grid">
-      <div class="route-item r-stop"><div class="r-num">54%</div><div class="r-name">Stop (חיסכון)</div></div>
-      <div class="route-item r-self"><div class="r-num">24%</div><div class="r-name">Self-Service</div></div>
-      <div class="route-item r-pilot"><div class="r-num">12%</div><div class="r-name">Fast Pilot</div></div>
-      <div class="route-item r-ent"><div class="r-num">10%</div><div class="r-name">Enterprise</div></div>
+    <div style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem;">
+      <button class="btn btn-primary" onclick="go('form')">הגש יוזמה</button>
+      <button class="btn btn-ghost" onclick="go('how')">איך זה עובד?</button>
+      <button class="btn btn-ghost" onclick="go('example')">דוגמה חיה</button>
+    </div>
+    <div style="margin-top:3rem;" class="grid-2">
+      <div class="card" style="cursor:pointer" onclick="go('form')"><h3 style="font-size:0.95rem;color:var(--navy);margin-bottom:0.3rem;">📋 הגשת יוזמה</h3><p style="font-size:0.82rem;color:var(--text-muted)">ממלאים טופס → מקבלים ניתוח + המלצה</p></div>
+      <div class="card" style="cursor:pointer" onclick="go('dashboard')"><h3 style="font-size:0.95rem;color:var(--navy);margin-bottom:0.3rem;">📊 Dashboard</h3><p style="font-size:0.82rem;color:var(--text-muted)">סטטוס כל היוזמות - יוני 2026</p></div>
     </div>
   </div>
 </div>
 
-<!-- Trust -->
-<div class="trust-section">
-  <div class="section-label">עקרונות</div>
-  <div class="section-title" style="margin-bottom:2rem;">למה אפשר לסמוך על התהליך</div>
-  <div class="trust-grid">
-    <div class="trust-card">
-      <div class="t-icon">🔒</div>
-      <h4>ללא דאטה אישי</h4>
-      <p>נכסי ולידציה על דאטה סינתטי בלבד. מידע אמיתי לא נכנס.</p>
+<!-- ===== PAGE: FORM ===== -->
+<div class="page" id="page-form">
+  <div class="page-inner">
+    <h1>הגשת יוזמה</h1>
+    <p class="subtitle">מלאו את הפרטים. תשובה מנותבת תוך 7 ימי עבודה.</p>
+    <form id="intake-form" novalidate>
+      <div class="card">
+        <h3 style="font-size:0.9rem;color:var(--blue-nii);margin-bottom:1rem;">1. פרטי היוזמה</h3>
+        <div class="field"><div class="field-label"><span class="req"></span>שם היוזמה</div><input type="text" id="f-title" placeholder="שם קצר וברור"></div>
+        <div class="row">
+          <div class="field"><div class="field-label"><span class="req"></span>אגף מגיש</div><input type="text" id="f-div" placeholder="למשל: אגף תכנון"></div>
+          <div class="field"><div class="field-label"><span class="req"></span>בעלים עסקי</div><input type="text" id="f-owner" placeholder="שם, תפקיד"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:0.9rem;color:var(--blue-nii);margin-bottom:1rem;">2. הבעיה</h3>
+        <div class="field"><div class="field-label"><span class="req"></span>מה הכאב?</div><textarea id="f-problem" placeholder="תארו את הבעיה בשפת מי שסובל ממנה"></textarea></div>
+        <div class="field"><div class="field-label">כמה משתמשים מושפעים?</div><input type="text" id="f-users" placeholder="200 עובדי שירות, 50,000 פונים..."></div>
+        <div class="field"><div class="field-label">למה עכשיו?</div><input type="text" id="f-trigger" placeholder="דוח מבקר, שינוי חוק, עומסים..."></div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:0.9rem;color:var(--blue-nii);margin-bottom:0.5rem;">3. סיווג ראשוני</h3>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.8rem;">לא חובה. עוזר לנתב מהר יותר.</p>
+        <div class="risk-grid">
+          <div class="risk-chip"><label>מידע אישי?</label><select id="f-r1"><option value="">לא ידוע</option><option value="none">לא</option><option value="internal">ארגוני</option><option value="personal">אישי</option></select></div>
+          <div class="risk-chip"><label>מערכות ליבה?</label><select id="f-r2"><option value="">לא ידוע</option><option value="none">לא</option><option value="read">קריאה</option><option value="write">כתיבה</option></select></div>
+          <div class="risk-chip"><label>השפעה על אזרח?</label><select id="f-r3"><option value="">לא ידוע</option><option value="none">אין</option><option value="info">מידע</option><option value="decision">החלטה</option></select></div>
+          <div class="risk-chip"><label>היקף?</label><select id="f-r4"><option value="">לא ידוע</option><option value="team">צוות</option><option value="division">אגף</option><option value="org">ארגוני</option></select></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.7rem;margin-top:1.5rem;">
+        <button type="button" class="btn btn-primary" style="flex:1" onclick="submitForm()">שלח יוזמה</button>
+        <button type="button" class="btn btn-ghost" onclick="exportCSV()">ייצוא CSV</button>
+      </div>
+    </form>
+    <div id="submitted-list" style="margin-top:2rem;"></div>
+  </div>
+</div>
+
+<!-- ===== PAGE: HOW IT WORKS ===== -->
+<div class="page" id="page-how">
+  <div class="page-inner">
+    <h1>איך Scale4U עובדת</h1>
+    <p class="subtitle">מגישים → מקבלים ניתוח → מקבלים תשובה מנותבת. 7 ימים.</p>
+
+    <div class="tl-item"><div class="tl-dot done"></div><div class="tl-content"><div class="day">שלב 1 - 5 דקות</div><h4>ממלאים טופס</h4><p>מתארים את הכאב. לא צריך לדעת את הפתרון.</p></div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="day">שלב 2 - ימים 1-4</div><h4>מוביל Scale4U מנתח</h4><p>כימות ערך, חלופות, סיכונים, Red Team, ולידציה.</p></div></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-content"><div class="day">שלב 3 - יום 5-7</div><h4>תשובה מנותבת</h4><p>ציון, ניתוב ל-1 מ-4 מסלולים, המלצה ברורה.</p></div></div>
+
+    <h2 style="margin-top:2.5rem;text-align:center;">4 מסלולי ניתוב</h2>
+    <div class="grid-2">
+      <div class="card"><span class="tag tag-stop">54%</span><h4 style="color:var(--danger);margin:0.5rem 0 0.3rem;">Stop</h4><p style="font-size:0.82rem;color:var(--text-muted);">עצירה מוקדמת = חיסכון. לא כישלון.</p></div>
+      <div class="card"><span class="tag tag-self">24%</span><h4 style="color:var(--success);margin:0.5rem 0 0.3rem;">Self-Service</h4><p style="font-size:0.82rem;color:var(--text-muted);">סיכון נמוך, רצים לבד בסביבה מבוקרת.</p></div>
+      <div class="card"><span class="tag tag-pilot">12%</span><h4 style="color:var(--warning);margin:0.5rem 0 0.3rem;">Fast Pilot</h4><p style="font-size:0.82rem;color:var(--text-muted);">מבטיח, צריך 3 שבועות אימות נוסף.</p></div>
+      <div class="card"><span class="tag tag-ent">10%</span><h4 style="color:var(--purple);margin:0.5rem 0 0.3rem;">Enterprise</h4><p style="font-size:0.82rem;color:var(--text-muted);">מורכב/רגיש, תהליך משותף עם תמ"מ.</p></div>
     </div>
-    <div class="trust-card">
-      <div class="t-icon">🤝</div>
-      <h4>תמ"מ שותף</h4>
-      <p>לא עוקפים - מנתבים. Enterprise = שער משותף עם מחשוב.</p>
+
+    <h2 style="margin-top:2.5rem;text-align:center;">שאלות נפוצות</h2>
+    <div class="faq"><h4>זה מחליף את תמ"מ?</h4><p>לא. Enterprise = שער משותף. Self-Service = סביבה שתמ"מ אישר. לא עוקפים.</p></div>
+    <div class="faq"><h4>מה אם היוזמה "נהרגה"?</h4><p>Kill מוקדם = הצלחה. חסכנו חודשי איפיון. תמיד עם נימוק - ואפשר לחזור עם גרסה חדשה.</p></div>
+    <div class="faq"><h4>מה עם מידע רגיש?</h4><p>הטופס שומר בדפדפן בלבד. נכסי ולידציה = דאטה סינתטי. מידע אמיתי לא נכנס.</p></div>
+    <div class="faq"><h4>כמה זמן לוקח?</h4><p>72 שעות לתחילת טיפול. עד 7 ימים לתשובה מנותבת.</p></div>
+    <div class="faq"><h4>מי מחליט?</h4><p>AI ממליץ, אדם מחליט. Enterprise = שער משותף עם נציג תמ"מ.</p></div>
+
+    <div style="text-align:center;margin-top:2rem;"><button class="btn btn-primary" onclick="go('form')">הגש יוזמה</button></div>
+  </div>
+</div>
+
+<!-- ===== PAGE: EXAMPLE ===== -->
+<div class="page" id="page-example">
+  <div class="page-inner">
+    <h1>דוגמה חיה - מסע יוזמה</h1>
+    <p class="subtitle">ככה נראה התהליך בפועל. דוגמה אמיתית (נתונים סינתטיים).</p>
+
+    <h2 style="color:var(--blue-nii);font-size:1rem;">"אוטומציית איסוף סטטוס רבעוני" → Self-Service</h2>
+
+    <div class="tl-item"><div class="tl-dot done"></div><div class="tl-content"><div class="day">יום 0</div><h4>רכז תכנון ממלא טופס</h4><p>"איסוף סטטוס מהיחידות גוזל שבועות והנתונים לא אחידים."</p><div class="card" style="margin-top:0.5rem;padding:0.8rem;background:var(--bg);"><strong style="font-size:0.8rem;">G0:</strong> <span style="font-size:0.8rem;color:var(--text-secondary);">כאב מובהק, בעלים זמין. ← ממשיכים.</span></div></div></div>
+    <div class="tl-item"><div class="tl-dot done"></div><div class="tl-content"><div class="day">יום 1</div><h4>כימות + חלופות</h4><p>3 חלופות נבחנו. טופס מובנה + דשבורד מנצח.</p></div></div>
+    <div class="tl-item"><div class="tl-dot done"></div><div class="tl-content"><div class="day">ימים 2-3</div><h4>Red Team + ולידציה</h4><p>נבדק מול 7 משתמשים. 5/7 מוכנים לעבור.</p></div></div>
+    <div class="tl-item"><div class="tl-dot done"></div><div class="tl-content"><div class="day">יום 5</div><h4>ניתוב: Self-Service</h4><p>סיכון: 1 (internal). Confidence: 76/100. אין דאטה אישי.</p><span class="tag tag-self">Self-Service ← 5 ימים</span></div></div>
+
+    <div class="grid-2" style="margin-top:2rem;">
+      <div class="card" style="text-align:center;border-color:rgba(197,48,48,0.2)"><div style="font-size:1.8rem;font-weight:900;color:var(--danger)">~45</div><div style="font-size:0.78rem;color:var(--text-muted)">ימים - בלי Scale4U</div></div>
+      <div class="card" style="text-align:center;border-color:rgba(22,138,74,0.2)"><div style="font-size:1.8rem;font-weight:900;color:var(--success)">5</div><div style="font-size:0.78rem;color:var(--text-muted)">ימים - עם Scale4U</div></div>
     </div>
-    <div class="trust-card">
-      <div class="t-icon">⏱️</div>
-      <h4>SLA 72 שעות</h4>
-      <p>אף יוזמה לא ממתינה. המערכת משחררת, לא חוסמת.</p>
+
+    <div class="card" style="background:var(--purple-bg);border-color:rgba(109,40,217,0.15);margin-top:1.5rem;">
+      <h4 style="font-size:0.9rem;color:var(--purple);margin-bottom:0.3rem;">דוגמה הפוכה: "עוזר AI לזכאות" → Enterprise</h4>
+      <p style="font-size:0.82rem;color:var(--text-secondary);">דאטה אישי + זכאות = Enterprise אוטומטי. שער G2 משותף עם תמ"מ. אף אחד לא נעקף.</p>
     </div>
-    <div class="trust-card">
-      <div class="t-icon">👤</div>
-      <h4>אדם מחליט</h4>
-      <p>AI ממליץ, מוביל מחליט. שקוף, עקיב, מתועד.</p>
+
+    <div style="text-align:center;margin-top:2rem;"><button class="btn btn-primary" onclick="go('form')">הגש יוזמה שלך</button></div>
+  </div>
+</div>
+
+<!-- ===== PAGE: DASHBOARD ===== -->
+<div class="page" id="page-dashboard">
+  <div class="page-inner" style="max-width:900px;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.5rem;">
+      <div><h1 style="margin-bottom:0.1rem;">Portfolio Dashboard</h1><p style="font-size:0.8rem;color:var(--text-muted);">יוני 2026 | 6 יוזמות פעילות</p></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.7rem;margin-bottom:1.5rem;">
+      <div class="stat-box"><div class="val">6</div><div class="lbl">יוזמות</div></div>
+      <div class="stat-box"><div class="val" style="color:var(--success)">1</div><div class="lbl">נותבו</div></div>
+      <div class="stat-box"><div class="val" style="color:var(--purple)">5</div><div class="lbl">ימי החלטה</div></div>
+      <div class="stat-box"><div class="val" style="color:var(--danger)">72h</div><div class="lbl">SLA מקסימלי</div></div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.8rem;">יוזמות החודש</div>
+      <table>
+        <thead><tr><th>יוזמה</th><th>אגף</th><th>יום</th><th>מסלול</th><th>סטטוס</th></tr></thead>
+        <tbody>
+          <tr><td><strong>עוזר AI להבהרת זכאות</strong></td><td>גמלאות</td><td>5</td><td><span class="tag tag-ent">Enterprise</span></td><td>Go</td></tr>
+          <tr><td><strong>אוטומציית איסוף סטטוס</strong></td><td>תכנון</td><td>3</td><td><span class="tag tag-self">Self-Service</span></td><td>G1</td></tr>
+          <tr><td><strong>מנתב תהליכי גבייה</strong></td><td>ביטוח וגבייה</td><td>0</td><td><span class="tag tag-draft">חדש</span></td><td>Draft</td></tr>
+          <tr><td><strong>מחשבון תקופות</strong></td><td>ביטוח וגבייה</td><td>0</td><td><span class="tag tag-draft">חדש</span></td><td>Draft</td></tr>
+          <tr><td><strong>בסיס ידע תקדימים</strong></td><td>ביטוח וגבייה</td><td>0</td><td><span class="tag tag-draft">חדש</span></td><td>Draft</td></tr>
+          <tr><td><strong>דשבורד עקביות מחוזית</strong></td><td>ביטוח וגבייה</td><td>0</td><td><span class="tag tag-draft">חדש</span></td><td>Draft</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
 
-<!-- CTA -->
-<div class="cta-section">
-  <h2>יש לך יוזמה? בוא נתחיל.</h2>
-  <p>מלא טופס קצר. תקבל ניתוח והמלצה תוך 7 ימי עבודה.</p>
-  <a href="intake/lean-canvas-form.html" class="cta-btn">הגש יוזמה עכשיו</a>
-</div>
+<!-- ===== FOOTER ===== -->
+<div class="footer">Scale4U v1.1 | המוסד לביטוח לאומי | מינהל גמלאות - פיתוח, שותפויות ו-AI</div>
 
-<!-- Footer -->
-<div class="footer">
-  <div class="footer-inner">
-    <div class="footer-mark">S4U</div>
-    Scale4U v1.1 | המוסד לביטוח לאומי | מינהל גמלאות - פיתוח, שותפויות ו-AI
-  </div>
-</div>
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"></div>
 
+<script>
+// Navigation
+function go(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  const links = document.querySelectorAll('.nav-link');
+  const map = {home:0,form:1,how:2,example:3,dashboard:4};
+  if (map[page] !== undefined) links[map[page]].classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// Form
+let data = JSON.parse(localStorage.getItem('s4u_intake') || '[]');
+renderList();
+
+function submitForm() {
+  const t=v('f-title'),d=v('f-div'),o=v('f-owner'),p=v('f-problem');
+  if(!t||!d||!o||!p){toast('נא למלא שדות חובה');return;}
+  data.push({id:makeId(t),title:t,division:d,owner:o,problem:p,affected_users:v('f-users'),trigger:v('f-trigger'),risk_data:v('f-r1'),risk_integration:v('f-r2'),risk_citizen:v('f-r3'),risk_scale:v('f-r4'),date:new Date().toISOString().split('T')[0]});
+  localStorage.setItem('s4u_intake',JSON.stringify(data));
+  document.getElementById('intake-form').reset();
+  renderList();toast('"'+t+'" נקלטה בהצלחה');
+}
+
+function renderList() {
+  const el=document.getElementById('submitted-list');
+  if(!data.length){el.innerHTML='';return;}
+  el.innerHTML='<div style="font-size:0.85rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.5rem;">יוזמות שנשלחו ('+data.length+')</div>'+data.map((r,i)=>'<div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:0.8rem 1rem;margin-bottom:0.4rem;"><div><strong style="font-size:0.85rem;">'+r.title+'</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">'+r.division+' | '+r.date+'</span></div><button onclick="removeItem('+i+')" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1rem;">✕</button></div>').join('');
+}
+function removeItem(i){data.splice(i,1);localStorage.setItem('s4u_intake',JSON.stringify(data));renderList();}
+
+function exportCSV(){
+  if(!data.length){toast('אין יוזמות');return;}
+  const cols=['id','title','division','owner','problem','affected_users','trigger','risk_data','risk_integration','risk_citizen','risk_scale','date'];
+  const heb=['מזהה','שם','אגף','בעלים','בעיה','משתמשים','טריגר','מידע אישי','ליבה','אזרח','היקף','תאריך'];
+  let csv='﻿'+heb.join(',')+'\n';
+  data.forEach(r=>{csv+=cols.map(c=>'"'+(r[c]||'').replace(/"/g,'""')+'"').join(',')+'\n';});
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='scale4u-intake-'+new Date().toISOString().slice(0,10)+'.csv';a.click();toast(data.length+' יוצאו');
+}
+
+function v(id){return document.getElementById(id).value.trim();}
+function makeId(t){return t.replace(/[^\w\s]/g,'').replace(/\s+/g,'-').substring(0,35)||'i-'+Date.now();}
+function toast(m){const el=document.getElementById('toast');el.textContent=m;el.className='toast show';setTimeout(()=>el.className='toast',3000);}
+</script>
 </body>
 </html>

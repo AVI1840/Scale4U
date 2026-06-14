@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale4U | Portfolio Dashboard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
+:root {
+  --bg: #06090f;
+  --surface: #0d1420;
+  --surface2: #15202e;
+  --surface3: #1c2b3d;
+  --border: #243044;
+  --text: #f0f4f8;
+  --text-secondary: #a3b4c8;
+  --text-muted: #6b7f96;
+  --accent: #3b82f6;
+  --accent2: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Heebo', 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 2rem;
+  line-height: 1.5;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.logo-mark {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.85rem; color: white;
+}
+.logo h1 {
+  font-size: 1.2rem; font-weight: 700; letter-spacing: -0.3px;
+}
+.header-left {
+  display: flex; align-items: center; gap: 1rem;
+}
+.live-badge {
+  display: flex; align-items: center; gap: 0.4rem;
+  background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3);
+  padding: 0.3rem 0.8rem; border-radius: 20px;
+  font-size: 0.8rem; font-weight: 600; color: var(--success);
+}
+.live-badge::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--success); animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+.date-label { color: var(--text-muted); font-size: 0.85rem; }
+
+/* KPI Row */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+@media (max-width: 900px) { .kpi-row { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.3rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.kpi::after {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 60%; height: 100%;
+  background: radial-gradient(ellipse at top right, var(--glow, transparent), transparent 70%);
+  pointer-events: none;
+}
+.kpi .value {
+  font-size: 2.8rem; font-weight: 800; line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.kpi .label { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+.kpi.blue { --glow: rgba(59,130,246,0.06); }
+.kpi.blue .value { color: var(--accent); }
+.kpi.green { --glow: rgba(16,185,129,0.06); }
+.kpi.green .value { color: var(--success); }
+.kpi.yellow { --glow: rgba(245,158,11,0.06); }
+.kpi.yellow .value { color: var(--warning); }
+.kpi.red { --glow: rgba(239,68,68,0.06); }
+.kpi.red .value { color: var(--danger); }
+.kpi.purple { --glow: rgba(139,92,246,0.06); }
+.kpi.purple .value { color: var(--accent2); }
+
+/* Grid Layout */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+/* Panels */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.panel-title {
+  font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.panel-title::before {
+  content: ''; width: 3px; height: 14px;
+  background: var(--accent); border-radius: 2px;
+}
+
+/* Route Bars */
+.route-bar { margin-bottom: 1rem; }
+.route-bar:last-child { margin-bottom: 0; }
+.route-meta {
+  display: flex; justify-content: space-between;
+  font-size: 0.85rem; margin-bottom: 0.4rem;
+}
+.route-meta .name { font-weight: 500; }
+.route-meta .nums { color: var(--text-muted); }
+.bar-track {
+  height: 6px; background: var(--surface2);
+  border-radius: 3px; overflow: hidden;
+}
+.bar-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+.fill-red { background: var(--danger); }
+.fill-green { background: var(--success); }
+.fill-yellow { background: var(--warning); }
+.fill-purple { background: var(--accent2); }
+.fill-muted { background: var(--text-muted); }
+
+/* Alerts */
+.alerts {
+  background: var(--surface);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.alerts .panel-title::before { background: var(--danger); }
+.alert-item {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.5rem 0; font-size: 0.87rem; color: var(--text-secondary);
+}
+.alert-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--danger); flex-shrink: 0;
+}
+
+/* Table */
+.table-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: right; padding: 0.6rem 0.7rem;
+  font-size: 0.75rem; font-weight: 600;
+  color: var(--text-muted); text-transform: uppercase;
+  letter-spacing: 0.5px; border-bottom: 1px solid var(--border);
+}
+td {
+  padding: 0.75rem 0.7rem; font-size: 0.87rem;
+  border-bottom: 1px solid rgba(36,48,68,0.5);
+}
+tr:hover td { background: var(--surface2); }
+.tag {
+  display: inline-block; padding: 0.15rem 0.6rem;
+  border-radius: 5px; font-size: 0.75rem; font-weight: 600;
+}
+.tag-stop { background: rgba(239,68,68,0.12); color: var(--danger); }
+.tag-self { background: rgba(16,185,129,0.12); color: var(--success); }
+.tag-pilot { background: rgba(245,158,11,0.12); color: var(--warning); }
+.tag-enterprise { background: rgba(139,92,246,0.12); color: var(--accent2); }
+.tag-pending { background: rgba(107,127,150,0.12); color: var(--text-muted); }
+
+.conf-bar {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.conf-track {
+  width: 50px; height: 4px; background: var(--surface2);
+  border-radius: 2px; overflow: hidden;
+}
+.conf-fill { height: 100%; border-radius: 2px; }
+.conf-high .conf-fill { background: var(--success); }
+.conf-mid .conf-fill { background: var(--warning); }
+.conf-low .conf-fill { background: var(--danger); }
+.conf-num { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+
+/* Quick/Strat panels */
+.insight-item {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(36,48,68,0.4);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.insight-item:last-child { border-bottom: none; }
+.insight-item .name { font-size: 0.9rem; font-weight: 500; }
+.insight-item .score {
+  font-size: 0.8rem; font-weight: 600;
+  padding: 0.15rem 0.5rem; border-radius: 4px;
+}
+
+/* Footer */
+.footer {
+  text-align: center; color: var(--text-muted);
+  font-size: 0.75rem; margin-top: 2rem;
+  padding-top: 1rem; border-top: 1px solid var(--border);
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-right">
+    <div class="logo">
+      <div class="logo-mark">S4U</div>
+      <h1>Portfolio Dashboard</h1>
+    </div>
+  </div>
+  <div class="header-left">
+    <span class="live-badge">LIVE</span>
+    <span class="date-label" id="date-label"></span>
+  </div>
+</div>
+
+<!-- KPIs -->
+<div class="kpi-row">
+  <div class="kpi blue"><div class="value" id="k-total">59</div><div class="label">סה"כ יוזמות</div></div>
+  <div class="kpi green"><div class="value" id="k-routed">41</div><div class="label">נותבו</div></div>
+  <div class="kpi yellow"><div class="value" id="k-active">12</div><div class="label">בתהליך</div></div>
+  <div class="kpi red"><div class="value" id="k-kill">54%</div><div class="label">Kill Rate</div></div>
+  <div class="kpi purple"><div class="value" id="k-days">7</div><div class="label">ימי החלטה</div></div>
+</div>
+
+<!-- Alerts -->
+<div class="alerts" id="alerts">
+  <div class="panel-title">התראות</div>
+  <div class="alert-item"><span class="alert-dot"></span>3 יוזמות חורגות מ-SLA (72 שעות+)</div>
+  <div class="alert-item"><span class="alert-dot"></span>2 enterprise ממתינות ל-Portfolio Gate רבעוני</div>
+  <div class="alert-item"><span class="alert-dot"></span>5 יוזמות עם שדות risks ריקים</div>
+</div>
+
+<!-- Route + Insights -->
+<div class="grid-2">
+  <div class="panel">
+    <div class="panel-title">פיצול מסלולים</div>
+    <div class="route-bar">
+      <div class="route-meta"><span class="name">Stop</span><span class="nums">32 (54%)</span></div>
+      <div class="bar-track"><div class="bar-fill fill-red" style="width:54%"></div></div>
+    </div>
+    <div class="route-bar">
+      <div class="route-meta"><span class="name">Self-Service</span><span class="nums">14 (24%)</span></div>
+      <div class="bar-track"><div class="bar-fill fill-green" style="width:24%"></div></div>
+    </div>
+    <div class="route-bar">
+      <div class="route-meta"><span class="name">Fast Pilot</span><span class="nums">7 (12%)</span></div>
+      <div class="bar-track"><div class="bar-fill fill-yellow" style="width:12%"></div></div>
+    </div>
+    <div class="route-bar">
+      <div class="route-meta"><span class="name">Enterprise</span><span class="nums">6 (10%)</span></div>
+      <div class="bar-track"><div class="bar-fill fill-purple" style="width:10%"></div></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Quick Wins - מוכן להפעלה</div>
+    <div class="insight-item"><span class="name">דשבורד תפוקות אגף</span><span class="score" style="background:rgba(16,185,129,0.12);color:var(--success);">85</span></div>
+    <div class="insight-item"><span class="name">עוזר ניסוח מכתבים</span><span class="score" style="background:rgba(16,185,129,0.12);color:var(--success);">82</span></div>
+    <div class="insight-item"><span class="name">ניטור SLA מקוון</span><span class="score" style="background:rgba(16,185,129,0.12);color:var(--success);">88</span></div>
+    <div class="insight-item"><span class="name">ניתוח דפוסי פנייה</span><span class="score" style="background:rgba(16,185,129,0.12);color:var(--success);">81</span></div>
+    <div class="insight-item"><span class="name">עוזר חוזרים פנימי</span><span class="score" style="background:rgba(16,185,129,0.12);color:var(--success);">79</span></div>
+  </div>
+</div>
+
+<!-- Table -->
+<div class="table-panel">
+  <div class="panel-title">כל היוזמות</div>
+  <table>
+    <thead><tr>
+      <th>#</th><th>שם</th><th>אגף</th><th>מסלול</th><th>Confidence</th><th>שלב</th><th>ימים</th><th>המלצה</th>
+    </tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<!-- Strategic + Stuck -->
+<div class="grid-2">
+  <div class="panel">
+    <div class="panel-title">Strategic Bets (Enterprise)</div>
+    <div class="insight-item"><span class="name">מחשבון זכאות חכם</span><span class="score" style="background:rgba(139,92,246,0.12);color:var(--accent2);">78</span></div>
+    <div class="insight-item"><span class="name">סיווג פניות אוטומטי</span><span class="score" style="background:rgba(139,92,246,0.12);color:var(--accent2);">71</span></div>
+    <div class="insight-item"><span class="name">צ'אטבוט לאזרח</span><span class="score" style="background:rgba(239,68,68,0.12);color:var(--danger);">45</span></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">מדדי מערכת</div>
+    <div class="insight-item"><span class="name">ממוצע ימי החלטה</span><span class="score" style="background:rgba(59,130,246,0.12);color:var(--accent);">7</span></div>
+    <div class="insight-item"><span class="name">Kill Rate (G0+G1)</span><span class="score" style="background:rgba(239,68,68,0.12);color:var(--danger);">54%</span></div>
+    <div class="insight-item"><span class="name">SLA Compliance</span><span class="score" style="background:rgba(16,185,129,0.12);color:var(--success);">95%</span></div>
+    <div class="insight-item"><span class="name">יוזמות שנבדקו מול משתמשים</span><span class="score" style="background:rgba(245,158,11,0.12);color:var(--warning);">8</span></div>
+  </div>
+</div>
+
+<div class="footer">
+  Scale4U v1.1 | Portfolio Dashboard | מופק מ-/s4u-scan | ביטוח לאומי - מינהל גמלאות
+</div>
+
+<script>
+document.getElementById('date-label').textContent = new Date().toLocaleDateString('he-IL');
+
+const initiatives = [
+  { title:'מחשבון זכאות חכם', div:'שירות', route:'enterprise', conf:78, stage:'g2', days:6, rec:'handoff' },
+  { title:'דשבורד תפוקות אגף', div:'תפעול', route:'self-service', conf:85, stage:'go', days:4, rec:'פרוס' },
+  { title:'עוזר ניסוח מכתבים', div:'שירות', route:'self-service', conf:82, stage:'go', days:3, rec:'פרוס' },
+  { title:'חיזוי עומסים שבועי', div:'תכנון', route:'fast-pilot', conf:62, stage:'validated', days:8, rec:'פיילוט' },
+  { title:'סיווג פניות אוטומטי', div:'שירות', route:'enterprise', conf:71, stage:'g1', days:9, rec:'validate' },
+  { title:'מערכת ניהול ידע', div:'הדרכה', route:'fast-pilot', conf:58, stage:'g1', days:7, rec:'asset' },
+  { title:'ניטור SLA מקוון', div:'בקרה', route:'self-service', conf:88, stage:'go', days:3, rec:'פרוס' },
+  { title:'עוזר חוזרים פנימי', div:'משפטית', route:'self-service', conf:79, stage:'go', days:5, rec:'פרוס' },
+  { title:'דוח חריגים חודשי', div:'בקרה', route:'stop', conf:35, stage:'kill', days:2, rec:'עצור' },
+  { title:'צ\'אטבוט לאזרח', div:'דיגיטל', route:'enterprise', conf:45, stage:'g0', days:11, rec:'redteam' },
+  { title:'אוטומציית קלט טפסים', div:'תפעול', route:'fast-pilot', conf:67, stage:'validated', days:6, rec:'פיילוט' },
+  { title:'ניתוח דפוסי פנייה', div:'אנליטיקה', route:'self-service', conf:81, stage:'go', days:4, rec:'פרוס' },
+];
+
+const tagMap = { stop:'tag-stop', 'self-service':'tag-self', 'fast-pilot':'tag-pilot', enterprise:'tag-enterprise' };
+const routeHeb = { stop:'Stop', 'self-service':'Self-Service', 'fast-pilot':'Fast Pilot', enterprise:'Enterprise' };
+
+document.getElementById('tbody').innerHTML = initiatives.map((r, i) => {
+  const confCls = r.conf >= 70 ? 'conf-high' : r.conf >= 50 ? 'conf-mid' : 'conf-low';
+  return `<tr>
+    <td>${i+1}</td>
+    <td><strong>${r.title}</strong></td>
+    <td>${r.div}</td>
+    <td><span class="tag ${tagMap[r.route]}">${routeHeb[r.route]}</span></td>
+    <td><span class="conf-bar ${confCls}"><span class="conf-track"><span class="conf-fill" style="width:${r.conf}%"></span></span><span class="conf-num">${r.conf}</span></span></td>
+    <td>${r.stage}</td>
+    <td>${r.days}</td>
+    <td>${r.rec}</td>
+  </tr>`;
+}).join('');
+</script>
+</body>
+</html>

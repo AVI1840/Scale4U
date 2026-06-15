@@ -44,10 +44,13 @@ body {
 /* Top bar */
 .topbar {
   background: var(--navy);
-  padding: 0.6rem 1.5rem;
+  padding: 0.7rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 .topbar-right { display: flex; align-items: center; gap: 0.6rem; }
 .topbar-mark {
@@ -58,13 +61,12 @@ body {
   display: flex; align-items: center; justify-content: center;
   font-size: 0.6rem; font-weight: 900; color: white;
 }
-.topbar-label { font-size: 0.82rem; color: rgba(255,255,255,0.9); font-weight: 600; }
-.topbar-home {
-  color: rgba(255,255,255,0.5);
-  font-size: 0.75rem;
-  text-decoration: none;
-}
-.topbar-home:hover { color: rgba(255,255,255,0.8); }
+.topbar-label { font-size: 0.9rem; color: #fff; font-weight: 800; }
+.topbar-nav { display: flex; align-items: center; gap: 0.2rem; }
+.nav-link { padding: 0.4rem 0.8rem; border-radius: 7px; font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.55); text-decoration: none; transition: all 0.15s; }
+.nav-link:hover { color: #fff; background: rgba(255,255,255,0.08); }
+.nav-link.active { color: #fff; background: var(--blue-accent); }
+.nav-cta { background: var(--blue-accent); color: #fff; padding: 0.4rem 1rem; border-radius: 7px; font-size: 0.78rem; font-weight: 700; text-decoration: none; }
 
 /* Container */
 .container {
@@ -312,11 +314,15 @@ button {
 <body>
 
 <div class="topbar">
-  <div class="topbar-right">
-    <div class="topbar-mark">S4U</div>
-    <span class="topbar-label">הגשת יוזמה</span>
+  <div class="topbar-right"><div class="topbar-mark">S4U</div><span class="topbar-label">Scale4U</span></div>
+  <div class="topbar-nav">
+    <a href="../index.html" class="nav-link">ראשי</a>
+    <a href="../how-it-works.html" class="nav-link">איך זה עובד</a>
+    <a href="../example.html" class="nav-link">דוגמה חיה</a>
+    <a href="../dashboard.html" class="nav-link">Dashboard</a>
+    <a href="../presentation.html" class="nav-link">מצגת</a>
+    <a href="lean-canvas-form.html" class="nav-cta active">הגש יוזמה</a>
   </div>
-  <a href="index.html" class="topbar-home">← חזרה לדף הראשי</a>
 </div>
 
 <div class="container">

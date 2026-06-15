@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale4U | סטטוס פורטפוליו</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--white:#fff;--bg:#f8fafb;--navy:#0f2744;--blue-nii:#1a4f8b;--blue-bright:#2d6db5;--blue-accent:#3b82f6;--blue-light:#e8f1fd;--text:#1a2a3a;--text-secondary:#475b6e;--text-muted:#7c8fa3;--border:#dce4ec;--success:#168a4a;--success-bg:#edf8f2;--danger:#c53030;--danger-bg:#fef2f2;--warning:#b45309;--warning-bg:#fef3c7;--purple:#6d28d9;--purple-bg:#f3e8ff;--radius:14px;--shadow-sm:0 1px 3px rgba(15,39,68,0.04);--shadow-md:0 4px 16px rgba(15,39,68,0.06)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+.topbar{background:var(--navy);padding:0.7rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.topbar-right{display:flex;align-items:center;gap:0.7rem}
+.topbar-mark{width:30px;height:30px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:900;color:white}
+.topbar-label{font-size:0.85rem;color:rgba(255,255,255,0.95);font-weight:600}
+.topbar-home{color:rgba(255,255,255,0.5);font-size:0.78rem;text-decoration:none}
+
+.main{max-width:900px;margin:0 auto;padding:2.5rem 1.5rem}
+.page-title{font-size:1.5rem;font-weight:800;color:var(--navy);margin-bottom:0.3rem}
+.page-sub{font-size:0.85rem;color:var(--text-muted);margin-bottom:2rem}
+
+/* KPIs */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.5rem}
+@media(max-width:600px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.3rem;text-align:center;box-shadow:var(--shadow-sm)}
+.kpi .val{font-size:2.2rem;font-weight:900;line-height:1}
+.kpi .lbl{font-size:0.72rem;color:var(--text-muted);margin-top:0.3rem;font-weight:500}
+
+/* Sections */
+.section{margin-bottom:2rem}
+.section-title{font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--border)}
+
+/* Cards */
+.initiative{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:0.7rem;box-shadow:var(--shadow-sm);display:flex;justify-content:space-between;align-items:center}
+.initiative:hover{box-shadow:var(--shadow-md)}
+.init-info{flex:1}
+.init-info h4{font-size:0.9rem;font-weight:700;color:var(--navy);margin-bottom:0.2rem}
+.init-info p{font-size:0.78rem;color:var(--text-muted)}
+.init-meta{display:flex;gap:0.6rem;align-items:center;flex-shrink:0}
+.tag{padding:0.2rem 0.6rem;border-radius:5px;font-size:0.7rem;font-weight:700}
+.tag-self{background:var(--success-bg);color:var(--success)}
+.tag-ent{background:var(--purple-bg);color:var(--purple)}
+.tag-pilot{background:var(--warning-bg);color:var(--warning)}
+.tag-prod{background:var(--blue-light);color:var(--blue-nii)}
+.conf{font-size:0.75rem;font-weight:700;color:var(--text-muted)}
+
+/* Route summary */
+.routes{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-bottom:2.5rem}
+.route{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.2rem;text-align:center;box-shadow:var(--shadow-sm)}
+.route .num{font-size:1.6rem;font-weight:900}
+.route .name{font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem}
+.r-stop .num{color:var(--danger)}
+.r-self .num{color:var(--success)}
+.r-pilot .num{color:var(--warning)}
+.r-ent .num{color:var(--purple)}
+
+.footer{text-align:center;padding:1.5rem;font-size:0.7rem;color:var(--text-muted);border-top:1px solid var(--border);margin-top:2rem}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-right"><div class="topbar-mark">S4U</div><span class="topbar-label">סטטוס פורטפוליו</span></div>
+  <a href="index.html" class="topbar-home">← ראשי</a>
+</div>
+
+<div class="main">
+  <div class="page-title">פורטפוליו יוזמות AI - מינהל גמלאות</div>
+  <div class="page-sub">59 יוזמות נותחו | עדכון: יוני 2026</div>
+
+  <!-- KPIs -->
+  <div class="kpi-row">
+    <div class="kpi"><div class="val" style="color:var(--blue-nii)">59</div><div class="lbl">יוזמות נותחו</div></div>
+    <div class="kpi"><div class="val" style="color:var(--success)">7</div><div class="lbl">ימי החלטה (ממוצע)</div></div>
+    <div class="kpi"><div class="val" style="color:var(--danger)">54%</div><div class="lbl">נעצרו/אוחדו (חיסכון)</div></div>
+    <div class="kpi"><div class="val" style="color:var(--purple)">7x</div><div class="lbl">שיפור בזמן-להחלטה</div></div>
+  </div>
+
+  <!-- Route Distribution -->
+  <div class="routes">
+    <div class="route r-stop"><div class="num">32</div><div class="name">עצירה + איחוד</div></div>
+    <div class="route r-self"><div class="num">12</div><div class="name">פיתוח מהיר</div></div>
+    <div class="route r-pilot"><div class="num">6</div><div class="name">פיילוט</div></div>
+    <div class="route r-ent"><div class="num">9</div><div class="name">פרויקט מורכב</div></div>
+  </div>
+
+  <!-- Production -->
+  <div class="section">
+    <div class="section-title">בייצור - עובד ופועל (4)</div>
+    <div class="initiative"><div class="init-info"><h4>שירות תרגום מכתבים וטפסים</h4><p>גמלאות | Vertex AI | נגישות לאזרחים דוברי ערבית/רוסית/אמהרית</p></div><div class="init-meta"><span class="tag tag-prod">ייצור</span><span class="conf">82</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>המרה מטקסט לאודיו</h4><p>גמלאות | הנגשה לעיוורים ולקויי ראייה</p></div><div class="init-meta"><span class="tag tag-prod">ייצור</span><span class="conf">84</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>חיפוש חכם באתר הציבורי</h4><p>דיגיטל | שירות עצמי לאזרחים</p></div><div class="init-meta"><span class="tag tag-prod">ייצור</span><span class="conf">78</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>צ'אט HR לעובדים</h4><p>דיגיטל | Gemini | חיסכון זמן לעובדים</p></div><div class="init-meta"><span class="tag tag-self">Self-Service</span><span class="conf">68</span></div></div>
+  </div>
+
+  <!-- Ready for Fast Execution -->
+  <div class="section">
+    <div class="section-title">מוכן לפיתוח מהיר - Self-Service (5)</div>
+    <div class="initiative"><div class="init-info"><h4>צ'אט כללי לעובד</h4><p>דיגיטל | פרודוקטיביות, מחליף Shadow IT</p></div><div class="init-meta"><span class="tag tag-self">Self-Service</span><span class="conf">64</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>ניהול ידע אגפים (Notebook)</h4><p>רוחבי | ידע שבוטח ←  ידע מונגש</p></div><div class="init-meta"><span class="tag tag-self">Self-Service</span><span class="conf">44</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>תרגומן מסמכים פנימי</h4><p>דיגיטל | הרחבה של שירות התרגום</p></div><div class="init-meta"><span class="tag tag-self">Self-Service</span><span class="conf">60</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>תמלול פגישות</h4><p>תשתיות | שימור ידע ומעקב החלטות</p></div><div class="init-meta"><span class="tag tag-self">Self-Service</span><span class="conf">52</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>הכשרת מאיצי AI</h4><p>רוחבי | בניית יכולת פנימית</p></div><div class="init-meta"><span class="tag tag-self">Self-Service</span><span class="conf">72</span></div></div>
+  </div>
+
+  <!-- Pilot -->
+  <div class="section">
+    <div class="section-title">בפיילוט או ממתין לאימות (3)</div>
+    <div class="initiative"><div class="init-info"><h4>פורטל ידע גמלאות (קשב חכם)</h4><p>דיגיטל | חיסכון 20-30 דק' לפקיד לתיק</p></div><div class="init-meta"><span class="tag tag-pilot">פיילוט</span><span class="conf">66</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>שדרוג פורטל גמלאות 2.0</h4><p>רוחבי | תשתית ידע ארגונית</p></div><div class="init-meta"><span class="tag tag-pilot">פיילוט</span><span class="conf">44</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>ניתוח פערי החלטות ועדות</h4><p>ועדות | בקרת איכות על עקביות</p></div><div class="init-meta"><span class="tag tag-pilot">פיילוט</span><span class="conf">32</span></div></div>
+  </div>
+
+  <!-- Enterprise - Top -->
+  <div class="section">
+    <div class="section-title">פרויקטים מורכבים - Enterprise (Top 5)</div>
+    <div class="initiative"><div class="init-info"><h4>חילוץ וסיווג מסמכים (פלטפורמה)</h4><p>דאטה | Vertex AI | תשתית לכל מערכות המסמכים</p></div><div class="init-meta"><span class="tag tag-ent">Enterprise</span><span class="conf">62</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>סיכום תביעות סיעוד</h4><p>סיעוד | האצה 5x בעיבוד תיקים רפואיים</p></div><div class="init-meta"><span class="tag tag-ent">Enterprise</span><span class="conf">58</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>תרגום בזמן אמת בועדות רפואיות</h4><p>ועדות | נגישות לדוברי ערבית</p></div><div class="init-meta"><span class="tag tag-ent">Enterprise</span><span class="conf">56</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>מניעת הונאות MVP</h4><p>דאטה | מניעת הונאה בתביעות נכות</p></div><div class="init-meta"><span class="tag tag-ent">Enterprise</span><span class="conf">52</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>מוקדי שירות - GovLab</h4><p>שירות | סיכום שיחות + ניתוח פניות</p></div><div class="init-meta"><span class="tag tag-ent">Enterprise</span><span class="conf">46</span></div></div>
+  </div>
+
+  <div class="footer">Scale4U v1.2 | המוסד לביטוח לאומי | מינהל גמלאות - פיתוח, שותפויות ו-AI</div>
+</div>
+</body>
+</html>

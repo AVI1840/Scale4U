@@ -415,10 +415,40 @@ render();
 function submit() {
   const t=val('title'),d=val('division'),o=val('owner'),p=val('problem');
   if(!t||!d||!o||!p){toast('נא למלא את השדות המסומנים',true);return;}
-  data.push({id:makeId(t),title:t,division:d,owner:o,problem:p,affected_users:val('affected_users'),trigger:val('trigger'),risk_data:val('risk_data'),risk_integration:val('risk_integration'),risk_citizen:val('risk_citizen'),risk_scale:val('risk_scale'),date:new Date().toISOString().split('T')[0]});
+  const rec={id:makeId(t),title:t,division:d,owner:o,problem:p,affected_users:val('affected_users'),trigger:val('trigger'),risk_data:val('risk_data'),risk_integration:val('risk_integration'),risk_citizen:val('risk_citizen'),risk_scale:val('risk_scale'),date:new Date().toISOString().split('T')[0]};
+  data.push(rec);
   localStorage.setItem('s4u_intake',JSON.stringify(data));
   document.getElementById('form').reset();
-  render(); toast('"'+t+'" נקלטה בהצלחה'); updateProgress();
+  render(); updateProgress();
+  sendToOperator(rec);
+  toast('"'+t+'" נשלחה למוביל Scale4U');
+}
+function sendToOperator(rec) {
+  const body = [
+    'יוזמה חדשה הוגשה ב-Scale4U',
+    '─────────────────────────',
+    'שם: ' + rec.title,
+    'אגף: ' + rec.division,
+    'בעלים: ' + rec.owner,
+    'בעיה: ' + rec.problem,
+    'משתמשים: ' + (rec.affected_users || 'לא צוין'),
+    'טריגר: ' + (rec.trigger || 'לא צוין'),
+    '─────────────────────────',
+    'סיווג ראשוני:',
+    '  מידע אישי: ' + (rec.risk_data || 'לא ידוע'),
+    '  מערכות ליבה: ' + (rec.risk_integration || 'לא ידוע'),
+    '  השפעה על אזרח: ' + (rec.risk_citizen || 'לא ידוע'),
+    '  היקף: ' + (rec.risk_scale || 'לא ידוע'),
+    '─────────────────────────',
+    'תאריך: ' + rec.date,
+    'ID: ' + rec.id,
+    '',
+    'להרצה ב-Claude Code:',
+    '/s4u-new ' + rec.id
+  ].join('\n');
+  const subject = 'Scale4U - יוזמה חדשה: ' + rec.title + ' (' + rec.division + ')';
+  const mailto = 'mailto:AVIADi@nioi.GOV.il?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  window.open(mailto, '_blank');
 }
 function remove(i){data.splice(i,1);localStorage.setItem('s4u_intake',JSON.stringify(data));render();}
 function render(){

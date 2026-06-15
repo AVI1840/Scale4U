@@ -1,0 +1,78 @@
+# Scale4U Intake - Batch Collected
+# Source: test-batch.csv | Date: 2026-06-15
+
+meta:
+  id: calc-overtime-cost
+  title: "מחשבון הערכת עלות שעות נוספות"
+  owner: "אבי לוי, רכז תקציבים"
+  division: "כספים"
+  created: "2026-06-15"
+  status: draft
+  sprint_day: 0
+  parent_id: ""
+
+problem:
+  statement: "מנהלים מאשרים שעות נוספות בלי לראות את ההשפעה המצטברת על התקציב"
+  affected_users: "50 מנהלים מאשרים"
+  current_process: "TBV"
+  cost_of_status_quo: "TBV"
+  trigger: "חריגה תקציבית ברבעון 1"
+
+baseline:
+  estimated_time_without_scale4u_days: "TBV"
+  confidence_in_estimate: ""
+  similar_past_case: "TBV"
+
+value:
+  hypothesis: "TBV"
+  metrics:
+    - name: "TBV"
+      baseline: "TBV"
+      target: ""
+      source: ""
+  beneficiaries: []
+
+alternatives: []
+
+risks:
+  data_sensitivity: internal
+  core_integration: none
+  decision_impact: none
+  user_scale: org-internal
+  citizen_rights_impact: none
+  regulatory: "TBV"
+  organizational: "TBV"
+
+red_team:
+  weakest_assumption: ""
+  failure_modes: []
+  hidden_costs: ""
+  implementation_complexity: ""
+  verdict: ""
+
+validation:
+  asset_type: ""
+  asset_path: ""
+  test_plan: ""
+  findings: []
+  verdict: ""
+
+gates:
+  g0: { decision: "", by: "", date: "", note: "" }
+  g1: { decision: "", by: "", date: "", note: "" }
+  g2: { decision: "", by: "", date: "", note: "" }
+
+classification:
+  route: ""
+  rationale: ""
+  blocked_by: []
+  parent_id: ""
+
+roi:
+  scale4u_decision_days: ""
+  time_saved_days: ""
+  decision_outcome: ""
+  value_of_early_kill: ""
+  value_of_consolidation: ""
+
+sources: []

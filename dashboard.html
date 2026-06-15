@@ -3,834 +3,125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scale4U | Portfolio Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Scale4U | סטטוס פורטפוליו</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--white:#fff;--bg:#f8fafb;--navy:#0f2744;--blue-nii:#1a4f8b;--blue-bright:#2d6db5;--blue-accent:#3b82f6;--blue-light:#e8f1fd;--text:#1a2a3a;--text-secondary:#475b6e;--text-muted:#7c8fa3;--border:#dce4ec;--surface:#fff;--success:#168a4a;--success-bg:#edf8f2;--danger:#c53030;--danger-bg:#fef2f2;--warning:#b45309;--warning-bg:#fef3c7;--purple:#6d28d9;--purple-bg:#f3e8ff;--gray:#6b7280;--gray-bg:#f3f4f6;--radius:14px;--shadow-sm:0 1px 3px rgba(15,39,68,0.04);--shadow-md:0 4px 16px rgba(15,39,68,0.06)}
+:root{--white:#fff;--bg:#f8fafb;--navy:#0f2744;--blue-nii:#1a4f8b;--blue-bright:#2d6db5;--blue-accent:#3b82f6;--blue-light:#e8f1fd;--text:#1a2a3a;--text-secondary:#475b6e;--text-muted:#7c8fa3;--border:#dce4ec;--success:#168a4a;--success-bg:#edf8f2;--danger:#c53030;--danger-bg:#fef2f2;--warning:#b45309;--warning-bg:#fef3c7;--purple:#6d28d9;--purple-bg:#f3e8ff;--radius:14px;--shadow-sm:0 1px 3px rgba(15,39,68,0.04);--shadow-md:0 4px 16px rgba(15,39,68,0.06)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
-
-/* Topbar */
-.topbar{background:var(--navy);padding:0.7rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.topbar{background:var(--navy);padding:0.7rem 2rem;display:flex;justify-content:space-between;align-items:center}
 .topbar-right{display:flex;align-items:center;gap:0.7rem}
 .topbar-mark{width:30px;height:30px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:900;color:white}
 .topbar-label{font-size:0.85rem;color:rgba(255,255,255,0.95);font-weight:600}
-.topbar-left{display:flex;align-items:center;gap:1.2rem}
-.topbar-home{color:rgba(255,255,255,0.6);font-size:0.78rem;text-decoration:none;transition:color 0.2s}
-.topbar-home:hover{color:rgba(255,255,255,0.95)}
-.live{display:flex;align-items:center;gap:0.4rem;font-size:0.72rem;color:rgba(255,255,255,0.7);font-weight:600;background:rgba(74,222,128,0.12);padding:0.2rem 0.6rem;border-radius:4px;border:1px solid rgba(74,222,128,0.25)}
-.live::before{content:'';width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.topbar-home{color:rgba(255,255,255,0.5);font-size:0.78rem;text-decoration:none}
 
-/* Main */
-.main{max-width:1200px;margin:0 auto;padding:2rem 1.5rem}
-.page-header{margin-bottom:1.8rem}
-.page-title{font-size:1.5rem;font-weight:800;color:var(--navy);margin-bottom:0.2rem}
-.page-subtitle{font-size:0.82rem;color:var(--text-muted)}
+.main{max-width:900px;margin:0 auto;padding:2.5rem 1.5rem}
+.page-title{font-size:1.5rem;font-weight:800;color:var(--navy);margin-bottom:0.3rem}
+.page-sub{font-size:0.85rem;color:var(--text-muted);margin-bottom:2rem}
 
 /* KPIs */
-.kpi-row{display:grid;grid-template-columns:repeat(7,1fr);gap:0.7rem;margin-bottom:2rem}
-@media(max-width:900px){.kpi-row{grid-template-columns:repeat(4,1fr)}}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.5rem}
 @media(max-width:600px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
-.kpi{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1rem 0.8rem;text-align:center;box-shadow:var(--shadow-sm);transition:transform 0.15s}
-.kpi:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
-.kpi .val{font-size:1.8rem;font-weight:900;line-height:1.1}
-.kpi .lbl{font-size:0.68rem;color:var(--text-muted);margin-top:0.2rem;font-weight:500}
-.kpi.blue .val{color:var(--blue-nii)}
-.kpi.green .val{color:var(--success)}
-.kpi.red .val{color:var(--danger)}
-.kpi.purple .val{color:var(--purple)}
-.kpi.amber .val{color:var(--warning)}
-.kpi.gray .val{color:var(--gray)}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.3rem;text-align:center;box-shadow:var(--shadow-sm)}
+.kpi .val{font-size:2.2rem;font-weight:900;line-height:1}
+.kpi .lbl{font-size:0.72rem;color:var(--text-muted);margin-top:0.3rem;font-weight:500}
 
-/* Filter Tabs */
-.filter-section{margin-bottom:1.5rem}
-.filter-label{font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.6rem}
-.filter-tabs{display:flex;flex-wrap:wrap;gap:0.4rem}
-.filter-tab{padding:0.35rem 0.8rem;border-radius:6px;font-size:0.75rem;font-weight:600;border:1px solid var(--border);background:var(--white);color:var(--text-secondary);cursor:pointer;transition:all 0.2s;user-select:none}
-.filter-tab:hover{background:var(--blue-light);border-color:var(--blue-accent);color:var(--blue-nii)}
-.filter-tab.active{background:var(--navy);color:white;border-color:var(--navy)}
+/* Sections */
+.section{margin-bottom:2rem}
+.section-title{font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--border)}
 
-/* Table */
-.table-panel{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;overflow-x:auto;box-shadow:var(--shadow-sm)}
-.table-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
-.table-title{font-size:0.9rem;font-weight:700;color:var(--navy)}
-.table-count{font-size:0.75rem;color:var(--text-muted);background:var(--bg);padding:0.2rem 0.6rem;border-radius:4px}
-table{width:100%;border-collapse:collapse}
-th{text-align:right;padding:0.6rem 0.5rem;font-size:0.7rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;border-bottom:2px solid var(--border);white-space:nowrap}
-td{padding:0.55rem 0.5rem;font-size:0.8rem;border-bottom:1px solid var(--bg);vertical-align:middle}
-tr:hover td{background:#f8fbff}
-tr.hidden{display:none}
-
-/* Tags */
-.tag{display:inline-block;padding:0.15rem 0.55rem;border-radius:4px;font-size:0.68rem;font-weight:700;white-space:nowrap}
-.tag-stop{background:var(--danger-bg);color:var(--danger)}
+/* Cards */
+.initiative{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:0.7rem;box-shadow:var(--shadow-sm);display:flex;justify-content:space-between;align-items:center}
+.initiative:hover{box-shadow:var(--shadow-md)}
+.init-info{flex:1}
+.init-info h4{font-size:0.9rem;font-weight:700;color:var(--navy);margin-bottom:0.2rem}
+.init-info p{font-size:0.78rem;color:var(--text-muted)}
+.init-meta{display:flex;gap:0.6rem;align-items:center;flex-shrink:0}
+.tag{padding:0.2rem 0.6rem;border-radius:5px;font-size:0.7rem;font-weight:700}
 .tag-self{background:var(--success-bg);color:var(--success)}
-.tag-pilot{background:var(--warning-bg);color:var(--warning)}
 .tag-ent{background:var(--purple-bg);color:var(--purple)}
-.tag-merge{background:var(--gray-bg);color:var(--gray)}
-.tag-draft{background:var(--bg);color:var(--text-muted)}
+.tag-pilot{background:var(--warning-bg);color:var(--warning)}
+.tag-prod{background:var(--blue-light);color:var(--blue-nii)}
+.conf{font-size:0.75rem;font-weight:700;color:var(--text-muted)}
 
-/* Confidence bar */
-.conf-cell{display:flex;align-items:center;gap:0.4rem;min-width:90px}
-.conf-bar{flex:1;height:5px;background:var(--bg);border-radius:3px;overflow:hidden;min-width:40px}
-.conf-fill{height:100%;border-radius:3px;transition:width 0.3s}
-.conf-num{font-size:0.72rem;font-weight:700;color:var(--text-secondary);min-width:22px}
+/* Route summary */
+.routes{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-bottom:2.5rem}
+.route{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.2rem;text-align:center;box-shadow:var(--shadow-sm)}
+.route .num{font-size:1.6rem;font-weight:900}
+.route .name{font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem}
+.r-stop .num{color:var(--danger)}
+.r-self .num{color:var(--success)}
+.r-pilot .num{color:var(--warning)}
+.r-ent .num{color:var(--purple)}
 
-/* Decision tag */
-.decision{font-size:0.72rem;font-weight:600;white-space:nowrap}
-.dec-go{color:var(--success)}
-.dec-kill{color:var(--danger)}
-.dec-pivot{color:var(--warning)}
-.dec-merge{color:var(--gray)}
-
-/* Tier label */
-.tier-label{font-size:0.68rem;font-weight:600;padding:0.1rem 0.4rem;border-radius:3px;background:var(--bg);color:var(--text-muted)}
-
-/* Side Panel */
-.grid-bottom{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem}
-@media(max-width:700px){.grid-bottom{grid-template-columns:1fr}}
-.panel{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem;box-shadow:var(--shadow-sm)}
-.panel-title{font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.8rem}
-.platform-item{padding:0.5rem 0;border-bottom:1px solid var(--bg);display:flex;justify-content:space-between;align-items:center}
-.platform-item:last-child{border-bottom:none}
-.platform-name{font-size:0.82rem;font-weight:600;color:var(--text)}
-.platform-desc{font-size:0.72rem;color:var(--text-muted)}
-.platform-count{font-size:0.7rem;font-weight:700;background:var(--purple-bg);color:var(--purple);padding:0.15rem 0.5rem;border-radius:4px}
-
-/* Route summary bars */
-.route-bar{margin-bottom:0.6rem}
-.route-bar:last-child{margin-bottom:0}
-.route-meta{display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:0.2rem}
-.route-meta .name{font-weight:600;color:var(--text)}
-.route-meta .nums{color:var(--text-muted);font-size:0.72rem}
-.bar-track{height:6px;background:var(--bg);border-radius:3px;overflow:hidden}
-.bar-fill{height:100%;border-radius:3px;transition:width 0.4s}
-
-.footer{text-align:center;padding:1.5rem;font-size:0.72rem;color:var(--text-muted);border-top:1px solid var(--border);margin-top:2rem}
+.footer{text-align:center;padding:1.5rem;font-size:0.7rem;color:var(--text-muted);border-top:1px solid var(--border);margin-top:2rem}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="topbar-right">
-    <div class="topbar-mark">S4U</div>
-    <span class="topbar-label">Portfolio Dashboard</span>
-  </div>
-  <div class="topbar-left">
-    <span class="live">LIVE</span>
-    <a href="index.html" class="topbar-home">&larr; דף ראשי</a>
-  </div>
+  <div class="topbar-right"><div class="topbar-mark">S4U</div><span class="topbar-label">סטטוס פורטפוליו</span></div>
+  <a href="index.html" class="topbar-home">← ראשי</a>
 </div>
 
 <div class="main">
-  <div class="page-header">
-    <div class="page-title">פורטפוליו AI - המוסד לביטוח לאומי</div>
-    <div class="page-subtitle">59 יוזמות | דוח טריאז' מלא | עדכון: יוני 2026</div>
-  </div>
+  <div class="page-title">פורטפוליו יוזמות AI - מינהל גמלאות</div>
+  <div class="page-sub">59 יוזמות נותחו | עדכון: יוני 2026</div>
 
-  <!-- KPI Row -->
+  <!-- KPIs -->
   <div class="kpi-row">
-    <div class="kpi blue"><div class="val">59</div><div class="lbl">סה"כ יוזמות</div></div>
-    <div class="kpi green"><div class="val">12</div><div class="lbl">Self-Service</div></div>
-    <div class="kpi amber"><div class="val">6</div><div class="lbl">Fast Pilot</div></div>
-    <div class="kpi purple"><div class="val">18</div><div class="lbl">Enterprise</div></div>
-    <div class="kpi red"><div class="val">1</div><div class="lbl">Stop (Kill)</div></div>
-    <div class="kpi gray"><div class="val">12</div><div class="lbl">Merge</div></div>
-    <div class="kpi blue"><div class="val">7</div><div class="lbl">ימי החלטה (ממוצע)</div></div>
+    <div class="kpi"><div class="val" style="color:var(--blue-nii)">59</div><div class="lbl">יוזמות נותחו</div></div>
+    <div class="kpi"><div class="val" style="color:var(--success)">7</div><div class="lbl">ימי החלטה (ממוצע)</div></div>
+    <div class="kpi"><div class="val" style="color:var(--danger)">54%</div><div class="lbl">נעצרו/אוחדו (חיסכון)</div></div>
+    <div class="kpi"><div class="val" style="color:var(--purple)">7x</div><div class="lbl">שיפור בזמן-להחלטה</div></div>
   </div>
 
-  <!-- Filter Tabs -->
-  <div class="filter-section">
-    <div class="filter-label">סינון לפי אגף</div>
-    <div class="filter-tabs">
-      <div class="filter-tab active" data-filter="all">הכל (59)</div>
-      <div class="filter-tab" data-filter="תמ&quot;מ/דאטה">תמ"מ/דאטה</div>
-      <div class="filter-tab" data-filter="תמ&quot;מ/דיגיטל">תמ"מ/דיגיטל</div>
-      <div class="filter-tab" data-filter="תמ&quot;מ/תשתיות">תמ"מ/תשתיות</div>
-      <div class="filter-tab" data-filter="נכויות/ועדות">נכויות/ועדות</div>
-      <div class="filter-tab" data-filter="נכויות/סיעוד">נכויות/סיעוד</div>
-      <div class="filter-tab" data-filter="נכויות/שיקום">נכויות/שיקום</div>
-      <div class="filter-tab" data-filter="נכויות/נכ&quot;כ">נכויות/נכ"כ</div>
-      <div class="filter-tab" data-filter="שירות">שירות</div>
-      <div class="filter-tab" data-filter="גמלאות">גמלאות</div>
-      <div class="filter-tab" data-filter="רוחבי">רוחבי</div>
-      <div class="filter-tab" data-filter="תכנון/בקרה">תכנון/בקרה</div>
-      <div class="filter-tab" data-filter="ביטוח וגבייה">ביטוח וגבייה</div>
-    </div>
+  <!-- Route Distribution -->
+  <div class="routes">
+    <div class="route r-stop"><div class="num">32</div><div class="name">עצירה + איחוד</div></div>
+    <div class="route r-self"><div class="num">12</div><div class="name">פיתוח מהיר</div></div>
+    <div class="route r-pilot"><div class="num">6</div><div class="name">פיילוט</div></div>
+    <div class="route r-ent"><div class="num">9</div><div class="name">פרויקט מורכב</div></div>
   </div>
 
-  <!-- Main Table -->
-  <div class="table-panel">
-    <div class="table-header">
-      <div class="table-title">כלל היוזמות</div>
-      <div class="table-count" id="countDisplay">מציג 59 מתוך 59</div>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>שם היוזמה</th>
-          <th>אגף</th>
-          <th>Tier</th>
-          <th>מסלול</th>
-          <th>החלטה</th>
-          <th>Confidence</th>
-        </tr>
-      </thead>
-      <tbody id="initiativeTable">
-        <!-- TIER 1 - PRODUCTION -->
-        <tr data-division="תמ&quot;מ/דאטה">
-          <td>1</td>
-          <td><strong>חילוץ וסיווג מסמכים</strong></td>
-          <td>תמ"מ/דאטה</td>
-          <td><span class="tier-label">T1</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:62%;background:var(--purple)"></div></div><span class="conf-num">62</span></div></td>
-        </tr>
-        <tr data-division="גמלאות">
-          <td>2</td>
-          <td><strong>שרות תרגום מכתבים</strong></td>
-          <td>גמלאות</td>
-          <td><span class="tier-label">T1</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:82%;background:var(--success)"></div></div><span class="conf-num">82</span></div></td>
-        </tr>
-        <tr data-division="גמלאות">
-          <td>3</td>
-          <td><strong>המרה מטקסט לאודיו</strong></td>
-          <td>גמלאות</td>
-          <td><span class="tier-label">T1</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:84%;background:var(--success)"></div></div><span class="conf-num">84</span></div></td>
-        </tr>
-        <tr data-division="תמ&quot;מ/דיגיטל">
-          <td>4</td>
-          <td><strong>חיפוש באתר</strong></td>
-          <td>תמ"מ/דיגיטל</td>
-          <td><span class="tier-label">T1</span></td>
-          <td><span class="tag tag-pilot">Fast Pilot</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:78%;background:var(--warning)"></div></div><span class="conf-num">78</span></div></td>
-        </tr>
-        <tr data-division="תמ&quot;מ/דיגיטל">
-          <td>5</td>
-          <td><strong>צ'ט HR</strong></td>
-          <td>תמ"מ/דיגיטל</td>
-          <td><span class="tier-label">T1</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:68%;background:var(--success)"></div></div><span class="conf-num">68</span></div></td>
-        </tr>
-        <tr data-division="תמ&quot;מ/דיגיטל">
-          <td>6</td>
-          <td><strong>צ'ט כללי לעובד</strong></td>
-          <td>תמ"מ/דיגיטל</td>
-          <td><span class="tier-label">T1</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:64%;background:var(--success)"></div></div><span class="conf-num">64</span></div></td>
-        </tr>
-        <!-- TIER 2 - SPEC/POC -->
-        <tr data-division="תמ&quot;מ/דאטה">
-          <td>7</td>
-          <td><strong>מניעת הונאות MVP</strong></td>
-          <td>תמ"מ/דאטה</td>
-          <td><span class="tier-label">T2</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:52%;background:var(--purple)"></div></div><span class="conf-num">52</span></div></td>
-        </tr>
-        <tr data-division="נכויות/סיעוד">
-          <td>8</td>
-          <td><strong>סיכום תביעה סיעוד</strong></td>
-          <td>נכויות/סיעוד</td>
-          <td><span class="tier-label">T2</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:58%;background:var(--purple)"></div></div><span class="conf-num">58</span></div></td>
-        </tr>
-        <tr data-division="נכויות/סיעוד">
-          <td>9</td>
-          <td><strong>ניתוח וניתוב סיעוד</strong></td>
-          <td>נכויות/סיעוד</td>
-          <td><span class="tier-label">T2</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-merge">Pivot - Merge#8</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:48%;background:var(--gray)"></div></div><span class="conf-num">48</span></div></td>
-        </tr>
-        <tr data-division="נכויות/ועדות">
-          <td>10</td>
-          <td><strong>תרגום בזמן אמת ועדות</strong></td>
-          <td>נכויות/ועדות</td>
-          <td><span class="tier-label">T2</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:56%;background:var(--purple)"></div></div><span class="conf-num">56</span></div></td>
-        </tr>
-        <tr data-division="תמ&quot;מ/דיגיטל">
-          <td>11</td>
-          <td><strong>תרגומן מסמכים</strong></td>
-          <td>תמ"מ/דיגיטל</td>
-          <td><span class="tier-label">T2</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:60%;background:var(--success)"></div></div><span class="conf-num">60</span></div></td>
-        </tr>
-        <tr data-division="תמ&quot;מ/דיגיטל">
-          <td>12</td>
-          <td><strong>פורטל ידע גמלאות</strong></td>
-          <td>תמ"מ/דיגיטל</td>
-          <td><span class="tier-label">T2</span></td>
-          <td><span class="tag tag-pilot">Fast Pilot</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:66%;background:var(--warning)"></div></div><span class="conf-num">66</span></div></td>
-        </tr>
-        <tr data-division="תמ&quot;מ/תשתיות">
-          <td>13</td>
-          <td><strong>תמלול פגישות</strong></td>
-          <td>תמ"מ/תשתיות</td>
-          <td><span class="tier-label">T2</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:52%;background:var(--success)"></div></div><span class="conf-num">52</span></div></td>
-        </tr>
-        <!-- TIER 3 - HIGH VALUE PROPOSALS -->
-        <tr data-division="רוחבי">
-          <td>14</td>
-          <td><strong>פורטל גמלאות 2.0</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-pilot">Fast Pilot</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:44%;background:var(--warning)"></div></div><span class="conf-num">44</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>15</td>
-          <td><strong>הכשרת מאיצי AI</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:72%;background:var(--success)"></div></div><span class="conf-num">72</span></div></td>
-        </tr>
-        <tr data-division="נכויות/ועדות">
-          <td>16</td>
-          <td><strong>אבחון PTSD</strong></td>
-          <td>נכויות/ועדות</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go (caution)</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:42%;background:var(--purple)"></div></div><span class="conf-num">42</span></div></td>
-        </tr>
-        <tr data-division="שירות">
-          <td>17</td>
-          <td><strong>מוקדי שירות GovLab</strong></td>
-          <td>שירות</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:46%;background:var(--purple)"></div></div><span class="conf-num">46</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>18</td>
-          <td><strong>ניהול ידע אגפים</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:44%;background:var(--success)"></div></div><span class="conf-num">44</span></div></td>
-        </tr>
-        <tr data-division="תכנון/בקרה">
-          <td>19</td>
-          <td><strong>זיהוי חריגות כספי</strong></td>
-          <td>תכנון/בקרה</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:40%;background:var(--purple)"></div></div><span class="conf-num">40</span></div></td>
-        </tr>
-        <tr data-division="תמ&quot;מ/דיגיטל">
-          <td>20</td>
-          <td><strong>עוזר אישי פקיד+מבוטח</strong></td>
-          <td>תמ"מ/דיגיטל</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-pivot">Pivot</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:36%;background:var(--purple)"></div></div><span class="conf-num">36</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>21</td>
-          <td><strong>סיכומי שיחה</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:38%;background:var(--purple)"></div></div><span class="conf-num">38</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>22</td>
-          <td><strong>פרופיל מבוטח 360</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go (strategic)</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:32%;background:var(--purple)"></div></div><span class="conf-num">32</span></div></td>
-        </tr>
-        <tr data-division="נכויות/ועדות">
-          <td>23</td>
-          <td><strong>יומנים ועדות</strong></td>
-          <td>נכויות/ועדות</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:34%;background:var(--purple)"></div></div><span class="conf-num">34</span></div></td>
-        </tr>
-        <tr data-division="נכויות/נכ&quot;כ">
-          <td>24</td>
-          <td><strong>דחיות תנאים מקדמיים</strong></td>
-          <td>נכויות/נכ"כ</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-pivot">Pivot</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:30%;background:var(--purple)"></div></div><span class="conf-num">30</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>25</td>
-          <td><strong>זיהוי הונאות כללי</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Merge#7</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:28%;background:var(--gray)"></div></div><span class="conf-num">28</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>26</td>
-          <td><strong>זיהוי מסמכים מזויפים</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Merge#7</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:32%;background:var(--gray)"></div></div><span class="conf-num">32</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>27</td>
-          <td><strong>המרת כתב יד</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Merge#1</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:36%;background:var(--gray)"></div></div><span class="conf-num">36</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>28</td>
-          <td><strong>טפסים חכמים</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T3</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go (strategic)</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:34%;background:var(--purple)"></div></div><span class="conf-num">34</span></div></td>
-        </tr>
-        <!-- TIER 4 - MEDIUM VALUE -->
-        <tr data-division="רוחבי">
-          <td>29</td>
-          <td><strong>מעקב שינויי סטטוס</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T4</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go - #22</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:30%;background:var(--purple)"></div></div><span class="conf-num">30</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>30</td>
-          <td><strong>זיהוי מחסור מסמכים</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T4</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Merge#1</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:28%;background:var(--gray)"></div></div><span class="conf-num">28</span></div></td>
-        </tr>
-        <tr data-division="נכויות/ועדות">
-          <td>31</td>
-          <td><strong>ניתוח תיק ערר</strong></td>
-          <td>נכויות/ועדות</td>
-          <td><span class="tier-label">T4</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:30%;background:var(--purple)"></div></div><span class="conf-num">30</span></div></td>
-        </tr>
-        <tr data-division="נכויות/ועדות">
-          <td>32</td>
-          <td><strong>ניתוח פערים ועדות</strong></td>
-          <td>נכויות/ועדות</td>
-          <td><span class="tier-label">T4</span></td>
-          <td><span class="tag tag-pilot">Fast Pilot</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:32%;background:var(--warning)"></div></div><span class="conf-num">32</span></div></td>
-        </tr>
-        <tr data-division="נכויות/ועדות">
-          <td>33</td>
-          <td><strong>דפוסי החלטות רופאים</strong></td>
-          <td>נכויות/ועדות</td>
-          <td><span class="tier-label">T4</span></td>
-          <td><span class="tag tag-pilot">Fast Pilot</span></td>
-          <td><span class="decision dec-merge">Go - Merge#32</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:30%;background:var(--warning)"></div></div><span class="conf-num">30</span></div></td>
-        </tr>
-        <tr data-division="נכויות/ועדות">
-          <td>34</td>
-          <td><strong>תמלול ועדות</strong></td>
-          <td>נכויות/ועדות</td>
-          <td><span class="tier-label">T4</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Merge#23</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:28%;background:var(--gray)"></div></div><span class="conf-num">28</span></div></td>
-        </tr>
-        <tr data-division="נכויות/שיקום">
-          <td>35</td>
-          <td><strong>דוחות שיקום</strong></td>
-          <td>נכויות/שיקום</td>
-          <td><span class="tier-label">T4</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:32%;background:var(--purple)"></div></div><span class="conf-num">32</span></div></td>
-        </tr>
-        <tr data-division="שירות">
-          <td>36</td>
-          <td><strong>תובנות מפניות</strong></td>
-          <td>שירות</td>
-          <td><span class="tier-label">T4</span></td>
-          <td><span class="tag tag-pilot">Fast Pilot</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:34%;background:var(--warning)"></div></div><span class="conf-num">34</span></div></td>
-        </tr>
-        <tr data-division="שירות">
-          <td>37</td>
-          <td><strong>תובנות לפקיד</strong></td>
-          <td>שירות</td>
-          <td><span class="tier-label">T4</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go - #22</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:30%;background:var(--purple)"></div></div><span class="conf-num">30</span></div></td>
-        </tr>
-        <tr data-division="תכנון/בקרה">
-          <td>38</td>
-          <td><strong>בקרות חכמות</strong></td>
-          <td>תכנון/בקרה</td>
-          <td><span class="tier-label">T4</span></td>
-          <td><span class="tag tag-pilot">Fast Pilot</span></td>
-          <td><span class="decision dec-go">Go - #19</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:30%;background:var(--warning)"></div></div><span class="conf-num">30</span></div></td>
-        </tr>
-        <!-- TIER 5 - LOWER PRIORITY -->
-        <tr data-division="תמ&quot;מ/דיגיטל">
-          <td>39</td>
-          <td><strong>Chat Bot - פורטל מבוטח</strong></td>
-          <td>תמ"מ/דיגיטל</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Consolidate</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:30%;background:var(--gray)"></div></div><span class="conf-num">30</span></div></td>
-        </tr>
-        <tr data-division="תמ&quot;מ/דיגיטל">
-          <td>40</td>
-          <td><strong>Chat Bot - סיעוד</strong></td>
-          <td>תמ"מ/דיגיטל</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Consolidate</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:28%;background:var(--gray)"></div></div><span class="conf-num">28</span></div></td>
-        </tr>
-        <tr data-division="גמלאות">
-          <td>41</td>
-          <td><strong>Chat Bot - גמלאות</strong></td>
-          <td>גמלאות</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Consolidate</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:26%;background:var(--gray)"></div></div><span class="conf-num">26</span></div></td>
-        </tr>
-        <tr data-division="נכויות/ועדות">
-          <td>42</td>
-          <td><strong>Chat Bot - נכויות</strong></td>
-          <td>נכויות/ועדות</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Consolidate</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:26%;background:var(--gray)"></div></div><span class="conf-num">26</span></div></td>
-        </tr>
-        <tr data-division="שירות">
-          <td>43</td>
-          <td><strong>Chat Bot - שירות</strong></td>
-          <td>שירות</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Consolidate</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:26%;background:var(--gray)"></div></div><span class="conf-num">26</span></div></td>
-        </tr>
-        <tr data-division="תמ&quot;מ/תשתיות">
-          <td>44</td>
-          <td><strong>כלי AI לפיתוח</strong></td>
-          <td>תמ"מ/תשתיות</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:40%;background:var(--success)"></div></div><span class="conf-num">40</span></div></td>
-        </tr>
-        <tr data-division="תמ&quot;מ/תשתיות">
-          <td>45</td>
-          <td><strong>Notebook LM</strong></td>
-          <td>תמ"מ/תשתיות</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:38%;background:var(--success)"></div></div><span class="conf-num">38</span></div></td>
-        </tr>
-        <tr data-division="תמ&quot;מ/תשתיות">
-          <td>46</td>
-          <td><strong>Copilot</strong></td>
-          <td>תמ"מ/תשתיות</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:42%;background:var(--success)"></div></div><span class="conf-num">42</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>47</td>
-          <td><strong>תרגום שיחות</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Pivot - #10</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:30%;background:var(--gray)"></div></div><span class="conf-num">30</span></div></td>
-        </tr>
-        <tr data-division="תמ&quot;מ/דאטה">
-          <td>48</td>
-          <td><strong>זיהוי פנים</strong></td>
-          <td>תמ"מ/דאטה</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-stop">STOP</span></td>
-          <td><span class="decision dec-kill">KILL</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:20%;background:var(--danger)"></div></div><span class="conf-num">20</span></div></td>
-        </tr>
-        <tr data-division="גמלאות">
-          <td>49</td>
-          <td><strong>עוזר זכאות מבוטח</strong></td>
-          <td>גמלאות</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:36%;background:var(--purple)"></div></div><span class="conf-num">36</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>50</td>
-          <td><strong>כלי עובד כללי</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Consolidate</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:26%;background:var(--gray)"></div></div><span class="conf-num">26</span></div></td>
-        </tr>
-        <tr data-division="תכנון/בקרה">
-          <td>51</td>
-          <td><strong>אוטומציית איסוף סטטוס</strong></td>
-          <td>תכנון/בקרה</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:38%;background:var(--success)"></div></div><span class="conf-num">38</span></div></td>
-        </tr>
-        <tr data-division="ביטוח וגבייה">
-          <td>52</td>
-          <td><strong>מנתב תהליכי גבייה</strong></td>
-          <td>ביטוח וגבייה</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:34%;background:var(--purple)"></div></div><span class="conf-num">34</span></div></td>
-        </tr>
-        <tr data-division="ביטוח וגבייה">
-          <td>53</td>
-          <td><strong>מחשבון תקופות והודעות</strong></td>
-          <td>ביטוח וגבייה</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:32%;background:var(--purple)"></div></div><span class="conf-num">32</span></div></td>
-        </tr>
-        <tr data-division="ביטוח וגבייה">
-          <td>54</td>
-          <td><strong>בסיס ידע תקדימים</strong></td>
-          <td>ביטוח וגבייה</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:30%;background:var(--purple)"></div></div><span class="conf-num">30</span></div></td>
-        </tr>
-        <tr data-division="ביטוח וגבייה">
-          <td>55</td>
-          <td><strong>דשבורד עקביות מחוזית</strong></td>
-          <td>ביטוח וגבייה</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-ent">Enterprise</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:30%;background:var(--purple)"></div></div><span class="conf-num">30</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>56</td>
-          <td><strong>זיהוי מסמכים חסרים אוטו</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Merge#1</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:24%;background:var(--gray)"></div></div><span class="conf-num">24</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>57</td>
-          <td><strong>פרופיל עובד AI</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-merge">Merge</span></td>
-          <td><span class="decision dec-merge">Merge#22</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:24%;background:var(--gray)"></div></div><span class="conf-num">24</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>58</td>
-          <td><strong>ניטור ביצועי AI</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:32%;background:var(--success)"></div></div><span class="conf-num">32</span></div></td>
-        </tr>
-        <tr data-division="רוחבי">
-          <td>59</td>
-          <td><strong>דשבורד פורטפוליו</strong></td>
-          <td>רוחבי</td>
-          <td><span class="tier-label">T5</span></td>
-          <td><span class="tag tag-self">Self-Service</span></td>
-          <td><span class="decision dec-go">Go</span></td>
-          <td><div class="conf-cell"><div class="conf-bar"><div class="conf-fill" style="width:34%;background:var(--success)"></div></div><span class="conf-num">34</span></div></td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Production -->
+  <div class="section">
+    <div class="section-title">בייצור - עובד ופועל (4)</div>
+    <div class="initiative"><div class="init-info"><h4>שירות תרגום מכתבים וטפסים</h4><p>גמלאות | Vertex AI | נגישות לאזרחים דוברי ערבית/רוסית/אמהרית</p></div><div class="init-meta"><span class="tag tag-prod">ייצור</span><span class="conf">82</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>המרה מטקסט לאודיו</h4><p>גמלאות | הנגשה לעיוורים ולקויי ראייה</p></div><div class="init-meta"><span class="tag tag-prod">ייצור</span><span class="conf">84</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>חיפוש חכם באתר הציבורי</h4><p>דיגיטל | שירות עצמי לאזרחים</p></div><div class="init-meta"><span class="tag tag-prod">ייצור</span><span class="conf">78</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>צ'אט HR לעובדים</h4><p>דיגיטל | Gemini | חיסכון זמן לעובדים</p></div><div class="init-meta"><span class="tag tag-self">Self-Service</span><span class="conf">68</span></div></div>
   </div>
 
-  <!-- Bottom Panels -->
-  <div class="grid-bottom">
-    <div class="panel">
-      <div class="panel-title">התפלגות מסלולים</div>
-      <div class="route-bar">
-        <div class="route-meta"><span class="name">Enterprise</span><span class="nums">18 (30%)</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:30%;background:var(--purple)"></div></div>
-      </div>
-      <div class="route-bar">
-        <div class="route-meta"><span class="name">Self-Service</span><span class="nums">12 (20%)</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:20%;background:var(--success)"></div></div>
-      </div>
-      <div class="route-bar">
-        <div class="route-meta"><span class="name">Fast Pilot</span><span class="nums">6 (10%)</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:10%;background:var(--warning)"></div></div>
-      </div>
-      <div class="route-bar">
-        <div class="route-meta"><span class="name">Merge / Consolidate</span><span class="nums">12 (20%)</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:20%;background:var(--gray)"></div></div>
-      </div>
-      <div class="route-bar">
-        <div class="route-meta"><span class="name">Stop (Kill)</span><span class="nums">1 (2%)</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:2%;background:var(--danger)"></div></div>
-      </div>
-      <div style="margin-top:1rem;padding-top:0.8rem;border-top:1px solid var(--bg)">
-        <div class="route-meta"><span class="name">Kill Rate (Stop + Merge)</span><span class="nums" style="font-weight:800;color:var(--danger)">54%</span></div>
-        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem">32 יוזמות נעצרו או מוזגו - חיסכון משמעותי</div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">פלטפורמות מרכזיות - המלצות איחוד</div>
-      <div class="platform-item">
-        <div>
-          <div class="platform-name">פלטפורמת מסמכים</div>
-          <div class="platform-desc">חילוץ + סיווג + כתב יד + מחסור + מזויפים</div>
-        </div>
-        <span class="platform-count">5 יוזמות</span>
-      </div>
-      <div class="platform-item">
-        <div>
-          <div class="platform-name">פלטפורמת הונאות</div>
-          <div class="platform-desc">הונאות MVP + כללי + מסמכים מזויפים</div>
-        </div>
-        <span class="platform-count">3 יוזמות</span>
-      </div>
-      <div class="platform-item">
-        <div>
-          <div class="platform-name">פלטפורמת Chat/Bot</div>
-          <div class="platform-desc">HR + כללי + פורטל + סיעוד + גמלאות + שירות</div>
-        </div>
-        <span class="platform-count">7 יוזמות</span>
-      </div>
-      <div class="platform-item">
-        <div>
-          <div class="platform-name">פלטפורמת ועדות</div>
-          <div class="platform-desc">תרגום + תמלול + יומנים + פערים + דפוסים</div>
-        </div>
-        <span class="platform-count">6 יוזמות</span>
-      </div>
-      <div class="platform-item">
-        <div>
-          <div class="platform-name">פלטפורמת תרגום</div>
-          <div class="platform-desc">מכתבים + מסמכים + שיחות + ועדות</div>
-        </div>
-        <span class="platform-count">4 יוזמות</span>
-      </div>
-      <div class="platform-item">
-        <div>
-          <div class="platform-name">פלטפורמת פרופיל 360</div>
-          <div class="platform-desc">פרופיל מבוטח + סטטוס + תובנות פקיד + עובד</div>
-        </div>
-        <span class="platform-count">4 יוזמות</span>
-      </div>
-    </div>
+  <!-- Ready for Fast Execution -->
+  <div class="section">
+    <div class="section-title">מוכן לפיתוח מהיר - Self-Service (5)</div>
+    <div class="initiative"><div class="init-info"><h4>צ'אט כללי לעובד</h4><p>דיגיטל | פרודוקטיביות, מחליף Shadow IT</p></div><div class="init-meta"><span class="tag tag-self">Self-Service</span><span class="conf">64</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>ניהול ידע אגפים (Notebook)</h4><p>רוחבי | ידע שבוטח ←  ידע מונגש</p></div><div class="init-meta"><span class="tag tag-self">Self-Service</span><span class="conf">44</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>תרגומן מסמכים פנימי</h4><p>דיגיטל | הרחבה של שירות התרגום</p></div><div class="init-meta"><span class="tag tag-self">Self-Service</span><span class="conf">60</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>תמלול פגישות</h4><p>תשתיות | שימור ידע ומעקב החלטות</p></div><div class="init-meta"><span class="tag tag-self">Self-Service</span><span class="conf">52</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>הכשרת מאיצי AI</h4><p>רוחבי | בניית יכולת פנימית</p></div><div class="init-meta"><span class="tag tag-self">Self-Service</span><span class="conf">72</span></div></div>
   </div>
 
-  <div class="footer">Scale4U v1.1 | Portfolio Dashboard | 59 יוזמות | Kill Rate 54% | המוסד לביטוח לאומי | יוני 2026</div>
+  <!-- Pilot -->
+  <div class="section">
+    <div class="section-title">בפיילוט או ממתין לאימות (3)</div>
+    <div class="initiative"><div class="init-info"><h4>פורטל ידע גמלאות (קשב חכם)</h4><p>דיגיטל | חיסכון 20-30 דק' לפקיד לתיק</p></div><div class="init-meta"><span class="tag tag-pilot">פיילוט</span><span class="conf">66</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>שדרוג פורטל גמלאות 2.0</h4><p>רוחבי | תשתית ידע ארגונית</p></div><div class="init-meta"><span class="tag tag-pilot">פיילוט</span><span class="conf">44</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>ניתוח פערי החלטות ועדות</h4><p>ועדות | בקרת איכות על עקביות</p></div><div class="init-meta"><span class="tag tag-pilot">פיילוט</span><span class="conf">32</span></div></div>
+  </div>
+
+  <!-- Enterprise - Top -->
+  <div class="section">
+    <div class="section-title">פרויקטים מורכבים - Enterprise (Top 5)</div>
+    <div class="initiative"><div class="init-info"><h4>חילוץ וסיווג מסמכים (פלטפורמה)</h4><p>דאטה | Vertex AI | תשתית לכל מערכות המסמכים</p></div><div class="init-meta"><span class="tag tag-ent">Enterprise</span><span class="conf">62</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>סיכום תביעות סיעוד</h4><p>סיעוד | האצה 5x בעיבוד תיקים רפואיים</p></div><div class="init-meta"><span class="tag tag-ent">Enterprise</span><span class="conf">58</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>תרגום בזמן אמת בועדות רפואיות</h4><p>ועדות | נגישות לדוברי ערבית</p></div><div class="init-meta"><span class="tag tag-ent">Enterprise</span><span class="conf">56</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>מניעת הונאות MVP</h4><p>דאטה | מניעת הונאה בתביעות נכות</p></div><div class="init-meta"><span class="tag tag-ent">Enterprise</span><span class="conf">52</span></div></div>
+    <div class="initiative"><div class="init-info"><h4>מוקדי שירות - GovLab</h4><p>שירות | סיכום שיחות + ניתוח פניות</p></div><div class="init-meta"><span class="tag tag-ent">Enterprise</span><span class="conf">46</span></div></div>
+  </div>
+
+  <div class="footer">Scale4U v1.2 | המוסד לביטוח לאומי | מינהל גמלאות - פיתוח, שותפויות ו-AI</div>
 </div>
-
-<script>
-(function(){
-  var tabs = document.querySelectorAll('.filter-tab');
-  var rows = document.querySelectorAll('#initiativeTable tr');
-  var countDisplay = document.getElementById('countDisplay');
-
-  tabs.forEach(function(tab){
-    tab.addEventListener('click', function(){
-      tabs.forEach(function(t){ t.classList.remove('active'); });
-      tab.classList.add('active');
-      var filter = tab.getAttribute('data-filter');
-      var visible = 0;
-      rows.forEach(function(row){
-        if(filter === 'all'){
-          row.classList.remove('hidden');
-          visible++;
-        } else {
-          var div = row.getAttribute('data-division');
-          if(div === filter){
-            row.classList.remove('hidden');
-            visible++;
-          } else {
-            row.classList.add('hidden');
-          }
-        }
-      });
-      countDisplay.textContent = filter === 'all'
-        ? 'מציג 59 מתוך 59'
-        : 'מציג ' + visible + ' מתוך 59';
-    });
-  });
-})();
-</script>
 </body>
 </html>
